@@ -1,0 +1,13 @@
+version: '3'
+services:
+  client:
+    build: ./client
+    container_name: is212-g5t7-client
+    image: client-nextjs:latest
+    environment:
+      - API_URL=http://server:3000
+      - SECRET_KEY=secret # change later
+    ports:
+      - '8080:8080'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
