@@ -7,7 +7,7 @@ WORKDIR /app
 
 COPY package.json yarn.lock tsconfig.json tslint.json ./
 
-RUN yarn install --frozen-lockfile
+RUN yarn install --frozen-lockfile --ignore-engines
 
 FROM node:17-alpine AS builder
 
@@ -21,7 +21,7 @@ ARG NODE_ENV
 ENV NODE_ENV=${NODE_ENV:-production}
 
 RUN apk add --no-cache git
-RUN yarn build:docker
+RUN yarn build:docker --ignore-engines
 
 FROM node:17-alpine AS runner
 

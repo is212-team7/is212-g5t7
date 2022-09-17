@@ -6,7 +6,7 @@ const username = process.env.DATABASE_USERNAME || 'root';
 const password = process.env.DATABASE_PASSWORD || 'password';
 
 export const sequelize = new Sequelize('database', username, password, {
-  host: 'localhost', // replace with Amazon RDS host
+  host: process.env.AWS_RDS_HOST, // replace with Amazon RDS host
   dialect: 'mysql',
 });
 
