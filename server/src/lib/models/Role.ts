@@ -3,9 +3,9 @@ import { sequelize } from '../../database';
 
 export const Role = sequelize.define('Role', {
   id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
+    type: DataTypes.UUID,
     primaryKey: true,
+    unique: true,
   },
   name: {
     type: DataTypes.STRING,
