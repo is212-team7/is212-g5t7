@@ -48,20 +48,9 @@ Make sure Docker has already started running on your computer.
 
 Build Docker image:
 ```
-docker run -p 3000:3000 is212-g5t7-server .
+docker build -t is212-g5t7-server .
 ```
 Run Docker container based on the built image:
 ```
-docker run -p 3000:3000 is212-g5t7-server  
+docker run -p 3000:3000 --env-file=.env is212-g5t7-server  
 ```
-
-As of now (17 Sep 2022, 12:48pm), running the `docker run` command should throw an error:
-```
-/app/dist/node_modules/sequelize/lib/dialects/mysql/connection-manager.js:92
-          throw new SequelizeErrors.ConnectionRefusedError(err);
-                ^
-
-ConnectionRefusedError [SequelizeConnectionRefusedError]: connect ECONNREFUSED 127.0.0.1:3306
-```
-
-Not sure why it's throwing an error, but it would be nice to see if it still throws the same one after we replace `localhost` with the actual AWS RDS host for our database.

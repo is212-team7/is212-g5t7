@@ -1,5 +1,15 @@
 version: '3'
 services:
+  server:
+    build:
+      context: ./server
+      args:
+        - NODE_ENV=production
+    container_name: server
+    restart: unless-stopped
+    env_file: server/.env
+    ports:
+      - "3000:3000"
   client:
     build: ./client
     container_name: is212-g5t7-client

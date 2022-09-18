@@ -2,6 +2,7 @@ type Config = {
   port: number;
   isProduction: boolean;
   databaseFolder: string;
+  databaseName: string;
 };
 
 type EnvironmentValue = string | undefined;
@@ -14,6 +15,7 @@ export const config = (env: Environment): Config => {
     port: env.PORT ? parseInt(env.PORT) : 3000,
     databaseFolder: '~/.is212-g5t7',
     isProduction,
+    databaseName: 'learning_journey_db',
   };
 
   return config;

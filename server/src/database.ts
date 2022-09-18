@@ -5,9 +5,18 @@ import { SequelizeStorage, Umzug } from 'umzug';
 const username = process.env.DATABASE_USERNAME || 'root';
 const password = process.env.DATABASE_PASSWORD || 'password';
 
-export const sequelize = new Sequelize('database', username, password, {
+export const sequelize = new Sequelize({
+  database: config.databaseName,
+  username: username,
+  password: password,
   host: process.env.AWS_RDS_HOST, // replace with Amazon RDS host
   dialect: 'mysql',
+});
+
+sequelize.authenticate().then(() => {
+  console.log('Connection has been established successfully.');
+}).catch((error) => {
+  console.error('Unable to connect to the database: ', error);
 });
 
 export const umzug = new Umzug({

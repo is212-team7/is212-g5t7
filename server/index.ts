@@ -1,4 +1,4 @@
 import * as dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: `${process.cwd()}/.env`});
 
 import './src/server';

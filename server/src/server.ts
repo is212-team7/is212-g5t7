@@ -1,9 +1,11 @@
 import { createServer } from 'http';
 import { app } from './app';
-import './database';
 import config from './lib/config';
+// import { sequelize } from './database';
+import './database';
 
 (async () => {
+  // await sequelize.sync()
   createServer(app).listen(config.port, () =>
     console.info(`Server running on port ${config.port}`)
   );
