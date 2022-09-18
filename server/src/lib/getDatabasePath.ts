@@ -6,7 +6,7 @@ import config from './config';
 // Expand ~ into the current user home dir.
 // This does *not* support `~other_user/tmp` => `/home/other_user/tmp`.
 function getDatabasePath() {
-  const fileName = 'is212-g5t7.sqlite';
+  const fileName = 'is212-g5t7.sql';
   const databasePath = `${config.databaseFolder}/${fileName}`;
 
   const home = os.homedir().replace('$', '$$$$');
