@@ -11,5 +11,5 @@ export const Skill = sequelize.define('Skill', {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  // ...
 });
+
