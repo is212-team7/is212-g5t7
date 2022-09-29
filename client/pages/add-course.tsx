@@ -25,7 +25,7 @@ const Home: NextPage = () => {
                 <Spacer/>               
                 <Spacer/>
                 <Link href="/addCourse">
-                <Button type="secondary">Add Course</Button>
+                <Button type="secondary">Enroll</Button>
                 </Link>
           </Grid>
         </Grid.Container>
