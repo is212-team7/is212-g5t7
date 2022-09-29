@@ -4,7 +4,7 @@ import { Router } from 'express';
 export const skills = Router();
 
 // Add skill
-skills.post('/addSkill', async (req, res) => {
+skills.post('/add', async (req, res) => {
   try {
     // Example at https://github.com/MaxLeiter/Drift/blob/main/server/src/routes/posts.ts
     // ....
@@ -16,10 +16,10 @@ skills.post('/addSkill', async (req, res) => {
 // Get skills
 skills.get('/', async (req, res, next) => {
   try {
-    const posts = await Skill.findAll({
-      attributes: [], // e.g. ["id", "title", "description", "createdAt"]
+    const skills = await Skill.findAll({
+      attributes: ["name"], 
     });
-    res.json(posts);
+    res.json(skills);
   } catch (error) {
     next(error);
   }
