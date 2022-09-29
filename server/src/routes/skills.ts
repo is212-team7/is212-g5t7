@@ -13,6 +13,7 @@ skills.post(
     }
   }),
   async (req, res) => {
+
   try {
     // Example at https://github.com/MaxLeiter/Drift/blob/main/server/src/routes/posts.ts
 
@@ -35,10 +36,10 @@ skills.post(
 // Get skills
 skills.get('/', async (req, res, next) => {
   try {
-    const posts = await Skill.findAll({
-      attributes: [], // e.g. ["id", "title", "description", "createdAt"]
+    const skills = await Skill.findAll({
+      attributes: ["name"], 
     });
-    res.json(posts);
+    res.json(skills);
   } catch (error) {
     next(error);
   }
