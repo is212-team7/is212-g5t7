@@ -18,7 +18,6 @@ export const up: Migration = async ({ context: queryInterface }) =>
 			type: DataTypes.STRING,
       allowNull: false
 		},
-    // ...
 	})
 
 export const down: Migration = async ({ context: queryInterface }) =>
