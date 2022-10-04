@@ -1,8 +1,11 @@
-import { Description, Code, Text, Image, Grid, Card, Button, Input, Link, Page, Spacer } from '@geist-ui/core';
+import { useToasts, Text, Image, Grid, Button, Link, Page, Spacer } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import Navbar from './components/Navbar';
+import Toast from './toast'
 
-const Home: NextPage = () => {
+
+const AddCourse: NextPage = () => {
+
   return (
     <Page>
       <Page.Content>
@@ -22,19 +25,17 @@ const Home: NextPage = () => {
                 <Text>
                 This module covers knowledge and application skills in understanding the importance of service innovation and the methods and opportunities that are available for a service staff to generate ideas that contribute to service innovation.
                 </Text>
-                <Spacer/>               
-                <Spacer/>
-                <Link href="/addCourse">
-                <Button type="secondary">Enroll</Button>
-                </Link>
+                <Spacer/>    
+                <Toast></Toast>           
           </Grid>
-        </Grid.Container>
-     
-        <Spacer />
+          </Grid.Container>
 
       </Page.Content>
     </Page>
   );
 };
 
-export default Home;
+// HELPERS
+
+
+export default AddCourse;
