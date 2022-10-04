@@ -1,7 +1,7 @@
 import { Button, Input, Link, Page, Select, Spacer } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import { skills } from './database/skills';
+import { skills } from '../database/skills';
 
 const CreateRole: NextPage = () => {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
