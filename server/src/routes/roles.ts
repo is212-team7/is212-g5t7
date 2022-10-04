@@ -32,12 +32,13 @@ roles.post(
 });
 
 // Get roles
-roles.get('/', async (req, res, next) => {
+roles.get('/roles', async (req, res, next) => {
   try {
-    const posts = await Role.findAll({
-      attributes: [], // e.g. ["id", "title", "description", "createdAt"]
+    const role = await Role.findAll({
+      attributes: ["id","name"], // e.g. ["id", "title", "description", "createdAt"]
     });
-    res.json(posts);
+    res.json(role);
+
   } catch (error) {
     next(error);
   }
