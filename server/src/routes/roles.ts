@@ -6,7 +6,7 @@ export const roles = Router();
 
 // Add role
 roles.post(
-  '/add', 
+  '/', 
   celebrate({ 
     body: {
       name: Joi.string().required(),
@@ -32,7 +32,7 @@ roles.post(
 });
 
 // Get roles
-roles.get('/roles', async (req, res, next) => {
+roles.get('/', async (req, res, next) => {
   try {
     const role = await Role.findAll({
       attributes: ["id","name"], // e.g. ["id", "title", "description", "createdAt"]

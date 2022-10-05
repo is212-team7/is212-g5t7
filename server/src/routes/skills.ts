@@ -6,7 +6,7 @@ export const skills = Router();
 
 // Add skill
 skills.post(
-  '/add', 
+  '/', 
   celebrate({ 
     body: {
       name: Joi.string().required(),
@@ -25,6 +25,7 @@ skills.post(
     const newSkill = await Skill.create({
       name: name
     })
+
     await newSkill.save();
     res.json(newSkill);
     
