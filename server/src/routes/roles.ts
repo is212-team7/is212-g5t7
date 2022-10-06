@@ -1,20 +1,38 @@
-import { Role } from '@lib/models';
+import { Role } from '@lib/models/role';
+import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
 export const roles = Router();
 
 // Add role
-roles.post('/add', async (req, res) => {
+roles.post(
+  '/', 
+  celebrate({ 
+    body: {
+      name: Joi.string().required(),
+    }
+  }),
+  async (req, res) => {
   try {
     // Example at https://github.com/MaxLeiter/Drift/blob/main/server/src/routes/posts.ts
     // ....
+    const name = req.body.name.trim();
+    if (name.length === 0) {
+      throw new Error('Name of roles must be specified.')
+    }
+
+    const newRole = await Role.create({
+      name: name
+    })
+    await newRole.save();
+    res.json(newRole);
   } catch (error) {
-    res.status(400).json(error);
+    res.status(400).json(error.message);
   }
 });
 
 // Get roles
-roles.get('/roles', async (req, res, next) => {
+roles.get('/', async (req, res, next) => {
   try {
     const role = await Role.findAll({
       attributes: ["id","name"], // e.g. ["id", "title", "description", "createdAt"]

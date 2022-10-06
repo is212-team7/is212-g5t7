@@ -11,6 +11,9 @@ export const sequelize = new Sequelize({
   password: password,
   host: process.env.AWS_RDS_HOST, // replace with Amazon RDS host
   dialect: 'mysql',
+  define: {
+    freezeTableName: true
+  }
 });
 
 sequelize.authenticate().then(() => {
