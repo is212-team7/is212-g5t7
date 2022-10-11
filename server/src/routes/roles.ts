@@ -43,3 +43,34 @@ roles.get('/', async (req, res, next) => {
     next(error);
   }
 });
+
+// Update role name
+roles.put(
+  "/:id",
+  celebrate({ 
+    params: {
+			id: Joi.string().required()
+		},
+    body: {
+      name: Joi.string().required(),
+    }
+  }),
+  
+  async (req, res) => {
+  try {
+    const name = req.body.name.trim();
+    const { id } = req.params
+    if (name.length === 0) {
+      throw new Error('Name of roles must be specified.')
+    }
+
+    await Role.update(
+        { name: name },
+        { where: { id } }
+      )
+
+    res.json({ id, name });
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
