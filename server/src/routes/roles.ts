@@ -10,22 +10,28 @@ roles.post(
   celebrate({ 
     body: {
       name: Joi.string().required(),
+      description: Joi.string()
     }
   }),
   async (req, res) => {
   try {
-    // Example at https://github.com/MaxLeiter/Drift/blob/main/server/src/routes/posts.ts
-    // ....
     const name = req.body.name.trim();
+    let description;
+    if (req.body.description) {
+      description = req.body.description.trim();
+    }
+
     if (name.length === 0) {
       throw new Error('Name of roles must be specified.')
     }
 
     const newRole = await Role.create({
-      name: name
+      name: name,
+      description: description
     })
     await newRole.save();
     res.json(newRole);
+    
   } catch (error) {
     res.status(400).json(error.message);
   }
@@ -35,7 +41,7 @@ roles.post(
 roles.get('/', async (req, res, next) => {
   try {
     const role = await Role.findAll({
-      attributes: ["id","name"], // e.g. ["id", "title", "description", "createdAt"]
+      attributes: ["name", "description"], 
     });
     res.json(role);
 

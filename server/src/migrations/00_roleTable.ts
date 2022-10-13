@@ -15,8 +15,13 @@ export const up: Migration = async ({ context: queryInterface }) =>
 		},
 		name: {
 			type: DataTypes.STRING,
+			unique: true,
       		allowNull: false
 		},
+		description: {
+			type: DataTypes.STRING,
+			allowNull: true,
+		}
 	})
 
 export const down: Migration = async ({ context: queryInterface }) =>
