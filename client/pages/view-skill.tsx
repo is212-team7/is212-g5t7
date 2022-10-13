@@ -1,81 +1,60 @@
-import { Button, Input, Link, Page, Spacer, Card, Text, Divider, Grid } from '@geist-ui/core';
+import { Card, Divider, Grid, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
-import { skills } from './database/skills';
+import { Skill, skillCategories } from './database/skills';
 
-const Home: NextPage = () => {
+const ViewSkillPage: NextPage = () => {
+  const SkillCategory = ({
+    skillCategory,
+    skillDetails,
+  }: {
+    skillCategory: string;
+    skillDetails: Skill[];
+  }) => {
     return (
-        <Page>
-            <Page.Content>
-                <h2>skills</h2>
-                <Spacer h={2} />
-                <Grid.Container gap={1.5}>
-                    {/* having some issue writing a loop here */}
-                    <Spacer h={2}/>
-                    <Grid justify="center">
-                    <h4> {Object.keys(skills)[0]}</h4>
-                        {Object.values(skills)[0].map(skill => (
-                            <Card width="600px">
-                                <Card.Content>
-                                    <Text b my={0}>{skill}</Text>
-                                </Card.Content>
-                                <Divider h="1px" my={0} />
-                                <Card.Content>
-                                    <Text>some skill description here.</Text>
-                                </Card.Content>
-                            </Card>
-                        ))}
-                    </Grid>
-                    <Spacer h={2} />
-                    <Grid  justify="center">
-                    <h4>Technology</h4>
-                        {skills['technology'].map(skill => (
-                            <Card width="600px">
-                                <Card.Content>
-                                    <Text b my={0}>{skill}</Text>
-                                </Card.Content>
-                                <Divider h="1px" my={0} />
-                                <Card.Content>
-                                    <Text>some skill description here.</Text>
-                                </Card.Content>
-                            </Card>
-                        ))}
-                    </Grid>
-                    <Spacer h={2} />
-                    
-                    <Grid justify="center">
-                    <h4>Marketing</h4>
-                        {skills['marketing'].map(skill => (
-                            <Card width="600px">
-                                <Card.Content>
-                                    <Text b my={0}>{skill}</Text>
-                                </Card.Content>
-                                <Divider h="1px" my={0} />
-                                <Card.Content>
-                                    <Text>some skill description here.</Text>
-                                </Card.Content>
-                            </Card>
-                        ))}
-                    </Grid>
-                    <Grid justify="center">
-                    <h4>Admin</h4>
-                        {skills['admin'].map(skill => (
-                            <Card width="600px">
-                                <Card.Content>
-                                    <Text b my={0}>{skill}</Text>
-                                </Card.Content>
-                                <Divider h="1px" my={0} />
-                                <Card.Content>
-                                    <Text>some skill description here.</Text>
-                                </Card.Content>
-                            </Card>
-                        ))}
-                    </Grid>
-                </Grid.Container>
+      <Grid justify="center">
+        <h4>
+          {skillCategory.slice(0, 1).toUpperCase() + skillCategory.slice(1)}
+        </h4>
 
-
-            </Page.Content>
-        </Page>
+        {skillDetails.map(({ label, description }) => (
+          <>
+            <Card width="600px" key={label}>
+              <Card.Content>
+                <Text b my={0}>
+                  {label}
+                </Text>
+              </Card.Content>
+              <Divider h="1px" my={0} />
+              <Card.Content>
+                <Text>{description}</Text>
+              </Card.Content>
+            </Card>
+            <Spacer h={2} />
+          </>
+        ))}
+      </Grid>
     );
+  };
+
+  return (
+    <Page>
+      <Page.Content>
+        <h2>Skills</h2>
+        <Spacer h={2} />
+        <Grid.Container gap={1.5}>
+          {Object.entries(skillCategories).map(
+            ([skillCategory, skillDetails]) => (
+              <SkillCategory
+                key={skillCategory}
+                skillCategory={skillCategory}
+                skillDetails={skillDetails}
+              />
+            )
+          )}
+        </Grid.Container>
+      </Page.Content>
+    </Page>
+  );
 };
 
-export default Home;
+export default ViewSkillPage;
