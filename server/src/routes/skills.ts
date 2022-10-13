@@ -10,20 +10,29 @@ skills.post(
   celebrate({ 
     body: {
       name: Joi.string().required(),
+      category: Joi.string(),
+      description: Joi.string()
     }
   }),
   async (req, res) => {
 
   try {
-    // Example at https://github.com/MaxLeiter/Drift/blob/main/server/src/routes/posts.ts
-
     const name = req.body.name.trim();
+    const category = req.body.category.trim();
+
+    let description = null;
+    if (req.body.description) {
+      description = req.body.description.trim();
+    }
+
     if (name.length === 0) {
       throw new Error('Name of skill must be specified.')
     }
 
     const newSkill = await Skill.create({
-      name: name
+      name: name,
+      category: category,
+      description: description
     })
 
     await newSkill.save();
@@ -38,7 +47,7 @@ skills.post(
 skills.get('/', async (req, res, next) => {
   try {
     const skills = await Skill.findAll({
-      attributes: ["name"], 
+      attributes: ["name", "category", "description"], 
     });
     res.json(skills);
   } catch (error) {
