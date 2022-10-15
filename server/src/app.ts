@@ -1,5 +1,5 @@
 import config from '@lib/config';
-import { roles, skills } from '@routes/index';
+import { roles, skills, courses } from '@routes/index';
 import * as bodyParser from 'body-parser';
 import { errors } from 'celebrate';
 import * as express from 'express';
@@ -12,6 +12,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 
 app.use('/skills', skills);
 app.use('/roles', roles);
+app.use('/courses', courses);
 
 app.use(errors());
 
