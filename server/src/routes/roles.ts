@@ -66,6 +66,12 @@ roles.put(
   try {
     const name = req.body.name.trim();
     const { id } = req.params
+    const role = await Role.findByPk(id)
+
+    if (!role) {
+      return res.status(404).json({ error: "Role not found" })
+    }
+
     if (name.length === 0) {
       throw new Error('Name of roles must be specified.')
     }
@@ -80,3 +86,25 @@ roles.put(
     res.status(400).json(error.message);
   }
 });
+
+// Delete role name
+roles.delete(
+  "/:id",
+  celebrate({ 
+    params: {id: Joi.string().required()
+  }}),
+
+  async (req, res) => {
+	try {
+		const role = await Role.findByPk(req.params.id)
+		if (!role) {
+			return res.status(404).json({ error: "Role not found" })
+		}
+    else{
+      await role.destroy()
+		res.json({ message: "Role deleted" })
+    }
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+})
