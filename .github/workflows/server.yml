@@ -1,0 +1,31 @@
+on:
+  push: 
+    branches:
+      - cicd
+    paths:
+      - 'server/**'
+
+jobs:
+  build: 
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16.x'
+        cache: 'yarn'
+    - name: Install deps
+      run: yarn
+    - name: Run dev env
+      env:
+        AWS_RDS_HOST: ${{ secrets.AWS_RDS_HOST }}
+        DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME }}
+        DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      run: yarn dev
+    # - name: Run tests
+    #   run: yarn test
