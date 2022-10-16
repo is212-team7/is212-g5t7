@@ -115,3 +115,27 @@ skills.put(
       res.status(400).json(error.message);
     }
 });
+
+
+
+// Delete role name
+skills.delete(
+  "/:id",
+  celebrate({ 
+    params: {
+      id: Joi.number().required()
+    }
+  }),
+  async (req, res) => {
+	try {
+		const skill = await Skill.findByPk(req.params.id)
+		if (!skill) {
+			throw new Error("Skill not found")
+		} else {
+      await skill.destroy()
+		  res.json({ message: "Skill deleted" })
+    }
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+})
