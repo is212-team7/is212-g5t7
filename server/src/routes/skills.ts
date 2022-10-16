@@ -10,7 +10,7 @@ skills.post(
   celebrate({ 
     body: {
       name: Joi.string().required(),
-      category: Joi.string(),
+      category: Joi.string().required(),
       description: Joi.string()
     }
   }),
@@ -53,6 +53,67 @@ skills.get('/', async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+});
+
+// Get one skill
+skills.get(
+  '/:name',
+  celebrate({ 
+    params: {
+      name: Joi.string().required(),
+    }
+  }), async (req, res) => {
+  try {
+    const skill = await Skill.findOne(
+      {where: {name: req.params.name}}
+    );
+    if (!skill) {
+      throw new Error('Skill does not exist');
+    }
+    res.json(skill);
+
+  } catch (error) {
+    res.status(400).json(error.message);
+  }
+});
+
+// Update skills
+skills.put(
+  '/:id', 
+  celebrate({ 
+    params: { 
+      id: Joi.number().required()
+    },
+    body: {
+      name: Joi.string().required(),
+      category: Joi.string(),
+      description: Joi.string()
+    }
+  }),
+  async (req, res) => {
+    try {
+      const {id} = req.params
+      const skill = await Skill.findOne({
+        where: { id }
+      });
+
+      if (skill) {
+        await skill.update(
+          {
+            name: req.body.name,
+            category: req.body.category ?? undefined,
+            description: req.body.description ?? undefined 
+          }
+        )
+        res.json(skill);
+
+      } else {
+        throw new Error('Skill does not exist');
+      }  
+
+    } catch (error) {
+      res.status(400).json(error.message);
+    }
 });
 
 
