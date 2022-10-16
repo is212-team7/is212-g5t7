@@ -9,25 +9,25 @@ roles.post(
   '/', 
   celebrate({ 
     body: {
-      name: Joi.string().required(),
-      description: Joi.string()
+      Role_Name: Joi.string().required(),
+      Role_Description: Joi.string()
     }
   }),
   async (req, res) => {
   try {
-    const name = req.body.name.trim();
-    let description;
-    if (req.body.description) {
-      description = req.body.description.trim();
+    const Role_Name = req.body.Role_Name.trim();
+    let Role_Description;
+    if (req.body.Role_Description) {
+      Role_Description = req.body.Role_Description.trim();
     }
 
-    if (name.length === 0) {
+    if (Role_Name.length === 0) {
       throw new Error('Name of roles must be specified.')
     }
 
     const newRole = await Role.create({
-      name: name,
-      description: description
+      Role_Name: Role_Name,
+      Role_Description: Role_Description
     })
     await newRole.save();
     res.json(newRole);
@@ -41,7 +41,7 @@ roles.post(
 roles.get('/', async (req, res, next) => {
   try {
     const role = await Role.findAll({
-      attributes: ["name", "description"], 
+      attributes: ["Role_ID", "Role_Name", "Role_Description"], 
     });
     res.json(role);
 
@@ -50,53 +50,53 @@ roles.get('/', async (req, res, next) => {
   }
 });
 
-// Update role name
+// Update role name by role id
 roles.put(
   "/:id",
   celebrate({ 
     params: {
-			id: Joi.string().required()
+			Role_ID: Joi.string().required()
 		},
     body: {
-      name: Joi.string().required(),
+      Role_Name: Joi.string().required(),
     }
   }),
   
   async (req, res) => {
   try {
-    const name = req.body.name.trim();
-    const { id } = req.params
-    const role = await Role.findByPk(id)
+    const Role_Name = req.body.Role_Name.trim();
+    const { Role_ID } = req.params
+    const role = await Role.findByPk(Role_ID)
 
     if (!role) {
       return res.status(404).json({ error: "Role not found" })
     }
 
-    if (name.length === 0) {
+    if (Role_Name.length === 0) {
       throw new Error('Name of roles must be specified.')
     }
 
     await Role.update(
-        { name: name },
-        { where: { id } }
+        { Role_Name: Role_Name },
+        { where: { Role_ID } }
       )
 
-    res.json({ id, name });
+    res.json({ Role_ID, Role_Name });
   } catch (error) {
     res.status(400).json(error.message);
   }
 });
 
-// Delete role name
+// Delete role by role id
 roles.delete(
   "/:id",
   celebrate({ 
-    params: {id: Joi.string().required()
+    params: {Role_ID: Joi.string().required()
   }}),
 
   async (req, res) => {
 	try {
-		const role = await Role.findByPk(req.params.id)
+		const role = await Role.findByPk(req.params.Role_ID)
 		if (!role) {
 			return res.status(404).json({ error: "Role not found" })
 		}
