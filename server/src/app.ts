@@ -1,5 +1,5 @@
 import config from '@lib/config';
-import { roles, skills, courses, LearningJourneys } from '@routes/index';
+import { roles, skills, courses, LearningJourneys, Role_Skills } from '@routes/index';
 import * as bodyParser from 'body-parser';
 import { errors } from 'celebrate';
 import * as express from 'express';
@@ -14,6 +14,7 @@ app.use('/skills', skills);
 app.use('/roles', roles);
 app.use('/courses', courses);
 app.use('/LearningJourneys', LearningJourneys);
+app.use('/Role_Skills', Role_Skills);
 
 app.use(errors());
 

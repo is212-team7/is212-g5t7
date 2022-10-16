@@ -55,6 +55,30 @@ skills.get('/', async (req, res, next) => {
   }
 });
 
+// Get skills by id
+skills.get(
+  "/:Skill_ID",
+  celebrate({ 
+    params: {
+      Skill_ID: Joi.string().required()
+    }
+  }),
+
+async (req, res) => {
+  try {
+    const skills = await Skill.findByPk(req.params.Skill_ID,{
+    attributes: ["Skill_Name", "Skill_Category", "Skill_Description"],})
+  if (!skills) {
+      return res.status(404).json({ error: "skills not found" })
+    }
+  else{
+      res.json(skills);
+    }
+  } catch (error) {
+    res.status(400).json(error.message);
+    }
+  })
+
 
 
 // Delete role name
