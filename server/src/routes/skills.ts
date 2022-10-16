@@ -55,27 +55,31 @@ skills.get('/', async (req, res, next) => {
   }
 });
 
-// Get one skill
+// Get skill by id
 skills.get(
-  '/:name',
+  "/:Skill_ID",
   celebrate({ 
     params: {
-      name: Joi.string().required(),
+      Skill_ID: Joi.string().required()
     }
-  }), async (req, res) => {
-  try {
-    const skill = await Skill.findOne(
-      {where: {name: req.params.name}}
-    );
-    if (!skill) {
-      throw new Error('Skill does not exist');
-    }
-    res.json(skill);
+  }),
 
+async (req, res) => {
+  try {
+    const skill = await Skill.findByPk(req.params.Skill_ID,{
+    attributes: ["Skill_Name", "Skill_Category", "Skill_Description"],})
+  if (!skill) {
+      return res.status(404).json({ error: "skill not found" })
+    }
+  else{
+      res.json(skill);
+    }
   } catch (error) {
     res.status(400).json(error.message);
-  }
-});
+    }
+  })
+
+
 
 // Update skills
 skills.put(
