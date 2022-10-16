@@ -8,20 +8,20 @@ import type { Migration } from "../database"
 export const up: Migration = async ({ context: queryInterface }) =>
 	queryInterface.createTable("role", {
     // Should match src/lib/models/Role.ts
-		id: {
+		Role_ID: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
-		name: {
+		Role_Name: {
 			type: DataTypes.STRING,
 			unique: true,
-      		allowNull: false
+			allowNull: false,
 		},
-		description: {
+		Role_Description: {
 			type: DataTypes.STRING,
 			allowNull: true,
-		}
+		},	
 	})
 
 export const down: Migration = async ({ context: queryInterface }) =>
