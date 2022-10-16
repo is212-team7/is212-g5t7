@@ -41,7 +41,7 @@ roles.post(
 roles.get('/', async (req, res, next) => {
   try {
     const role = await Role.findAll({
-      attributes: ["Role_Name", "Role_Description"], 
+      attributes: ["Role_ID", "Role_Name", "Role_Description"], 
     });
     res.json(role);
 
@@ -50,7 +50,7 @@ roles.get('/', async (req, res, next) => {
   }
 });
 
-// Update role name
+// Update role name by role id
 roles.put(
   "/:id",
   celebrate({ 
@@ -87,7 +87,7 @@ roles.put(
   }
 });
 
-// Delete role name
+// Delete role by role id
 roles.delete(
   "/:id",
   celebrate({ 
