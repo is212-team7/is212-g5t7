@@ -12,9 +12,10 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_CHAT_ID }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
+          disable_web_page_preview: true
           message: |
-            ${{ github.actor }} created commit:
-            Branch: ${{ github.ref }}
+            ${{ github.actor }} created a new PR:
+            Branch: ${{ github.ref.name }}
             Commit message: ${{ github.event.commits[0].message }}
             
             See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
