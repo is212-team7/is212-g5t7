@@ -21,4 +21,3 @@ export const Skill = sequelize.define('skill', {
     allowNull: true,
   },
 });
-

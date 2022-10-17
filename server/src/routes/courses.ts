@@ -6,24 +6,24 @@ export const courses = Router();
 
 // View course details
 courses.get(
-    '/:courseId', 
+    '/:courseId',
     celebrate({
         params: {
-            courseId: Joi.string().required()
-        }
+            courseId: Joi.string().required(),
+        },
     }),
     async (req, res) => {
-    try {
-        const course = await Course.findOne({
-            where: { Course_ID : req.params.courseId }
-        });
-        
-        if (!course) {
-            throw new Error(`Course does not exist`);
-        }
-        res.json(course);
+        try {
+            const course = await Course.findOne({
+                where: { Course_ID: req.params.courseId },
+            });
 
-    } catch (error) {
-        res.status(400).json(error.message);
+            if (!course) {
+                throw new Error(`Course does not exist`);
+            }
+            res.json(course);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
     }
-});
+);

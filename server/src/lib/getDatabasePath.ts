@@ -6,11 +6,11 @@ import config from './config';
 // Expand ~ into the current user home dir.
 // This does *not* support `~other_user/tmp` => `/home/other_user/tmp`.
 function getDatabasePath() {
-  const fileName = 'is212-g5t7.sql';
-  const databasePath = `${config.databaseFolder}/${fileName}`;
+    const fileName = 'is212-g5t7.sql';
+    const databasePath = `${config.databaseFolder}/${fileName}`;
 
-  const home = os.homedir().replace('$', '$$$$');
-  return path.resolve(databasePath.replace(/^~($|\/|\\)/, home + '$1'));
+    const home = os.homedir().replace('$', '$$$$');
+    return path.resolve(databasePath.replace(/^~($|\/|\\)/, home + '$1'));
 }
 
 export default getDatabasePath();

@@ -1,20 +1,20 @@
 name: Telegram Message
 on:
-  pull_request:
-    types: [opened, reopened]
+    pull_request:
+        types: [opened, reopened]
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Telegram Message Notify
-        uses: appleboy/telegram-action@v0.1.1
-        with:
-          to: ${{ secrets.TELEGRAM_CHAT_ID }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          disable_web_page_preview: true
-          message: |
-            📝 ${{ github.actor }} created a new PR:
-            Ref: ${{ github.ref }}
-            
-            See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
+    build:
+        name: Build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Telegram Message Notify
+              uses: appleboy/telegram-action@v0.1.1
+              with:
+                  to: ${{ secrets.TELEGRAM_CHAT_ID }}
+                  token: ${{ secrets.TELEGRAM_TOKEN }}
+                  disable_web_page_preview: true
+                  message: |
+                      📝 ${{ github.actor }} created a new PR:
+                      Ref: ${{ github.ref }}
+
+                      See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
