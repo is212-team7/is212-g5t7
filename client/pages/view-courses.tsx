@@ -12,7 +12,7 @@ const ViewCourses: NextPage = () => {
         <Spacer h={2} />
 
         <Grid.Container gap={2} height="100px">
-          {courses.map(({ label, description }) => (
+          {courses.map(({ label, description }: Course) => (
             <CourseCard key={label} label={label} description={description} />
           ))}
         </Grid.Container>
