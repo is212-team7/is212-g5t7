@@ -14,7 +14,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
             ${{ github.actor }} created commit:
-            Branch: ${{ commit.ref }}
+            Branch: ${{ github.ref }}
             Commit message: ${{ github.event.commits[0].message }}
             
             See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
