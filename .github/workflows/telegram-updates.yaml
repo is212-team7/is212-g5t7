@@ -1,0 +1,20 @@
+name: Telegram Message
+on:
+  pull_request:
+    types: [opened, reopened]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Telegram Message Notify
+        uses: appleboy/telegram-action@v0.1.1
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Branch: ${{ commit.ref }}
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
