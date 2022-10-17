@@ -2,21 +2,21 @@ import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database';
 
 export const Skill = sequelize.define('skill', {
-  id: {
+  Skill_ID: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  name: {
+  Skill_Name: {
     type: DataTypes.STRING,
     unique: true,
     allowNull: false,
   },
-  category: {
+  Skill_Category: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  description: {
+  Skill_Description: {
     type: DataTypes.STRING,
     allowNull: true,
   },

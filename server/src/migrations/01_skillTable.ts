@@ -8,24 +8,24 @@ import type { Migration } from "../database"
 export const up: Migration = async ({ context: queryInterface }) =>
 	queryInterface.createTable("skill", {
     // Should match src/lib/models/Skill.ts
-		id: {
+		Skill_ID: {
 			type: DataTypes.INTEGER,
 			autoIncrement: true,
 			primaryKey: true,
 		},
-		name: {
+		Skill_Name: {
 			type: DataTypes.STRING,
 			unique: true,
-      		allowNull: false
+			allowNull: false,
 		},
-		category: {
+		Skill_Category: {
 			type: DataTypes.STRING,
-			allowNull: true
+			allowNull: false,
 		},
-		description: {
+		Skill_Description: {
 			type: DataTypes.STRING,
 			allowNull: true,
-		},
+		}
 	})
 
 export const down: Migration = async ({ context: queryInterface }) =>
