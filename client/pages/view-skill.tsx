@@ -4,14 +4,16 @@ import { Skill, skillCategories } from '../database/skills';
 
 const ViewSkillPage: NextPage = () => {
   const SkillCategory = ({
+    key,
     skillCategory,
     skillDetails,
   }: {
+    key: string;
     skillCategory: string;
     skillDetails: Skill[];
   }) => {
     return (
-      <Grid justify="center">
+      <Grid justify="center" key={key}>
         <h4>
           {skillCategory.slice(0, 1).toUpperCase() + skillCategory.slice(1)}
         </h4>
