@@ -6,7 +6,7 @@ import type { Migration } from "../database"
 // (especially in prod when it's not easy to do it manually)
 
 export const up: Migration = async ({ context: queryInterface }) =>
-	queryInterface.createTable("Role_Skills", {
+	queryInterface.createTable("RoleSkills", {
     // Should match src/lib/models/Skill.ts
         Role_ID: {
             type: DataTypes.INTEGER,
@@ -21,4 +21,4 @@ export const up: Migration = async ({ context: queryInterface }) =>
 	})
 
 export const down: Migration = async ({ context: queryInterface }) =>
-	queryInterface.dropTable("Role_Skills")
+	queryInterface.dropTable("RoleSkills")

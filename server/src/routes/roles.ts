@@ -1,4 +1,4 @@
-import { Role } from '@lib/models/role';
+import { Role } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 

@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../database';
 
-export const Role_Skill = sequelize.define('Role_Skill', {
+export const RoleSkill = sequelize.define('RoleSkill', {
     Role_ID: {
         type: DataTypes.INTEGER,
         unique: true,
