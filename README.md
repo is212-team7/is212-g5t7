@@ -3,9 +3,9 @@
 Make sure you have [Node.js](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) on your computer before building the project. If not, install it in this order.
 
 ## General Setup
-Using Docker Compose:
+Using Docker Compose in the root directory (to set up both client and server):
 ```
-
+docker-compose up
 ```
 
 ## Client
