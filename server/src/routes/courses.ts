@@ -1,4 +1,4 @@
-import { Course } from '@lib/models/course';
+import { Course } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 

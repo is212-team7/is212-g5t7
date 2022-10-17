@@ -1,17 +1,16 @@
-import { Role_Skill } from '@lib/models/Role_Skill';
+import { RoleSkill } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
-export const Role_Skills = Router();
-
+export const roleSkills = Router();
 
 // Get skills by role
-Role_Skills.get(
+roleSkills.get(
     "/:Role_ID",
     celebrate({ params: {Role_ID: Joi.string().required()}}),
     async (req, res, next) => {
     try {
-        const Role_Skills = await Role_Skill.findByPk(req.params.Role_ID,{
+        const Role_Skills = await RoleSkill.findByPk(req.params.Role_ID,{
             attributes: ["Role_ID", "Skill_ID"],})
         if (!Role_Skills) {
 			return res.status(404).json({ error: "Role not found" })
