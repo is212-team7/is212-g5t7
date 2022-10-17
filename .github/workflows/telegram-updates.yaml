@@ -14,8 +14,7 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           disable_web_page_preview: true
           message: |
-            ${{ github.actor }} created a new PR:
-            ${{ github.event.name }}
-            Commit message: ${{ github.event.commits }}
+            📝 ${{ github.actor }} created a new PR:
+            Ref: ${{ github.ref }}
             
             See changes: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
