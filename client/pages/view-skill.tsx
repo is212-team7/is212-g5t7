@@ -1,6 +1,6 @@
 import { Card, Divider, Grid, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
-import { Skill, skillCategories } from './database/skills';
+import { Skill, skillCategories } from '../database/skills';
 
 const ViewSkillPage: NextPage = () => {
   const SkillCategory = ({
