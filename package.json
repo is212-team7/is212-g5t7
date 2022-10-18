@@ -1,0 +1,14 @@
+{
+  "name": "is212-g5t7",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/is212-team7/is212-g5t7.git",
+  "author": "Regina Liu <regina.liuyixuan@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "prepare": "husky install"
+  },
+  "devDependencies": {
+    "husky": "^8.0.1"
+  }
+}

@@ -52,5 +52,5 @@ docker build -t is212-g5t7-server .
 ```
 Run Docker container based on the built image:
 ```
-docker run -p 3000:3000 --env-file=.env is212-g5t7-server  
+docker run -p 3001:3001 --env-file=.env is212-g5t7-server  
 ```

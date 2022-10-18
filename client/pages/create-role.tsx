@@ -1,7 +1,7 @@
 import { Button, Input, Link, Page, Select, Spacer } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useState } from 'react';
-import { skills } from '../database/skills';
+import { Skill, skillCategories } from '../database/skills';
 
 const CreateRole: NextPage = () => {
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
@@ -28,7 +28,7 @@ const CreateRole: NextPage = () => {
             }
           }}
         >
-          {Object.entries(skills).map(([label, skills]) =>
+          {Object.entries(skillCategories).map(([label, skills]) =>
             genSkillSelectGroup(label, skills)
           )}
         </Select>
@@ -48,13 +48,13 @@ const CreateRole: NextPage = () => {
 
 type genSkillSelectGroupType = (
   label: string,
-  skills: string[]
+  skills: Skill[]
 ) => React.ReactNode[];
 
 const genSkillSelectGroup: genSkillSelectGroupType = (label, skills) => {
   const options = skills.map((skill) => (
-    <Select.Option key={kebabCaseTransform(skill)} value={skill}>
-      {skill}
+    <Select.Option key={kebabCaseTransform(skill.label)} value={skill.label}>
+      {skill.label}
     </Select.Option>
   ));
 
