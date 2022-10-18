@@ -1,4 +1,4 @@
-import { Role } from '@lib/models/role';
+import { Role } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -52,10 +52,10 @@ roles.get('/', async (req, res, next) => {
 
 // Update role name by role id
 roles.put(
-  "/:id",
+  "/:Role_ID",
   celebrate({ 
     params: {
-			Role_ID: Joi.string().required()
+			Role_ID: Joi.number().required()
 		},
     body: {
       Role_Name: Joi.string().required(),
@@ -89,9 +89,9 @@ roles.put(
 
 // Delete role by role id
 roles.delete(
-  "/:id",
+  "/:Role_ID",
   celebrate({ 
-    params: {Role_ID: Joi.string().required()
+    params: {Role_ID: Joi.number().required()
   }}),
 
   async (req, res) => {

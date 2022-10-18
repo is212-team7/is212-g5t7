@@ -5,19 +5,19 @@ services:
       context: ./server
       args:
         - NODE_ENV=production
-    container_name: server
+    container_name: is212-g5t7-server
     restart: unless-stopped
     env_file: server/.env
     ports:
-      - "3000:3000"
+      - "3001:3001"
   client:
     build: ./client
     container_name: is212-g5t7-client
-    image: client-nextjs:latest
+    restart: unless-stopped
+    env_file: client/.env
     environment:
-      - API_URL=http://server:3000
-      - SECRET_KEY=secret # change later
+      - API_URL=http://localhost:3001
     ports:
-      - '8080:8080'
+      - '3000:3000'
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

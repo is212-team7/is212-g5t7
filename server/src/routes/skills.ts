@@ -1,4 +1,4 @@
-import { Skill } from '@lib/models/Skill';
+import { Skill } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -9,30 +9,30 @@ skills.post(
   '/', 
   celebrate({ 
     body: {
-      name: Joi.string().required(),
-      category: Joi.string().required(),
-      description: Joi.string()
+      Skill_Name: Joi.string().required(),
+      Skill_Category: Joi.string().required(),
+      Skill_Description: Joi.string()
     }
   }),
   async (req, res) => {
 
   try {
-    const name = req.body.name.trim();
-    const category = req.body.category.trim();
+    const Skill_Name = req.body.Skill_Name.trim();
+    const Skill_Category = req.body.Skill_Category.trim();
 
-    let description = null;
-    if (req.body.description) {
-      description = req.body.description.trim();
+    let Skill_Description = null;
+    if (req.body.Skill_Description) {
+      Skill_Description = req.body.Skill_Description.trim();
     }
 
-    if (name.length === 0) {
-      throw new Error('Name of skill must be specified.')
+    if (Skill_Name.length === 0) {
+      throw new Error('Skill_Name of skill must be specified.')
     }
 
     const newSkill = await Skill.create({
-      name: name,
-      category: category,
-      description: description
+      Skill_Name: Skill_Name,
+      Skill_Category: Skill_Category,
+      Skill_Description: Skill_Description
     })
 
     await newSkill.save();
@@ -47,7 +47,7 @@ skills.post(
 skills.get('/', async (req, res, next) => {
   try {
     const skills = await Skill.findAll({
-      attributes: ["name", "category", "description"], 
+      attributes: ["Skill_ID", "Skill_Name", "Skill_Category", "Skill_Description"], 
     });
     res.json(skills);
   } catch (error) {
@@ -60,7 +60,7 @@ skills.get(
   "/:Skill_ID",
   celebrate({ 
     params: {
-      Skill_ID: Joi.string().required()
+      Skill_ID: Joi.number().required()
     }
   }),
 
@@ -83,30 +83,28 @@ async (req, res) => {
 
 // Update skills
 skills.put(
-  '/:id', 
+  '/:Skill_ID', 
   celebrate({ 
     params: { 
-      id: Joi.number().required()
+      Skill_ID: Joi.number().required()
     },
     body: {
-      name: Joi.string().required(),
-      category: Joi.string(),
-      description: Joi.string()
+      Skill_Name: Joi.string().required(),
+      Skill_Category: Joi.string(),
+      Skill_Description: Joi.string()
     }
   }),
   async (req, res) => {
     try {
-      const {id} = req.params
-      const skill = await Skill.findOne({
-        where: { id }
-      });
+      const Skill_ID = req.params.Skill_ID;
+      const skill = await Skill.findByPk(Skill_ID);
 
       if (skill) {
         await skill.update(
           {
-            name: req.body.name,
-            category: req.body.category ?? undefined,
-            description: req.body.description ?? undefined 
+            Skill_Name: req.body.Skill_Name,
+            Skill_Category: req.body.Skill_Category ?? undefined,
+            Skill_Description: req.body.Skill_Description ?? undefined 
           }
         )
         res.json(skill);
@@ -122,7 +120,7 @@ skills.put(
 
 
 
-// Delete role name
+// Delete skill
 skills.delete(
   "/:id",
   celebrate({ 
