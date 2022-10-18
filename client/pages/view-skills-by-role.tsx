@@ -26,8 +26,6 @@ const SkillFind: React.FC = () => {
             skillList && skillList?.length > 0 
             ? skillList?.filter((s) => s?.role == text)
             : undefined;
-
-            console.log(findSkills);
         setSkillList(findSkills);
     };
 
@@ -69,9 +67,6 @@ const SkillFind: React.FC = () => {
                                 <Card.Content>
                                 <Text>{role?.label}</Text>
                                 <Text>{role?.description}</Text>
-                            {/* <p>Role: {role?.role}</p>
-                            <p>Skill1: {role?.label}</p>
-                            <p>Skill: {role?.description}</p> */}
                             </Card.Content>
                             </Card>
                             <Spacer h={2} />
