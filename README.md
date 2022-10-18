@@ -3,8 +3,11 @@
 Make sure you have [Node.js](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) on your computer before building the project. If not, install it in this order.
 
 ## General Setup
+
 Using Docker Compose in the root directory (to set up both client and server):
+
 ```
+docker-compose build
 docker-compose up
 ```
 
@@ -16,23 +19,31 @@ The Dockerfile isn't ready for the client yet; we'll set up our env via Node scr
 
 Make sure you `cd` into the `client` directory before running the following commands.
 
-### Setup 
+### Setup
+
 #### Via Docker
+
 Build Docker image:
+
 ```
 docker build -t is212-g5t7-client .
 ```
+
 Run Docker container based on the built image:
+
 ```
 docker run -d -p 3000:3000 --env-file=.env is212-g5t7-client
 ```
 
 Note:
 To stop a Docker container, run this to grab the ID of the container you have started running:
+
 ```
 docker ps
 ```
+
 After copying the ID, stop the container:
+
 ```
 docker stop <CONTAINER_ID>
 ```
@@ -96,5 +107,5 @@ docker build -t is212-g5t7-server .
 Run Docker container based on the built image:
 
 ```
-docker run -d -p 3001:3001 --env-file=.env is212-g5t7-server  
+docker run -d -p 3001:3001 --env-file=.env is212-g5t7-server
 ```

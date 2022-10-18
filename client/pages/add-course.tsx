@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 import Toast from './components/toast';
 
 const AddCourse: NextPage = () => {
+    // TODO: make page dynamic according to course ID
     return (
         <Page>
             <Page.Content>
