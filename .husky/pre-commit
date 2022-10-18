@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-cd client && yarn build
+npx lint-staged
+cd client && yarn run tsc

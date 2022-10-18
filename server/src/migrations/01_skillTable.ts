@@ -1,6 +1,6 @@
-"use strict"
-import { DataTypes } from "sequelize"
-import type { Migration } from "../database"
+'use strict';
+import { DataTypes } from 'sequelize';
+import type { Migration } from '../database';
 
 // This migration file helps us to set up and populate our database automatically
 // (especially in prod when it's not easy to do it manually)
@@ -29,4 +29,4 @@ export const up: Migration = async ({ context: queryInterface }) =>
 	})
 
 export const down: Migration = async ({ context: queryInterface }) =>
-	queryInterface.dropTable("skill")
+    queryInterface.dropTable('skill');

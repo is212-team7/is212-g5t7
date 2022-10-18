@@ -26,10 +26,5 @@ roleSkills.get(
             }
             res.json(result);
         }
-    } catch (error) {
-        res.status(400).json(error.message);
     }
-})
-
-
-
+);

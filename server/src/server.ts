@@ -4,8 +4,8 @@ import config from './lib/config';
 import { sequelize } from './database';
 
 (async () => {
-  await sequelize.sync()
-  createServer(app).listen(config.port, () =>
-    console.info(`Server running on port ${config.port}`)
-  );
+    await sequelize.sync();
+    createServer(app).listen(config.port, () =>
+        console.info(`Server running on port ${config.port}`)
+    );
 })();
