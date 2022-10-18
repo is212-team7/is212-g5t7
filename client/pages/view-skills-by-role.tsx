@@ -59,7 +59,7 @@ const SkillFind: React.FC = () => {
                     skillList?.length>0 && 
                     skillList?.map(role =>{
                     return(
-                        <div className="body__item">
+                        <div className="body__item" key={role}>
 
                             <Card width="600px">
                             <Card.Content>
