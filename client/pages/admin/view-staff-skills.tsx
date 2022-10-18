@@ -1,3 +1,5 @@
 // TODO
 
-export {};
+const ViewStaffSkillsPage = () => {};
+
+export default ViewStaffSkillsPage;
