@@ -1,7 +1,7 @@
 import { Course } from './Course';
 import { LearningJourney } from './LearningJourney';
-import { Role } from './Role';
+import { Role, RoleAttributes } from './Role';
 import { RoleSkill } from './RoleSkill';
 import { Skill } from './Skill';
 
-export { Role, Skill, RoleSkill, Course, LearningJourney };
+export { Role, RoleAttributes, Skill, RoleSkill, Course, LearningJourney };

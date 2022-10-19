@@ -3,6 +3,7 @@ import type { NextPage } from 'next';
 
 const Home: NextPage = () => {
     return (
+        // TODO: change this form
         <Page>
             <Page.Content>
                 <h2>Create a Skill</h2>

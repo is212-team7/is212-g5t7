@@ -1,18 +1,20 @@
 import config from '@lib/config';
 import {
-    roles,
-    skills,
     courses,
     learningJourneys,
+    roles,
     roleSkills,
+    skills,
 } from '@routes/index';
 import * as bodyParser from 'body-parser';
 import { errors } from 'celebrate';
-import * as express from 'express';
-import * as errorhandler from 'strong-error-handler';
+import cors from 'cors';
+import express from 'express';
+import errorhandler from 'strong-error-handler';
 
 export const app = express();
 
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: '5mb' }));
 
