@@ -37,9 +37,7 @@ roles.post(
 // Get roles
 roles.get('/', async (req, res, next) => {
     try {
-        const role = await Role.findAll({
-            attributes: ['Role_ID', 'Role_Name', 'Role_Description'],
-        });
+        const role = await Role.findAll();
         res.json(role);
     } catch (error) {
         next(error);
@@ -69,7 +67,7 @@ roles.get(
 });
 
 
-// Update role name by role id
+// Update role by role id
 roles.put(
     '/:Role_ID',
     celebrate({
@@ -128,7 +126,9 @@ roles.delete(
             if (!role) {
                 return res.status(404).json({ error: 'Role not found' });
             } else {
-                await role.destroy();
+                await role.update(
+                    { Role_Deleted: true },
+                );                
                 res.json({ message: 'Role deleted' });
             }
         } catch (error) {

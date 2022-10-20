@@ -5,6 +5,7 @@ export interface RoleAttributes {
     Role_ID: string;
     Role_Name: string;
     Role_Description: string;
+    Role_Deleted?: boolean;
 }
 
 type RoleCreationAttributes = Optional<RoleAttributes, 'Role_ID'>;
@@ -25,4 +26,8 @@ export const Role: ModelDefined<RoleAttributes, RoleCreationAttributes> =
             type: DataTypes.STRING,
             allowNull: true,
         },
+        Role_Deleted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
+        }
     });

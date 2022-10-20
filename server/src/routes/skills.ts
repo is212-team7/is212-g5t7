@@ -45,14 +45,7 @@ skills.post(
 // Get skills
 skills.get('/', async (req, res, next) => {
     try {
-        const skills = await Skill.findAll({
-            attributes: [
-                'Skill_ID',
-                'Skill_Name',
-                'Skill_Category',
-                'Skill_Description',
-            ],
-        });
+        const skills = await Skill.findAll();
         res.json(skills);
     } catch (error) {
         next(error);
@@ -70,13 +63,7 @@ skills.get(
 
     async (req, res) => {
         try {
-            const skill = await Skill.findByPk(req.params.Skill_ID, {
-                attributes: [
-                    'Skill_Name',
-                    'Skill_Category',
-                    'Skill_Description',
-                ],
-            });
+            const skill = await Skill.findByPk(req.params.Skill_ID);
             if (!skill) {
                 return res.status(404).json({ error: 'skill not found' });
             } else {
@@ -136,7 +123,9 @@ skills.delete(
             if (!skill) {
                 throw new Error('Skill not found');
             } else {
-                await skill.destroy();
+                await skill.update(
+                    { Skill_Deleted: true },
+                ); 
                 res.json({ message: 'Skill deleted' });
             }
         } catch (error) {
