@@ -46,6 +46,29 @@ roles.get('/', async (req, res, next) => {
     }
 });
 
+// Get 1 role by role ID
+roles.get(
+    '/:Role_ID', 
+    celebrate({
+        params: {
+            Role_ID: Joi.number().required(),
+        }
+    }), async (req, res) => {
+    try {
+        const role = await Role.findByPk(req.params.Role_ID);
+
+        if (role === null) {
+            return Error('Role not found');
+        }
+
+        res.json(role);
+
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+});
+
+
 // Update role name by role id
 roles.put(
     '/:Role_ID',
