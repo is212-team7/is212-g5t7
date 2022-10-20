@@ -1,7 +1,7 @@
 import { Card, Grid, Image, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import Link from 'next/link';
-import { Course, courses } from '../database/courses';
+import { Course, courses } from '../../database/courses';
 
 const ViewCourses: NextPage = () => {
     // TODO: dynamic page (route changes)
