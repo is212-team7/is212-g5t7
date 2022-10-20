@@ -1,40 +1,40 @@
-import { Card, Divider, Grid, Page, Spacer, Text } from '@geist-ui/core';
+import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
-import { Role } from '../database/roles';
-
-interface RoleAPI {
-    Role_ID: string;
-    Role_Name: string;
-    Role_Description: string;
-}
+import { Role } from './api/roles';
 
 const ViewRolePage: NextPage = () => {
     const [roles, setRoles] = useState<Role[]>();
 
     const Role = ({
         id,
-        label,
+        name,
         description,
     }: {
         id: string;
-        label: string;
+        name: string;
         description: string;
     }) => {
         return (
             <Grid justify="center">
-                <Card width="600px" key={label}>
+                <Card width="600px" key={name}>
                     <Card.Content>
                         <Text b my={0}>
-                            {label}
+                            {name}
                         </Text>
                     </Card.Content>
                     <Divider h="1px" my={0} />
                     <Card.Content>
-                        <Text>
-                            {description} (Role ID: {id})
+                        <Text font="12px" mt={0} style={{ color: '#ccc' }}>
+                            DESCRIPTION
                         </Text>
+                        <Text>{description}</Text>
                     </Card.Content>
+                    <Card.Footer>
+                        <Link color href={'enroll/' + id}>
+                            View skills for {name} &#8594;
+                        </Link>
+                    </Card.Footer>
                 </Card>
                 <Spacer h={2} />
             </Grid>
@@ -42,20 +42,14 @@ const ViewRolePage: NextPage = () => {
     };
 
     useEffect(() => {
-        fetch(process.env.API_URL + '/roles')
+        fetch('/api/roles', { method: 'GET' })
             .then((response) => response.json())
             .then((result) => {
-                const rolesResult = result.map((row: RoleAPI) => {
-                    return {
-                        id: Number(row.Role_ID),
-                        label: row.Role_Name,
-                        description: row.Role_Description,
-                    };
-                });
-                setRoles(rolesResult);
+                console.log({ result });
+                setRoles(result);
             })
             .catch((error) => console.log('error', error));
-    });
+    }, []);
 
     return (
         <Page>
@@ -64,11 +58,11 @@ const ViewRolePage: NextPage = () => {
                 <Spacer h={2} />
                 <Grid.Container gap={1.5}>
                     {roles &&
-                        roles.map(({ id, label, description }) => (
+                        roles.map(({ id, name, description }) => (
                             <Role
-                                key={label}
+                                key={name}
                                 id={id}
-                                label={label}
+                                name={name}
                                 description={description}
                             />
                         ))}
