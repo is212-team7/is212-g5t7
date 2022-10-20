@@ -3,7 +3,6 @@ import {
     courses,
     learningJourneys,
     roles,
-    roleSkills,
     skills,
 } from '@routes/index';
 import * as bodyParser from 'body-parser';
@@ -22,7 +21,6 @@ app.use('/skills', skills);
 app.use('/roles', roles);
 app.use('/courses', courses);
 app.use('/learningJourneys', learningJourneys);
-app.use('/roleSkills', roleSkills);
 
 app.use(errors());
 
