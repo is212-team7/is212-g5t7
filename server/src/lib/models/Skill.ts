@@ -20,4 +20,8 @@ export const Skill = sequelize.define('skill', {
     type: DataTypes.STRING,
     allowNull: true,
   },
+  Skill_Deleted: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false,
+  }
 });

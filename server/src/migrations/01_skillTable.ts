@@ -25,6 +25,10 @@ export const up: Migration = async ({ context: queryInterface }) =>
 		Skill_Description: {
 			type: DataTypes.STRING,
 			allowNull: true,
+		},
+		Skill_Deleted: {
+			type: DataTypes.BOOLEAN,
+			defaultValue: false,
 		}
 	})
 
