@@ -2,7 +2,7 @@ import { DataTypes, ModelDefined, Optional } from 'sequelize';
 import { sequelize } from '../../database';
 
 export interface RoleAttributes {
-    Role_ID: string;
+    Role_ID: number;
     Role_Name: string;
     Role_Description: string;
     Role_Deleted?: boolean;
@@ -29,5 +29,5 @@ export const Role: ModelDefined<RoleAttributes, RoleCreationAttributes> =
         Role_Deleted: {
             type: DataTypes.BOOLEAN,
             defaultValue: false,
-        }
+        },
     });
