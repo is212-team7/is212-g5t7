@@ -11,7 +11,7 @@ learningJourneys.post(
         body: {
             Staff_ID: Joi.number().required(),
             Role_ID: Joi.number().required(),
-            Course_ID: Joi.number().required(),
+            Course_ID: Joi.string().required(),
         },
     }),
     async (req, res) => {
@@ -46,7 +46,7 @@ learningJourneys.delete(
     '/',
     celebrate({
         body: {
-            Course_ID: Joi.number().required(),
+            Course_ID: Joi.string().required(),
             Staff_ID: Joi.number().required(),
             Role_ID: Joi.number().required,
         },
