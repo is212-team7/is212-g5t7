@@ -25,7 +25,7 @@ const Home: NextPage = () => {
                 </p>
 
                 <div className={styles.grid}>
-                    <a href="https://nextjs.org/docs" className={styles.card}>
+                    <a href="/roles" className={styles.card}>
                         <h2>Staff &rarr;</h2>
                         <p>
                             Plan your learning journeys, find tailored courses

@@ -1,6 +1,6 @@
 import { Grid, Image, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
-import Toast from './components/toast';
+import Toast from '../components/toast';
 
 const AddCourse: NextPage = () => {
     // TODO: make page dynamic according to course ID

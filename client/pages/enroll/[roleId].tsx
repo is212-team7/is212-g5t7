@@ -1,8 +1,12 @@
 import { Card, Divider, Grid, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
-import { Skill, skillCategories } from '../database/skills';
+import { useRouter } from 'next/router';
+import { Skill, skillCategories } from '../../database/skills';
 
-const ViewSkillPage: NextPage = () => {
+const EnrollPage: NextPage = () => {
+    const router = useRouter();
+    const { roleId } = router.query;
+
     const SkillCategory = ({
         key,
         skillCategory,
@@ -60,4 +64,4 @@ const ViewSkillPage: NextPage = () => {
     );
 };
 
-export default ViewSkillPage;
+export default EnrollPage;
