@@ -1,6 +1,7 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
@@ -25,13 +26,15 @@ const Home: NextPage = () => {
                 </p>
 
                 <div className={styles.grid}>
-                    <a href="/roles" className={styles.card}>
-                        <h2>Staff &rarr;</h2>
-                        <p>
-                            Plan your learning journeys, find tailored courses
-                            and track your progress.
-                        </p>
-                    </a>
+                    <Link href={'/roles'}>
+                        <div className={styles.card}>
+                            <h2>Staff &rarr;</h2>
+                            <p>
+                                Plan your learning journeys, find tailored
+                                courses and track your progress.
+                            </p>
+                        </div>
+                    </Link>
 
                     <a href="https://nextjs.org/learn" className={styles.card}>
                         <h2>Manager &rarr;</h2>
