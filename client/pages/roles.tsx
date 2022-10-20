@@ -1,7 +1,15 @@
+
 import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Role } from './api/roles';
+
+interface RoleAPI {
+    Role_ID: string;
+    Role_Name: string;
+    Role_Description: string;
+}
+
 
 const ViewRolePage: NextPage = () => {
     const [roles, setRoles] = useState<Role[]>();
