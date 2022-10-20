@@ -4,6 +4,20 @@ import { Router } from 'express';
 
 export const courses = Router();
 
+courses.get('/', async (req, res) => {
+    try {
+        const courses = await Course.findAll();
+
+        if (!courses) {
+            throw new Error(`Courses do not exist`);
+        }
+
+        res.json(courses);
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+});
+
 // View course details
 courses.get(
     '/:courseId',

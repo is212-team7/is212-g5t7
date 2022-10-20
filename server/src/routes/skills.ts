@@ -123,9 +123,7 @@ skills.delete(
             if (!skill) {
                 throw new Error('Skill not found');
             } else {
-                await skill.update(
-                    { Skill_Deleted: true },
-                ); 
+                await skill.update({ Skill_Deleted: true });
                 res.json({ message: 'Skill deleted' });
             }
         } catch (error) {
@@ -133,9 +131,6 @@ skills.delete(
         }
     }
 );
-
-
-
 
 // Get skills by role
 skills.get(

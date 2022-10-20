@@ -16,6 +16,7 @@ learningJourneys.post(
     }),
     async (req, res) => {
         try {
+            console.log({ body: req.body });
             const newLearningJourney = await LearningJourney.create({
                 Staff_ID: req.body.Staff_ID,
                 Role_ID: req.body.Role_ID,
