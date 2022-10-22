@@ -2,6 +2,13 @@
 
 Make sure you have [Node.js](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) on your computer before building the project. If not, install it in this order.
 
+## ⚠️ Set up your .env file in both client and server!
+
+-   The client won't be able to pull data from the server if you don't have a .env file under `client`.
+-   The server won't be able to connect to the database if it doesn't have a .env file under `server`.
+
+> Find the .env files for both client and server in our Tele chat group!
+
 ## General Setup
 
 Using Docker Compose in the root directory (to set up both client and server):
