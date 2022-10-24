@@ -1,17 +1,9 @@
-
 import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Skill } from '../api/skills';
 
-interface SkillAPI {
-    Skill_ID: string;
-    Skill_Name: string;
-    Skill_Description: string;
-}
-
-
-const ViewSkillPage: NextPage = () => {
+const AdminSkillsPage: NextPage = () => {
     const [skills, setSkills] = useState<Skill[]>();
 
     const Skill = ({
@@ -21,7 +13,7 @@ const ViewSkillPage: NextPage = () => {
     }: {
         id: number;
         name: string;
-        description: string;
+        description?: string;
     }) => {
         return (
             <Grid justify="center">
@@ -80,4 +72,4 @@ const ViewSkillPage: NextPage = () => {
     );
 };
 
-export default ViewSkillPage;
+export default AdminSkillsPage;
