@@ -13,7 +13,7 @@ export const LearningJourney = sequelize.define('LearningJourney', {
         primaryKey: true,
     },
     Course_ID: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         unique: true,
         primaryKey: true,
     },

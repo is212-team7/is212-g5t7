@@ -1,6 +1,7 @@
 import config from '@lib/config';
 import {
     courses,
+    staffs,
     learningJourneys,
     roles,
     skills,
@@ -20,6 +21,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use('/skills', skills);
 app.use('/roles', roles);
 app.use('/courses', courses);
+app.use('/staffs', staffs);
 app.use('/learningJourneys', learningJourneys);
 
 app.use(errors());
