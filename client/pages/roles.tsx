@@ -44,10 +44,7 @@ const ViewRolePage: NextPage = () => {
     useEffect(() => {
         fetch('/api/roles', { method: 'GET' })
             .then((response) => response.json())
-            .then((result) => {
-                console.log({ result });
-                setRoles(result);
-            })
+            .then(setRoles)
             .catch((error) => console.log('error', error));
     }, []);
 

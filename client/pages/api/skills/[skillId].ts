@@ -1,3 +1,4 @@
+import { equal } from 'assert';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Skill, SkillAPI } from '.';
 
@@ -26,11 +27,12 @@ export default function handler(
             break;
 
         case 'PUT':
-            const skillToUpdate = JSON.parse(req.body) as Skill;
+            const skillToUpdate = req.body as Skill;
             const body = JSON.stringify({
                 Skill_Name: skillToUpdate.name,
                 Skill_Category: skillToUpdate.category,
                 Skill_Description: skillToUpdate.description,
+                Skill_Deleted: skillToUpdate.deleted,
             });
 
             fetch(BASE_URL, {
@@ -41,7 +43,7 @@ export default function handler(
                 .then((response) => response.json())
                 .then((result: SkillAPI) => {
                     res.status(200).json(
-                        `Skill (${skillToUpdate.name}, ID: ${result.Skill_ID}) is updated.`
+                        `Skill ID: ${result.Skill_ID}) is updated.`
                     );
                 })
                 .catch((error) => console.log('error', error));

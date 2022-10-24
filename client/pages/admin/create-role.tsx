@@ -1,33 +1,41 @@
-import { Button, Input, Link, Page, Select, Spacer } from '@geist-ui/core';
+import { Input, Page, Spacer, useToasts } from '@geist-ui/core';
 import type { NextPage } from 'next';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { Skill } from '../../database/skills';
+import ButtonWithToast from '../components/ButtonWithToast';
 
 interface Form {
-    roleName: string;
-    roleDescription: string;
+    name: string;
+    description: string;
 }
 
 const emptyForm = {
-    roleName: '',
-    roleDescription: '',
+    name: '',
+    description: '',
 };
 
 const CreateRole: NextPage = () => {
+    const router = useRouter();
+    const { setToast } = useToasts();
     const [formValues, setFormValues] = useState<Form>(emptyForm);
 
     const submitRoleCreation = () => {
-        const body = JSON.stringify({
-            Role_Name: formValues.roleName,
-            Role_Description: formValues.roleDescription,
-        });
+        const body = JSON.stringify(formValues);
 
-        fetch(process.env.API_URL + '/roles', {
+        fetch('/api/roles', {
             method: 'POST',
             body,
             headers: { 'Content-Type': 'application/json' },
+        }).then(() => {
+            router.push('../roles');
         });
     };
+
+    const showWarningToast = () =>
+        setToast({
+            text: 'A role needs to have a name.',
+            type: 'warning',
+        });
 
     return (
         <Page>
@@ -38,11 +46,11 @@ const CreateRole: NextPage = () => {
 
                 <Input
                     placeholder="Role Name"
-                    value={formValues.roleName}
+                    value={formValues.name}
                     onChange={(val) =>
                         setFormValues((curr) => ({
                             ...curr,
-                            roleName: val.target.value,
+                            name: val.target.value,
                         }))
                     }
                 >
@@ -52,57 +60,34 @@ const CreateRole: NextPage = () => {
                 <Input
                     placeholder="Description"
                     width="100%"
-                    value={formValues.roleDescription}
+                    value={formValues.description}
                     onChange={(val) =>
                         setFormValues((curr) => ({
                             ...curr,
-                            roleDescription: val.target.value,
+                            description: val.target.value,
                         }))
                     }
                 >
                     Description
                 </Input>
 
-                <Spacer h={5} />
+                <Spacer h={3} />
 
-                {/* TODO: Add view roles link */}
-                <Link onClick={() => submitRoleCreation()}>
-                    <Button type="secondary">Add role</Button>
-                </Link>
+                <ButtonWithToast
+                    buttonText={'Add role'}
+                    toastText={'Role created'}
+                    onClick={() => {
+                        if (formValues.name === '') {
+                            showWarningToast();
+                            return false;
+                        }
+                        submitRoleCreation();
+                        return true;
+                    }}
+                />
             </Page.Content>
         </Page>
     );
-};
-
-// SUB-COMPONENTS
-
-type genSkillSelectGroupType = (
-    label: string,
-    skills: Skill[]
-) => React.ReactNode[];
-
-const genSkillSelectGroup: genSkillSelectGroupType = (label, skills) => {
-    const options = skills.map((skill) => (
-        <Select.Option
-            key={kebabCaseTransform(skill.label)}
-            value={skill.label}
-        >
-            {skill.label}
-        </Select.Option>
-    ));
-
-    return [
-        <Select.Option key={label} label>
-            {label}
-        </Select.Option>,
-        ...options,
-    ];
-};
-
-// HELPERS
-
-const kebabCaseTransform = (text: string) => {
-    return text.toLowerCase().split(' ').join('-');
 };
 
 export default CreateRole;
