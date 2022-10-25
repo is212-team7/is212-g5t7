@@ -1,8 +1,9 @@
-import { Note, Page, Spacer, Tabs, useToasts } from '@geist-ui/core';
-import { User, Zap } from '@geist-ui/icons';
+import { Page, Spacer, Tabs, useToasts } from '@geist-ui/core';
+import { Folder, User, Zap } from '@geist-ui/icons';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import CoursesList from '../components/CoursesList';
 import PageWithNavBar from '../components/PageWithNavBar';
 import RolesList from '../components/RolesList';
 import SkillsList from '../components/SkillsList';
@@ -43,6 +44,16 @@ const AdminPage: NextPage = () => {
                     value="2"
                 >
                     <SkillsList />
+                </Tabs.Item>
+                <Tabs.Item
+                    label={
+                        <>
+                            <Folder /> Courses{' '}
+                        </>
+                    }
+                    value="3"
+                >
+                    <CoursesList />
                 </Tabs.Item>
             </Tabs>
             <Page.Content></Page.Content>
