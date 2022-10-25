@@ -23,16 +23,14 @@ const EnrollPage: NextPage = () => {
     useEffect(() => {
         fetch('/api/skills/role/' + roleId, { method: 'GET' })
             .then((response) => response.json())
-            .then((result) => {
-                setSkills(result);
-            })
+            .then(setSkills)
             .catch((error) => console.log('error', error));
     }, [roleId]);
 
     return (
         <Page>
             <Page.Content>
-                <h2>Skills</h2>
+                <h2>Skills for Role {roleId}</h2>
                 <Spacer h={2} />
                 {skills.length !== 0 ? (
                     <Grid.Container gap={1.5}>

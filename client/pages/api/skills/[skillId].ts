@@ -27,7 +27,7 @@ export default function handler(
             break;
 
         case 'PUT':
-            const skillToUpdate = req.body as Skill;
+            const skillToUpdate: Skill = req.body;
             const body = JSON.stringify({
                 Skill_Name: skillToUpdate.name,
                 Skill_Category: skillToUpdate.category,

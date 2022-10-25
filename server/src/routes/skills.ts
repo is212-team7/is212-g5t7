@@ -133,7 +133,7 @@ skills.delete(
     }),
     async (req, res) => {
         try {
-            const skill = await Skill.findByPk(req.params.id);
+            const skill = await Skill.findByPk(req.params.Skill_ID);
             if (!skill) {
                 throw new Error('Skill not found');
             } else {

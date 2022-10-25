@@ -25,7 +25,7 @@ export default function handler(
             break;
 
         case 'PUT':
-            const roleToUpdate = JSON.parse(req.body) as Role;
+            const roleToUpdate: Role = req.body;
             const body = JSON.stringify({
                 Role_Name: roleToUpdate.name,
                 Role_Description: roleToUpdate.description,
