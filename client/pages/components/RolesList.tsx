@@ -25,19 +25,25 @@ const RolesList: NextPage = () => {
         <Page.Content>
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                 <h2>Roles</h2>
-                <Button
-                    type="secondary"
-                    onClick={() => setCreateModalVisible(true)}
-                >
-                    CreateRole
-                </Button>
+                <div style={{ display: 'flex' }}>
+                    <Button
+                        type="secondary"
+                        onClick={() => setCreateModalVisible(true)}
+                    >
+                        Create role
+                    </Button>
+                    <Spacer width={1} />
+                    <Button type="secondary" onClick={() => {}}>
+                        Assign skills to role
+                    </Button>
+                </div>
             </div>
 
             <Spacer height={2} />
 
             {roles && <List roles={roles} fetchRoles={fetchRoles} />}
             {roles == null && (
-                <Note type="warning">There are no Roles in the database.</Note>
+                <Note type="warning">There are no roles in the database.</Note>
             )}
             {isCreateModalVisible && (
                 <CreateRoleModal
@@ -126,6 +132,7 @@ const List = ({ roles, fetchRoles }: ListProps) => {
                 <Table.Column prop="name" label="name" />
                 <Table.Column prop="description" label="description" />
                 <Table.Column prop="deleted" label="deleted" />
+                <Table.Column prop="skills" label="skills" />
                 <Table.Column
                     prop="update"
                     label="update"
