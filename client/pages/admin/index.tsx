@@ -8,19 +8,7 @@ import PageWithNavBar from '../components/PageWithNavBar';
 import RolesList from '../components/RolesList';
 import SkillsList from '../components/SkillsList';
 
-interface LoginForm {
-    email: string;
-    password: string;
-}
-
 const AdminPage: NextPage = () => {
-    const router = useRouter();
-    const [loginForm, setLoginForm] = useState<LoginForm>({
-        email: '',
-        password: '',
-    });
-    const { setToast } = useToasts();
-
     return (
         <PageWithNavBar>
             <Spacer height={1} />
@@ -56,7 +44,6 @@ const AdminPage: NextPage = () => {
                     <CoursesList />
                 </Tabs.Item>
             </Tabs>
-            <Page.Content></Page.Content>
         </PageWithNavBar>
     );
 };

@@ -14,6 +14,7 @@ import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { MouseEventHandler, useEffect, useState } from 'react';
 import { Skill } from '../api/skills';
+import PageWithNavBar from '../components/PageWithNavBar';
 
 const EnrollPage: NextPage = () => {
     const router = useRouter();
@@ -28,7 +29,7 @@ const EnrollPage: NextPage = () => {
     }, [roleId]);
 
     return (
-        <Page>
+        <PageWithNavBar homeLink="/roles">
             <Page.Content>
                 <h2>Skills for Role {roleId}</h2>
                 <Spacer h={2} />
@@ -44,7 +45,7 @@ const EnrollPage: NextPage = () => {
                     </Note>
                 )}
             </Page.Content>
-        </Page>
+        </PageWithNavBar>
     );
 };
 

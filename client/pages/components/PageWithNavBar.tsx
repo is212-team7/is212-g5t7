@@ -1,14 +1,18 @@
 import { Button, Note, Page, Spacer, Tag, Text } from '@geist-ui/core';
-import { LogOut } from '@geist-ui/icons';
+import { Home, LogOut } from '@geist-ui/icons';
 import { useRouter } from 'next/router';
 import useCustomToast from '../hooks/useCustomToast';
+import useSessionStorage from '../hooks/useSessionStorage';
 
 interface PageWithNavBar {
+    homeLink?: string;
     children: React.ReactNode;
 }
 
-const PageWithNavBar = ({ children }: PageWithNavBar) => {
+const PageWithNavBar = ({ homeLink, children }: PageWithNavBar) => {
     const router = useRouter();
+    const staff = useSessionStorage();
+
     const logoutToast = useCustomToast({
         message: 'Successfully logged out.',
         type: 'success',
@@ -21,40 +25,54 @@ const PageWithNavBar = ({ children }: PageWithNavBar) => {
                     label={false}
                     filled
                     style={{
-                        justifyContent: 'right',
+                        justifyContent: homeLink ? 'space-between' : 'right',
                         borderRadius: 0,
                         display: 'flex',
                     }}
                 >
-                    <Text style={{ paddingTop: '5px' }}>
-                        {localStorage.getObject('user').fName +
-                            ' ' +
-                            localStorage.getObject('user').lName}
-                    </Text>
-                    <Spacer width={0.8} />
-                    <Tag
-                        type="success"
-                        invert
-                        style={{
-                            marginTop: '3px',
-                            fontSize: '10px',
-                            lineHeight: '14px',
-                        }}
-                    >
-                        {localStorage.getObject('user').systemRole}
-                    </Tag>
-                    <Spacer width={0.3} />
-                    <Button
-                        type="secondary"
-                        onClick={() => {
-                            router.push('/login');
-                            logoutToast();
-                        }}
-                        iconRight={<LogOut />}
-                        auto
-                        scale={2 / 3}
-                        px={0.6}
-                    />
+                    {homeLink && (
+                        <Button
+                            type="secondary"
+                            onClick={() => router.push(homeLink)}
+                            iconRight={<Home />}
+                            auto
+                            scale={2 / 3}
+                            px={0.6}
+                        />
+                    )}
+                    <div style={{ display: 'flex' }}>
+                        {staff && (
+                            <>
+                                <Text style={{ paddingTop: '5px' }}>
+                                    {staff.fName + ' ' + staff.lName}
+                                </Text>
+                                <Spacer width={0.8} />
+                                <Tag
+                                    type="success"
+                                    invert
+                                    style={{
+                                        marginTop: '3px',
+                                        fontSize: '10px',
+                                        lineHeight: '14px',
+                                    }}
+                                >
+                                    {staff.systemRole}
+                                </Tag>
+                            </>
+                        )}
+                        <Spacer width={0.3} />
+                        <Button
+                            type="secondary"
+                            onClick={() => {
+                                router.push('/login');
+                                logoutToast();
+                            }}
+                            iconRight={<LogOut />}
+                            auto
+                            scale={2 / 3}
+                            px={0.6}
+                        />
+                    </div>
                 </Note>
             </Page.Header>
             <Page>{children}</Page>

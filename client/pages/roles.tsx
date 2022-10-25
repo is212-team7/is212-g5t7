@@ -2,6 +2,7 @@ import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Role } from './api/roles';
+import PageWithNavBar from './components/PageWithNavBar';
 
 const ViewRolePage: NextPage = () => {
     const [roles, setRoles] = useState<Role[]>();
@@ -49,7 +50,7 @@ const ViewRolePage: NextPage = () => {
     }, []);
 
     return (
-        <Page>
+        <PageWithNavBar homeLink="/roles">
             <Page.Content>
                 <h2>Roles</h2>
                 <Spacer h={2} />
@@ -65,7 +66,7 @@ const ViewRolePage: NextPage = () => {
                         ))}
                 </Grid.Container>
             </Page.Content>
-        </Page>
+        </PageWithNavBar>
     );
 };
 
