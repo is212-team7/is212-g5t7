@@ -2,7 +2,7 @@ import { ModalHooksBindings } from '@geist-ui/core/esm/use-modal';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Skill } from '../../api/skills';
 import useCustomToast from '../../hooks/useCustomToast';
-import { useFetchSkills } from '../../hooks/useFetchSkills';
+import useFetchSkills from '../../hooks/useFetchSkills';
 import SkillModal, { PartialSkill } from './SkillModal';
 
 interface UpdateSkillModalProps {

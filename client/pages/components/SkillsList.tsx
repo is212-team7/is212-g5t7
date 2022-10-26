@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Skill } from '../api/skills';
 import useCustomToast from '../hooks/useCustomToast';
-import { SkillForTable, useFetchSkills } from '../hooks/useFetchSkills';
+import useFetchSkills, { SkillForTable } from '../hooks/useFetchSkills';
 import CreateSkillModal from './modal/CreateSkillModal';
 import UpdateSkillModal from './modal/UpdateSkillModal';
 

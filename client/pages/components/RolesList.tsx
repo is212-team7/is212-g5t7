@@ -3,7 +3,7 @@ import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Role } from '../api/roles';
 import useCustomToast from '../hooks/useCustomToast';
-import { RoleForTable, useFetchRoles } from '../hooks/useFetchRoles';
+import useFetchRoles, { RoleForTable } from '../hooks/useFetchRoles';
 import CreateRoleModal from './modal/CreateRoleModal';
 import UpdateRoleModal from './modal/UpdateRoleModal';
 

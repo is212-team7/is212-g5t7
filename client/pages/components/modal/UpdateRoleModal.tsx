@@ -2,7 +2,7 @@ import { ModalHooksBindings } from '@geist-ui/core/esm/use-modal';
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Role } from '../../api/roles';
 import useCustomToast from '../../hooks/useCustomToast';
-import { useFetchRoles } from '../../hooks/useFetchRoles';
+import useFetchRoles from '../../hooks/useFetchRoles';
 import RoleModal, { PartialRole } from './RoleModal';
 
 interface UpdateRoleModalProps {

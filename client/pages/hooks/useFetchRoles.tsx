@@ -10,7 +10,7 @@ interface useFetchRolesProp {
     setRoles: Dispatch<SetStateAction<Role[] | undefined>>;
 }
 
-export const useFetchRoles =
+const useFetchRoles =
     ({ setRoles }: useFetchRolesProp) =>
     () =>
         fetch('/api/roles', { method: 'GET' })
@@ -29,3 +29,5 @@ export const useFetchRoles =
                     );
             })
             .catch((e) => console.log(e));
+
+export default useFetchRoles;

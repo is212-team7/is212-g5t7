@@ -10,7 +10,7 @@ interface useFetchSkillsProp {
     setSkills: Dispatch<SetStateAction<SkillForTable[] | undefined>>;
 }
 
-export const useFetchSkills =
+const useFetchSkills =
     ({ setSkills }: useFetchSkillsProp) =>
     () =>
         fetch('/api/skills', { method: 'GET' })
@@ -29,3 +29,5 @@ export const useFetchSkills =
                     );
             })
             .catch((e) => console.log(e));
+
+export default useFetchSkills;
