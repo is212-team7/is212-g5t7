@@ -9,24 +9,44 @@ staffs.post(
     '/login',
     celebrate({
         body: {
-            email: Joi.string().required().email(),
+            Email: Joi.string().required().email(),
         },
     }),
     async (req, res) => {
         try {
             const staff = await Staff.findOne({
-                where: { Email: req.body.email },
+                where: { Email: req.body.Email },
             });
 
             if (staff === null) {
                 throw new Error(`Staff does not exist`);
             } else {
+                let System_Role = '';
+
+                switch (staff.System_Role_ID) {
+                    case 1:
+                        System_Role = 'Admin';
+                        break;
+                    case 2:
+                        System_Role = 'User';
+                        break;
+                    case 3:
+                        System_Role = 'Manager';
+                        break;
+                    case 4:
+                        System_Role = 'Trainer';
+                        break;
+                    default:
+                        break;
+                }
                 if (staff instanceof Staff) {
-                    const system_role =
-                        staff?.System_Role_ID == 1 ? 'Admin' : 'User';
                     res.json({
-                        System_Role: system_role,
-                        staff,
+                        Staff_ID: staff.Staff_ID,
+                        Staff_FName: staff.Staff_FName,
+                        Staff_LName: staff.Staff_LName,
+                        Dept: staff.Dept,
+                        Email: staff.Email,
+                        System_Role,
                     });
                 }
             }
@@ -59,3 +79,17 @@ staffs.get(
         }
     }
 );
+
+// For dev purposes
+staffs.get('/', async (req, res) => {
+    try {
+        const staffs = await Staff.findAll();
+
+        if (!staffs) {
+            throw new Error(`Staffs do not exist`);
+        }
+        res.json(staffs);
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+});

@@ -1,6 +1,6 @@
 import { Grid, Image, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
-import Toast from '../components/toast';
+import ButtonWithToast from '../components/ButtonWithToast';
 
 const AddCourse: NextPage = () => {
     // TODO: make page dynamic according to course ID
@@ -39,7 +39,10 @@ const AddCourse: NextPage = () => {
                             that contribute to service innovation.
                         </Text>
                         <Spacer />
-                        <Toast text={'Successfully enrolled.'} />
+                        <ButtonWithToast
+                            buttonText={'Enroll now'}
+                            toastText={'Successfully enrolled.'}
+                        />
                     </Grid>
                 </Grid.Container>
             </Page.Content>

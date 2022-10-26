@@ -1,22 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-
-type CourseAPI = {
-    Course_ID: string;
-    Course_Name: string;
-    Course_Desc: string;
-    Course_Status: string;
-    Course_Type: string;
-    Course_Category: string;
-};
-
-type Course = {
-    id: string;
-    name: string;
-    description: string;
-    status: string;
-    type: string;
-    category: string;
-};
+import { Course, CourseAPI } from '.';
 
 export default function handler(
     req: NextApiRequest,

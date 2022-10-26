@@ -44,10 +44,7 @@ const AdminSkillsPage: NextPage = () => {
     useEffect(() => {
         fetch('/api/skills', { method: 'GET' })
             .then((response) => response.json())
-            .then((result) => {
-                console.log({ result });
-                setSkills(result);
-            })
+            .then(setSkills)
             .catch((error) => console.log('error', error));
     }, []);
 

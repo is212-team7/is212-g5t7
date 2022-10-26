@@ -83,22 +83,36 @@ skills.put(
             Skill_ID: Joi.number().required(),
         },
         body: {
-            Skill_Name: Joi.string().required(),
+            Skill_Name: Joi.string(),
             Skill_Category: Joi.string(),
             Skill_Description: Joi.string(),
+            Skill_Deleted: Joi.boolean(),
         },
     }),
     async (req, res) => {
         try {
+            console.log('TRYING TO UPDATE');
             const Skill_ID = req.params.Skill_ID;
             const skill = await Skill.findByPk(Skill_ID);
+            console.log('Updating skill: ', Skill_ID);
 
             if (skill) {
                 await skill.update({
                     Skill_Name: req.body.Skill_Name,
-                    Skill_Category: req.body.Skill_Category ?? undefined,
-                    Skill_Description: req.body.Skill_Description ?? undefined,
+                    Skill_Category:
+                        req.body.Skill_Category ??
+                        skill.get('Skill_Category') ??
+                        undefined,
+                    Skill_Description:
+                        req.body.Skill_Description ??
+                        skill.get('Skill_Description') ??
+                        undefined,
+                    Skill_Deleted:
+                        req.body.Skill_Deleted ??
+                        skill.get('Skill_Deleted') ??
+                        undefined,
                 });
+
                 res.json(skill);
             } else {
                 throw new Error('Skill does not exist');
@@ -111,15 +125,15 @@ skills.put(
 
 // Delete skill
 skills.delete(
-    '/:id',
+    '/:Skill_ID',
     celebrate({
         params: {
-            id: Joi.number().required(),
+            Skill_ID: Joi.number().required(),
         },
     }),
     async (req, res) => {
         try {
-            const skill = await Skill.findByPk(req.params.id);
+            const skill = await Skill.findByPk(req.params.Skill_ID);
             if (!skill) {
                 throw new Error('Skill not found');
             } else {

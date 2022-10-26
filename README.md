@@ -2,6 +2,16 @@
 
 Make sure you have [Node.js](https://nodejs.org/en/) and [yarn](https://yarnpkg.com/getting-started/install) on your computer before building the project. If not, install it in this order.
 
+## Demo
+
+To log in as various types of users on `http://localhost:3000/login`, use the following credentials:
+
+-   Admin (HR): jack.sim@allinone.com.sg
+-   Manager: Eric.Loh@allinone.com.sg
+-   Staff (User): Emma.Heng@allinone.com.sg
+
+You may use any value for the password since the login is not actually validated.
+
 ## General Setup
 
 Using Docker Compose in the root directory (to set up both client and server):
