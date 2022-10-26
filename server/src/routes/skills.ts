@@ -1,4 +1,4 @@
-import { RoleSkill, Skill } from '@lib/models';
+import { Role, RoleSkill, Skill } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -167,6 +167,42 @@ skills.get(
                 }
                 res.json(result);
             }
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
+// Assign skills to role
+skills.post(
+    '/:Skill_ID/role/:Role_ID',
+    celebrate({
+        params: {
+            Role_ID: Joi.number().required(),
+            Skill_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            // check if role exists
+            const role = await Role.findByPk(req.params.Role_ID);
+            if (role == null) {
+                return res.status(404).json({ error: 'Role not found' });
+            }
+
+            // check if skill exists
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+            if (skill == null) {
+                return res.status(404).json({ error: 'Skill not found' });
+            }
+
+            // assign skill to role
+            await RoleSkill.create({
+                Role_ID: req.params.Role_ID,
+                Skill_ID: req.params.Skill_ID,
+            });
+
+            return res.json('Sucessfully added role to skill');
         } catch (error) {
             res.status(400).json(error.message);
         }

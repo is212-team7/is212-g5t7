@@ -8,7 +8,7 @@ export const RoleSkill = sequelize.define('RoleSkill', {
         primaryKey: true,
     },
     Skill_ID: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         unique: true,
         primaryKey: true,
     },
