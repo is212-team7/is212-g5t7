@@ -5,8 +5,7 @@
     "repository": "https://github.com/is212-team7/is212-g5t7.git",
     "license": "MIT",
     "scripts": {
-        "prepare": "husky install",
-        "test": "jest"
+        "prepare": "husky install"
     },
     "devDependencies": {
         "husky": "^8.0.1",
