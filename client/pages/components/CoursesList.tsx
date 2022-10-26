@@ -2,7 +2,7 @@ import { Note, Page, Spacer, Table } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Course } from '../api/courses';
-import { useFetchCourses } from '../hooks/useFetchCourses';
+import useFetchCourses from '../hooks/useFetchCourses';
 
 const CoursesList: NextPage = () => {
     const [courses, setCourses] = useState<Course[]>();

@@ -5,7 +5,7 @@ interface useFetchCoursesProp {
     setCourses: Dispatch<SetStateAction<Course[] | undefined>>;
 }
 
-export const useFetchCourses =
+const useFetchCourses =
     ({ setCourses }: useFetchCoursesProp) =>
     () =>
         fetch('/api/courses', { method: 'GET' })
@@ -16,3 +16,5 @@ export const useFetchCourses =
                 if (Array.isArray(result)) setCourses(result);
             })
             .catch((e) => console.log(e));
+
+export default useFetchCourses;

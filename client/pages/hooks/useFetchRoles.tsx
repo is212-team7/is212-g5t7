@@ -29,3 +29,5 @@ export const useFetchRoles =
                     );
             })
             .catch((e) => console.log(e));
+
+export default useFetchRoles;
