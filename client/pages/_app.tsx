@@ -1,6 +1,7 @@
 import { CssBaseline, GeistProvider } from '@geist-ui/core';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
+import { SkeletonTheme } from 'react-loading-skeleton';
 import '../styles/globals.css';
 
 const App = ({ Component, pageProps }: AppProps) => {
@@ -17,8 +18,10 @@ const App = ({ Component, pageProps }: AppProps) => {
 
     return (
         <GeistProvider>
-            <CssBaseline />
-            <Component {...pageProps} />
+            <SkeletonTheme baseColor="#ebebeb" highlightColor="#444">
+                <CssBaseline />
+                <Component {...pageProps} />
+            </SkeletonTheme>
         </GeistProvider>
     );
 };

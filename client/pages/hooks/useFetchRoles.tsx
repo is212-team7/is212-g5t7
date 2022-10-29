@@ -7,7 +7,7 @@ export interface RoleForTable extends Role {
 }
 
 interface useFetchRolesProp {
-    setRoles: Dispatch<SetStateAction<Role[] | undefined>>;
+    setRoles: Dispatch<SetStateAction<Role[] | null | undefined>>;
 }
 
 const useFetchRoles =
@@ -18,7 +18,11 @@ const useFetchRoles =
                 return response.json();
             })
             .then((result) => {
-                if (Array.isArray(result))
+                if (Array.isArray(result)) {
+                    if (result.length === 0) {
+                        setRoles(null);
+                        return;
+                    }
                     setRoles(
                         result.map((row) => ({
                             ...row,
@@ -27,6 +31,7 @@ const useFetchRoles =
                             update: '',
                         }))
                     );
+                }
             })
             .catch((e) => console.log(e));
 

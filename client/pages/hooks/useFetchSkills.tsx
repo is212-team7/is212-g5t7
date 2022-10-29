@@ -7,7 +7,7 @@ export interface SkillForTable extends Skill {
 }
 
 interface useFetchSkillsProp {
-    setSkills: Dispatch<SetStateAction<SkillForTable[] | undefined>>;
+    setSkills: Dispatch<SetStateAction<SkillForTable[] | null | undefined>>;
 }
 
 const useFetchSkills =
@@ -18,7 +18,11 @@ const useFetchSkills =
                 return response.json();
             })
             .then((result) => {
-                if (Array.isArray(result))
+                if (Array.isArray(result)) {
+                    if (result.length === 0) {
+                        setSkills(null);
+                        return;
+                    }
                     setSkills(
                         result.map((row) => ({
                             ...row,
@@ -27,6 +31,7 @@ const useFetchSkills =
                             update: '',
                         }))
                     );
+                }
             })
             .catch((e) => console.log(e));
 

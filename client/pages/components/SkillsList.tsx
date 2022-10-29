@@ -1,6 +1,7 @@
 import { Button, Note, Page, Spacer, Table, useModal } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Skill } from '../api/skills';
 import useCustomToast from '../hooks/useCustomToast';
 import useFetchSkills, { SkillForTable } from '../hooks/useFetchSkills';
@@ -8,7 +9,7 @@ import CreateSkillModal from './modal/CreateSkillModal';
 import UpdateSkillModal from './modal/UpdateSkillModal';
 
 const SkillsList: NextPage = () => {
-    const [skills, setSkills] = useState<SkillForTable[]>();
+    const [skills, setSkills] = useState<SkillForTable[] | null>();
     const fetchSkills = useFetchSkills({ setSkills });
     const {
         visible: isCreateModalVisible,
@@ -36,9 +37,11 @@ const SkillsList: NextPage = () => {
             <Spacer height={2} />
 
             {skills && <List skills={skills} fetchSkills={fetchSkills} />}
-            {skills == null && (
+            {skills === null && (
                 <Note type="warning">There are no skills in the database.</Note>
             )}
+            {skills === undefined && <Skeleton count={10} />}
+
             {isCreateModalVisible && (
                 <CreateSkillModal
                     setVisible={setCreateModalVisible}

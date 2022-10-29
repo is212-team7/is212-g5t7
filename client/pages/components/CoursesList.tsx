@@ -1,11 +1,12 @@
 import { Note, Page, Spacer, Table } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Course } from '../api/courses';
 import useFetchCourses from '../hooks/useFetchCourses';
 
 const CoursesList: NextPage = () => {
-    const [courses, setCourses] = useState<Course[]>();
+    const [courses, setCourses] = useState<Course[] | null>();
     const fetchCourses = useFetchCourses({ setCourses });
 
     useEffect(() => {
@@ -22,11 +23,12 @@ const CoursesList: NextPage = () => {
             <Spacer height={2} />
 
             {courses && <List courses={courses} />}
-            {courses == null && (
+            {courses === null && (
                 <Note type="warning">
                     There are no courses in the database.
                 </Note>
             )}
+            {courses === undefined && <Skeleton count={10} />}
         </Page.Content>
     );
 };

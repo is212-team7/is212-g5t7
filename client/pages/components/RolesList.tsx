@@ -1,6 +1,7 @@
 import { Button, Note, Page, Spacer, Table, useModal } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { Role } from '../api/roles';
 import useCustomToast from '../hooks/useCustomToast';
 import useFetchRoles, { RoleForTable } from '../hooks/useFetchRoles';
@@ -8,7 +9,7 @@ import CreateRoleModal from './modal/CreateRoleModal';
 import UpdateRoleModal from './modal/UpdateRoleModal';
 
 const RolesList: NextPage = () => {
-    const [roles, setRoles] = useState<Role[]>();
+    const [roles, setRoles] = useState<Role[] | null>();
     const fetchRoles = useFetchRoles({ setRoles });
     const {
         visible: isCreateModalVisible,
@@ -42,9 +43,11 @@ const RolesList: NextPage = () => {
             <Spacer height={2} />
 
             {roles && <List roles={roles} fetchRoles={fetchRoles} />}
-            {roles == null && (
+            {roles === null && (
                 <Note type="warning">There are no roles in the database.</Note>
             )}
+            {roles === undefined && <Skeleton count={10} />}
+
             {isCreateModalVisible && (
                 <CreateRoleModal
                     setVisible={setCreateModalVisible}
