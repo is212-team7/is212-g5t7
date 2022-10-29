@@ -9,7 +9,7 @@ export const sequelize = new Sequelize({
     database: config.databaseName,
     username: username,
     password: password,
-    host: process.env.AWS_RDS_HOST, // replace with Amazon RDS host
+    host: process.env.AWS_RDS_HOST,
     dialect: 'mysql',
     define: {
         freezeTableName: true,
