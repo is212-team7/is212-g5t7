@@ -1,4 +1,4 @@
-import { Course, LearningJourney, Role, Staff } from '@lib/models';
+import { Course, LearningJourney, Role, Skill, Staff } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -118,13 +118,47 @@ learningJourneys.get(
                     Staff_ID: req.params.Staff_ID,
                 },
                 include: [
+                    // role associated with learning journey
                     {
                         model: Role,
                         as: 'Role',
+                        attributes: {
+                            exclude: ['PathwayModel'],
+                        },
+                        include: [
+                            // all skills required by roles
+                            {
+                                model: Skill,
+                                as: 'Skill',
+                                attributes: [
+                                    'Skill_ID',
+                                    'Skill_Name',
+                                    'Skill_Category',
+                                    'Skill_Description',
+                                ],
+                            },
+                        ],
                     },
+                    // all courses in pathway chosen by user
                     {
                         model: Course,
                         as: 'Course',
+                        attributes: {
+                            exclude: ['Skill', 'PathwayModel'],
+                        },
+                        // skills that the course fulfil
+                        include: [
+                            {
+                                model: Skill,
+                                as: 'Skill',
+                                attributes: [
+                                    'Skill_ID',
+                                    'Skill_Name',
+                                    'Skill_Category',
+                                    'Skill_Description',
+                                ],
+                            },
+                        ],
                     },
                 ],
             });
@@ -136,36 +170,30 @@ learningJourneys.get(
     }
 );
 
-// // Delete Learning Journey
-// learningJourneys.delete(
-//     '/',
-//     celebrate({
-//         body: {
-//             Course_ID: Joi.string().required(),
-//             Staff_ID: Joi.number().required(),
-//             Role_ID: Joi.number().required,
-//         },
-//     }),
+// Delete Learning Journey
+learningJourneys.delete(
+    '/:LJ_ID',
+    celebrate({
+        params: {
+            LJ_ID: Joi.number().required(),
+        },
+    }),
 
-//     async (req, res) => {
-//         try {
-//             const selectedLearningJourney = await LearningJourney.findOne({
-//                 where: {
-//                     CourseID: req.params.Course_ID,
-//                     Staff_ID: req.body.Staff_ID,
-//                     Role_ID: req.body.Role_ID,
-//                 },
-//             });
-//             if (!selectedLearningJourney) {
-//                 return res
-//                     .status(404)
-//                     .json({ error: 'Learning Journey not found' });
-//             } else {
-//                 await selectedLearningJourney.destroy();
-//                 res.json({ message: 'Learning Journey deleted' });
-//             }
-//         } catch (error) {
-//             res.status(400).json(error.message);
-//         }
-//     }
-// );
+    async (req, res) => {
+        try {
+            const selectedLearningJourney = await LearningJourney.findByPk(
+                req.params.LJ_ID
+            );
+            if (!selectedLearningJourney) {
+                return res
+                    .status(404)
+                    .json({ error: 'Learning Journey not found' });
+            } else {
+                await selectedLearningJourney.destroy();
+                res.json({ message: 'Learning Journey deleted' });
+            }
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
