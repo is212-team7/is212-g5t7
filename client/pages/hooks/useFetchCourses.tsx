@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Course } from '../api/courses';
 
 interface useFetchCoursesProp {
-    setCourses: Dispatch<SetStateAction<Course[] | undefined>>;
+    setCourses: Dispatch<SetStateAction<Course[] | null | undefined>>;
 }
 
 const useFetchCourses =
@@ -13,7 +13,13 @@ const useFetchCourses =
                 return response.json();
             })
             .then((result) => {
-                if (Array.isArray(result)) setCourses(result);
+                if (Array.isArray(result)) {
+                    if (result.length === 0) {
+                        setCourses(null);
+                        return;
+                    }
+                    setCourses(result);
+                }
             })
             .catch((e) => console.log(e));
 

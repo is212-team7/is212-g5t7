@@ -29,34 +29,36 @@ const RoleModal = ({
             style={{ justifyContent: 'center' }}
         >
             <Modal.Title>{title}</Modal.Title>
-            <Modal.Content>
-                <Spacer h={0.5} />
-                <Input
-                    label="Role"
-                    placeholder="Role"
-                    value={currRole.name}
-                    width={23}
-                    onChange={(val) =>
-                        setCurrRole((curr) => ({
-                            ...curr,
-                            name: val.target.value,
-                        }))
-                    }
-                />
-                <Spacer h={0.5} />
-                <Input
-                    label="Description"
-                    placeholder="Description"
-                    value={currRole.description}
-                    width={23}
-                    onChange={(val) =>
-                        setCurrRole((curr) => ({
-                            ...curr,
-                            description: val.target.value,
-                        }))
-                    }
-                />
-            </Modal.Content>
+            {currRole && (
+                <Modal.Content>
+                    <Spacer h={0.5} />
+                    <Input
+                        label="Role"
+                        placeholder="Role"
+                        value={currRole.name}
+                        width={23}
+                        onChange={(val) =>
+                            setCurrRole((curr) => ({
+                                ...curr,
+                                name: val.target.value,
+                            }))
+                        }
+                    />
+                    <Spacer h={0.5} />
+                    <Input
+                        label="Description"
+                        placeholder="Description"
+                        value={currRole.description}
+                        width={23}
+                        onChange={(val) =>
+                            setCurrRole((curr) => ({
+                                ...curr,
+                                description: val.target.value,
+                            }))
+                        }
+                    />
+                </Modal.Content>
+            )}
             <Modal.Action passive onClick={() => setVisible(false)}>
                 Cancel
             </Modal.Action>
