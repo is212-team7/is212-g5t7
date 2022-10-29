@@ -29,46 +29,48 @@ const SkillModal = ({
             style={{ justifyContent: 'center' }}
         >
             <Modal.Title>{title}</Modal.Title>
-            <Modal.Content>
-                <Input
-                    label="Category"
-                    placeholder="Category"
-                    value={currSkill.category}
-                    width={23}
-                    onChange={(val) =>
-                        setCurrSkill((curr) => ({
-                            ...curr,
-                            category: val.target.value,
-                        }))
-                    }
-                />
-                <Spacer h={0.5} />
-                <Input
-                    label="Skill"
-                    placeholder="Skill"
-                    value={currSkill.name}
-                    width={23}
-                    onChange={(val) =>
-                        setCurrSkill((curr) => ({
-                            ...curr,
-                            name: val.target.value,
-                        }))
-                    }
-                />
-                <Spacer h={0.5} />
-                <Input
-                    label="Description"
-                    placeholder="Description"
-                    value={currSkill.description}
-                    width={23}
-                    onChange={(val) =>
-                        setCurrSkill((curr) => ({
-                            ...curr,
-                            description: val.target.value,
-                        }))
-                    }
-                />
-            </Modal.Content>
+            {currSkill && (
+                <Modal.Content>
+                    <Input
+                        label="Category"
+                        placeholder="Category"
+                        value={currSkill.category}
+                        width={23}
+                        onChange={(val) =>
+                            setCurrSkill((curr) => ({
+                                ...curr,
+                                category: val.target.value,
+                            }))
+                        }
+                    />
+                    <Spacer h={0.5} />
+                    <Input
+                        label="Skill"
+                        placeholder="Skill"
+                        value={currSkill.name}
+                        width={23}
+                        onChange={(val) =>
+                            setCurrSkill((curr) => ({
+                                ...curr,
+                                name: val.target.value,
+                            }))
+                        }
+                    />
+                    <Spacer h={0.5} />
+                    <Input
+                        label="Description"
+                        placeholder="Description"
+                        value={currSkill.description}
+                        width={23}
+                        onChange={(val) =>
+                            setCurrSkill((curr) => ({
+                                ...curr,
+                                description: val.target.value,
+                            }))
+                        }
+                    />
+                </Modal.Content>
+            )}
             <Modal.Action passive onClick={() => setVisible(false)}>
                 Cancel
             </Modal.Action>
