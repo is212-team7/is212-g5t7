@@ -6,26 +6,26 @@ import {
     Model,
 } from 'sequelize';
 import { sequelize } from '../../database';
-import { Role } from './Role';
+import { Course } from './Course';
 import { Skill } from './Skill';
 
-export class RoleSkillModel extends Model<
-    InferAttributes<RoleSkillModel>,
-    InferCreationAttributes<RoleSkillModel>
+export class CourseSkillModel extends Model<
+    InferAttributes<CourseSkillModel>,
+    InferCreationAttributes<CourseSkillModel>
 > {
-    declare Role_ID: number;
+    declare Course_ID: number;
     declare Skill_ID: number;
     declare createdAt: CreationOptional<Date>;
     declare updatedAt: CreationOptional<Date>;
 }
 
-export const RoleSkill = RoleSkillModel.init(
+export const CourseSkill = CourseSkillModel.init(
     {
-        Role_ID: {
+        Course_ID: {
             type: DataTypes.INTEGER,
             references: {
-                model: Role,
-                key: 'Role_ID',
+                model: Course,
+                key: 'Course_ID',
             },
         },
         Skill_ID: {
@@ -39,20 +39,20 @@ export const RoleSkill = RoleSkillModel.init(
         updatedAt: DataTypes.DATE,
     },
     {
-        tableName: 'RoleSkill',
+        tableName: 'CourseSkill',
         sequelize,
     }
 );
 
 // Associations
-Role.belongsToMany(Skill, {
-    through: RoleSkill,
+Course.belongsToMany(Skill, {
+    through: CourseSkill,
     as: 'Skill',
-    foreignKey: 'Role_ID',
+    foreignKey: 'Course_ID',
 });
 
-Skill.belongsToMany(Role, {
-    through: RoleSkill,
-    as: 'Role',
+Skill.belongsToMany(Course, {
+    through: CourseSkill,
+    as: 'Course',
     foreignKey: 'Skill_ID',
 });
