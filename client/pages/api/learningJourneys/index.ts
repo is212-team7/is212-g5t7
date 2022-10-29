@@ -56,7 +56,6 @@ export default function handler(
 
         case 'POST':
             const learningJourneyToCreate: LearningJourneyPost = req.body;
-            console.log({ learningJourneyToCreate });
             const body: LearningJourneyAPI = {
                 Staff_ID: learningJourneyToCreate.staffId,
                 Role_ID: learningJourneyToCreate.roleId,
