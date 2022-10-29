@@ -198,3 +198,35 @@ skills.post(
         }
     }
 );
+
+// delete skill-role association
+skills.delete(
+    '/:Skill_ID/role/:Role_ID',
+    celebrate({
+        params: {
+            Role_ID: Joi.number().required(),
+            Skill_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            // check if role exists
+            const role: any = await Role.findByPk(req.params.Role_ID);
+            if (role == null) {
+                return res.status(404).json({ error: 'Role not found' });
+            }
+
+            // check if skill exists
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+            if (skill == null) {
+                return res.status(404).json({ error: 'Skill not found' });
+            }
+
+            // remove association
+            await skill.removeRole(role);
+            res.json('role successfully removed from skill');
+        } catch (err) {
+            res.status(400).json(err.message);
+        }
+    }
+);

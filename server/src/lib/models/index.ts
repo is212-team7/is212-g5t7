@@ -7,10 +7,6 @@ import { CourseSkill } from './CourseSkill';
 import { LearningJourney } from './LearningJourney';
 import { Pathway } from './Pathway';
 
-// console.log(LearningJourney.prototype)
-// console.log(Role.prototype)
-// console.log(Pathway.prototype)
-
 export {
     Role,
     Skill,
