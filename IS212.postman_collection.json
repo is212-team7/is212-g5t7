@@ -1,0 +1,417 @@
+{
+    "info": {
+        "_postman_id": "9561c8f4-8960-46c7-baf3-e2056d5a854a",
+        "name": "IS212",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "roles",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"Project Manager\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/roles",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["roles"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "view 1 course details",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"Project Manager\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/courses/COR001",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["courses", "COR001"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "view 1 staff by staffid",
+            "protocolProfileBehavior": {
+                "disableBodyPruning": true
+            },
+            "request": {
+                "method": "GET",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"name\": \"Project Manager\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/staffs/130001",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["staffs", "130001"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create roles",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"Role_Name\": \"Project Manager\",\r\n    \"Role_Description\": \"manage projects\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/roles",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["roles"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create learning journey",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"Role_ID\": 1,\r\n    \"Staff_ID\": 140004\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/learningJourneys",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["learningJourneys"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "staff login with email only",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"Email\": \"Janice.Chan@allinone.com.sg\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/staffs/login",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["staffs", "login"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "skills",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/skills",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get skills by roleid",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/skills/role/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills", "role", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get one skill",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/skills/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get one role",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/roles/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["roles", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get learning journeys by staff",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/learningJourneys/140004",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["learningJourneys", "140004"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete 1 skill",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/skills/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete skill-role association",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/skills/1/role/2",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills", "1", "role", "2"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete learning journey",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/learningJourneys/5",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["learningJourneys", "5"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete 1 role",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/roles/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["roles", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "create skills",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"Skill_Name\": \"App Development\",\r\n    \"Skill_Category\": \"technology\",\r\n    \"Skill_Description\": \"knowledge of developing applications\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/skills",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "add course(s) to learning journey",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"course_ids\": [\"COR006\", \"FIN001\"]\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/learningJourneys/5/courses",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["learningJourneys", "5", "courses"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "assign skill to role",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/skills/1/role/2",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills", "1", "role", "2"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "update skill",
+            "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"Skill_Name\": \"Product Knowledge\",\r\n    \"Skill_Category\": \"Sales\",\r\n    \"Skill_Description\": \"some knoledge about products\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/skills/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["skills", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "update role",
+            "request": {
+                "method": "PUT",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\r\n    \"Role_Name\": \"Project Manager\",\r\n    \"Role_Description\": \"Manage Projects\"\r\n}",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/roles/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["roles", "1"]
+                }
+            },
+            "response": []
+        }
+    ]
+}
