@@ -9,7 +9,7 @@ import { Pathway } from './Pathway';
 
 // console.log(LearningJourney.prototype)
 // console.log(Role.prototype)
-// console.log(Staff.prototype)
+// console.log(Pathway.prototype)
 
 export {
     Role,

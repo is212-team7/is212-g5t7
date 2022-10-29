@@ -1,4 +1,4 @@
-import { LearningJourney, Role, Staff } from '@lib/models';
+import { Course, LearningJourney, Role, Staff } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -58,6 +58,46 @@ learningJourneys.post(
     }
 );
 
+// Add courses to learning journey
+learningJourneys.post(
+    '/:LJ_ID/courses',
+    celebrate({
+        params: {
+            LJ_ID: Joi.number().required(),
+        },
+        body: {
+            course_ids: Joi.array().items(Joi.string()).required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const learningJourney = await LearningJourney.findByPk(
+                req.params.LJ_ID
+            );
+            if (!learningJourney) {
+                throw new Error('Learning Journey not found');
+            }
+
+            for (let i = 0; i < req.body.course_ids.length; i++) {
+                await learningJourney.addCourse(req.body.course_ids[i]);
+            }
+
+            const result = await LearningJourney.findByPk(req.params.LJ_ID, {
+                include: [
+                    {
+                        model: Course,
+                        as: 'Course',
+                    },
+                ],
+            });
+
+            res.json(result);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
 // Get Learning Journey for staff
 learningJourneys.get(
     '/:Staff_ID',
@@ -81,6 +121,10 @@ learningJourneys.get(
                     {
                         model: Role,
                         as: 'Role',
+                    },
+                    {
+                        model: Course,
+                        as: 'Course',
                     },
                 ],
             });
