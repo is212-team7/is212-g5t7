@@ -1,4 +1,4 @@
-import { RoleSkill, Skill } from '@lib/models';
+import { Role, Skill } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -19,7 +19,7 @@ skills.post(
             const Skill_Name = req.body.Skill_Name.trim();
             const Skill_Category = req.body.Skill_Category.trim();
 
-            let Skill_Description = null;
+            let Skill_Description = '';
             if (req.body.Skill_Description) {
                 Skill_Description = req.body.Skill_Description.trim();
             }
@@ -101,15 +101,15 @@ skills.put(
                     Skill_Name: req.body.Skill_Name,
                     Skill_Category:
                         req.body.Skill_Category ??
-                        skill.get('Skill_Category') ??
+                        skill.Skill_Category ??
                         undefined,
                     Skill_Description:
                         req.body.Skill_Description ??
-                        skill.get('Skill_Description') ??
+                        skill.Skill_Description ??
                         undefined,
                     Skill_Deleted:
                         req.body.Skill_Deleted ??
-                        skill.get('Skill_Deleted') ??
+                        skill.Skill_Deleted ??
                         undefined,
                 });
 
@@ -152,21 +152,47 @@ skills.get(
     celebrate({ params: { Role_ID: Joi.number().required() } }),
     async (req, res) => {
         try {
-            const skill_ids = await RoleSkill.findAll({
-                where: { Role_ID: req.params.Role_ID },
-                attributes: ['Skill_ID'],
-            });
-            if (!skill_ids) {
+            const role = await Role.findByPk(req.params.Role_ID);
+
+            if (role == null) {
                 return res.status(404).json({ error: 'Role not found' });
-            } else {
-                let result: any[] = [];
-                for (let i = 0; i < skill_ids.length; i++) {
-                    let skill_id = skill_ids[i]['Skill_ID'];
-                    let skill = await Skill.findByPk(skill_id);
-                    result.push(skill);
-                }
-                res.json(result);
             }
+
+            const skills = await role.getSkill();
+            res.json(skills);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
+// Assign skills to role
+skills.post(
+    '/:Skill_ID/role/:Role_ID',
+    celebrate({
+        params: {
+            Role_ID: Joi.number().required(),
+            Skill_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            // check if role exists
+            const role: any = await Role.findByPk(req.params.Role_ID);
+            if (role == null) {
+                return res.status(404).json({ error: 'Role not found' });
+            }
+
+            // check if skill exists
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+            if (skill == null) {
+                return res.status(404).json({ error: 'Skill not found' });
+            }
+
+            // assign skill to role
+            await skill.addRole(role);
+
+            return res.json('Sucessfully added role to skill');
         } catch (error) {
             res.status(400).json(error.message);
         }

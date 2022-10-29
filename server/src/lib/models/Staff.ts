@@ -1,23 +1,23 @@
 import {
+    Association,
     DataTypes,
+    HasManyAddAssociationMixin,
+    HasManyCountAssociationsMixin,
+    HasManyCreateAssociationMixin,
+    HasManyGetAssociationsMixin,
+    HasManyHasAssociationMixin,
+    HasManyRemoveAssociationMixin,
+    HasManySetAssociationsMixin,
     InferAttributes,
     InferCreationAttributes,
     Model,
+    NonAttribute,
 } from 'sequelize';
 import { sequelize } from '../../database';
+import { LearningJourneyModel } from './LearningJourney';
+import { RoleModel } from './Role';
 
-// export interface StaffAttributes {
-//     Staff_ID: number;
-//     Staff_FName?: string;
-//     Staff_LName?: string;
-//     Dept?: string;
-//     Email?: string;
-//     System_Role_ID?: number;
-// }
-
-// type StaffCreationAttributes = Optional<StaffAttributes, 'Staff_ID'>;
-
-class StaffModel extends Model<
+export class StaffModel extends Model<
     InferAttributes<StaffModel>,
     InferCreationAttributes<StaffModel>
 > {
@@ -27,6 +27,34 @@ class StaffModel extends Model<
     declare Dept?: string;
     declare Email?: string;
     declare System_Role_ID: number;
+
+    // associations
+    declare roles?: NonAttribute<RoleModel[]>;
+
+    declare static associations: {
+        roles: Association<StaffModel, RoleModel>;
+    };
+
+    // methods
+    declare addLearningJourney: HasManyAddAssociationMixin<
+        LearningJourneyModel,
+        number
+    >;
+    declare countLearningJourney: HasManyCountAssociationsMixin;
+    declare hasLearningJourney: HasManyHasAssociationMixin<
+        LearningJourneyModel,
+        number
+    >;
+    declare setLearningJourney: HasManySetAssociationsMixin<
+        LearningJourneyModel,
+        number
+    >;
+    declare getLearningJourney: HasManyGetAssociationsMixin<LearningJourneyModel>;
+    declare removeLearningJourney: HasManyRemoveAssociationMixin<
+        LearningJourneyModel,
+        number
+    >;
+    declare createLearningJourney: HasManyCreateAssociationMixin<LearningJourneyModel>;
 }
 
 export const Staff = StaffModel.init(
@@ -58,35 +86,3 @@ export const Staff = StaffModel.init(
     },
     { sequelize, tableName: 'staff', timestamps: false }
 );
-
-// export const Staff: ModelDefined<StaffAttributes, StaffCreationAttributes> =
-//      sequelize.define('staff', {
-//         Staff_ID: {
-//             type: DataTypes.INTEGER,
-//             primaryKey: true,
-//             allowNull: false,
-//         },
-//         Staff_FName: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         Staff_LName: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         Dept: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         Email: {
-//             type: DataTypes.STRING,
-//             allowNull: false,
-//         },
-//         System_Role_ID: {
-//             type: DataTypes.INTEGER,
-//         },
-//     },
-//     {
-//         timestamps: false,
-//     }
-// );

@@ -46,26 +46,26 @@ roles.get('/', async (req, res, next) => {
 
 // Get 1 role by role ID
 roles.get(
-    '/:Role_ID', 
+    '/:Role_ID',
     celebrate({
         params: {
             Role_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const role = await Role.findByPk(req.params.Role_ID);
+
+            if (role === null) {
+                return Error('Role not found');
+            }
+
+            res.json(role);
+        } catch (error) {
+            res.status(400).json(error.message);
         }
-    }), async (req, res) => {
-    try {
-        const role = await Role.findByPk(req.params.Role_ID);
-
-        if (role === null) {
-            return Error('Role not found');
-        }
-
-        res.json(role);
-
-    } catch (error) {
-        res.status(400).json(error.message);
     }
-});
-
+);
 
 // Update role by role id
 roles.put(
@@ -86,11 +86,11 @@ roles.put(
             const role = await Role.findByPk(Role_ID);
 
             const Role_Name =
-                req.body.Role_Name.trim() ?? role?.get('Role_Name') ?? '';
+                req.body.Role_Name.trim() ?? role?.Role_Name ?? '';
             const Role_Description = (
                 req.body.Role_Description ??
                 '' ??
-                role?.get('Role_Description')
+                role?.Role_Description
             ).trim();
 
             if (!role) {
@@ -126,9 +126,7 @@ roles.delete(
             if (!role) {
                 return res.status(404).json({ error: 'Role not found' });
             } else {
-                await role.update(
-                    { Role_Deleted: true },
-                );                
+                await role.update({ Role_Deleted: true });
                 res.json({ message: 'Role deleted' });
             }
         } catch (error) {

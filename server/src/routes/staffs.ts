@@ -93,3 +93,6 @@ staffs.get('/', async (req, res) => {
         res.status(400).json(error.message);
     }
 });
+
+// TODO: view staff skills
+// refer to routes/skills => get skills by role
