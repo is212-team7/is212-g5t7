@@ -7,6 +7,7 @@ export type CourseAPI = {
     Course_Status: string;
     Course_Type: string;
     Course_Category: string;
+    Course_Deleted: boolean;
 };
 
 export type Course = {
@@ -16,6 +17,7 @@ export type Course = {
     status: string;
     type: string;
     category: string;
+    deleted: boolean;
 };
 
 export default function handler(
@@ -37,6 +39,7 @@ export default function handler(
                             status: row.Course_Status,
                             type: row.Course_Type,
                             category: row.Course_Category,
+                            deleted: row.Course_Deleted,
                         };
                     });
                     res.status(200).json(parsed);

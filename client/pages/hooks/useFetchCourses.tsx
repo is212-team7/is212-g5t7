@@ -1,8 +1,12 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Course } from '../api/courses';
 
+export interface CourseForTable extends Course {
+    delete: string;
+}
+
 interface useFetchCoursesProp {
-    setCourses: Dispatch<SetStateAction<Course[] | null | undefined>>;
+    setCourses: Dispatch<SetStateAction<CourseForTable[] | null | undefined>>;
 }
 
 const useFetchCourses =
@@ -18,7 +22,13 @@ const useFetchCourses =
                         setCourses(null);
                         return;
                     }
-                    setCourses(result);
+                    setCourses(
+                        result.map((row) => ({
+                            ...row,
+                            deleted: String(row.deleted),
+                            delete: '',
+                        }))
+                    );
                 }
             })
             .catch((e) => console.log(e));
