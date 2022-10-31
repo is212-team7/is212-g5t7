@@ -1,4 +1,4 @@
-import { LearningJourney, LearningJourneyServerResponseAPI } from '../';
+import { LearningJourney, LearningJourneyServerResponseAPI } from '..';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -8,10 +8,7 @@ export default function handler(
 ) {
     const { learningJourneyId } = req.query;
     const BASE_URL =
-        process.env.API_URL +
-        '/learningJourneys/' +
-        learningJourneyId +
-        '/courses';
+        process.env.API_URL + '/learningJourneys/courses/' + learningJourneyId;
 
     switch (req.method) {
         case 'POST':
