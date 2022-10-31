@@ -48,8 +48,7 @@ courses.get(
 // TODO: assign course to skill
 // refer to routes/skills => assign skills to role
 
-// TODO: delete course-skill assignment
-// refer to routes/skills delete skills-roles assignment
+// delete course-skill assignment
 courses.delete(
     '/:courseId/skill/:Skill_ID',
     celebrate({
