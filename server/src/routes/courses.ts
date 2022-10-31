@@ -73,7 +73,7 @@ courses.delete(
             }
 
             // remove association
-            await skill.removeRole(course);
+            await course.removeCourse(course);
             res.json('course successfully removed from skill');
         } catch (err) {
             res.status(400).json(err.message);
