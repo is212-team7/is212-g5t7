@@ -11,7 +11,6 @@ const useFetchCoursesBySkill =
     () =>
         fetch('/api/courses/skill/' + skillId, { method: 'GET' })
             .then((response) => {
-                console.log({ response });
                 return response.json();
             })
             .then((result: Course[]) => {
