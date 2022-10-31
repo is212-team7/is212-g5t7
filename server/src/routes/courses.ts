@@ -45,9 +45,7 @@ courses.get(
 // TODO: view all courses that can be fulfilled by a skill
 // refer to routes/skills => get skills by role
 
-// TODO: assign course to skill
-// refer to routes/skills => assign skills to role
-
+// assign course to skill
 courses.post(
     '/:courseId/skill/:Skill_ID',
     celebrate({
