@@ -11,6 +11,7 @@ import {
     Text,
     useModal,
 } from '@geist-ui/core';
+import { Search } from '@geist-ui/icons';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
@@ -112,7 +113,6 @@ const SkillCard = ({
         if (coursesBySkill == null) return;
 
         if (selectedCourseIds.length === 0) {
-            console.log('LENGTH OF 0');
             setSelectedCoursesBySkill((curr) => {
                 curr.delete(skill);
                 return curr;
@@ -127,6 +127,14 @@ const SkillCard = ({
             });
             if (course != null) selectedCourses.push(course);
         });
+
+        if (
+            selectedCoursesBySkill.has(skill) &&
+            JSON.stringify(selectedCoursesBySkill) ===
+                JSON.stringify(selectedCourses)
+        )
+            return;
+
         setSelectedCoursesBySkill((curr) => curr.set(skill, selectedCourses));
     };
 
@@ -148,11 +156,16 @@ const SkillCard = ({
                         scale={2.3}
                         onChange={(e) => {
                             setIsChecked(e.target.checked);
-                            if (
-                                e.target.checked === true &&
-                                coursesBySkill === undefined
-                            ) {
-                                fetchCoursesBySkill();
+                            if (e.target.checked === true) {
+                                if (coursesBySkill === undefined)
+                                    fetchCoursesBySkill();
+                            } else {
+                                setSelectedCoursesBySkill(
+                                    (selectedCoursesBySkill) => {
+                                        selectedCoursesBySkill.delete(skill);
+                                        return selectedCoursesBySkill;
+                                    }
+                                );
                             }
                         }}
                     />
@@ -198,13 +211,21 @@ const CourseCheckbox = ({ course }: CourseCheckboxProps) => {
     };
 
     return (
-        <div style={{ marginBottom: '5px' }}>
+        <div style={{ marginBottom: '8px' }}>
             <Checkbox type="default" key={course.id} value={course.id}>
-                <Text>
-                    <Link href="#" color underline onClick={openModal}>
-                        {course.name}
+                <div style={{ display: 'flex' }}>
+                    <Text style={{ margin: '2px' }}>{course.name}</Text>
+                    <Spacer width={0.3} />
+                    <Link
+                        href="#"
+                        color
+                        underline
+                        onClick={openModal}
+                        style={{ position: 'relative', top: '3px' }}
+                    >
+                        <Search size={22} />
                     </Link>
-                </Text>
+                </div>
             </Checkbox>
 
             <Modal {...bindings}>

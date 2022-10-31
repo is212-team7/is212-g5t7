@@ -44,7 +44,7 @@ courses.get(
 
 // view all courses that can be fulfilled by a skill
 courses.get(
-    '/Skill/:Skill_ID',
+    '/skill/:Skill_ID',
     celebrate({ params: { Skill_ID: Joi.number().required() } }),
     async (req, res) => {
         try {
@@ -54,12 +54,20 @@ courses.get(
                 return res.status(404).json({ error: 'Skill not found' });
             }
 
+            const Courses = await skill.getCourse();
+            res.json(Courses);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
 // assign course to skill
 courses.post(
-    '/:courseId/skill/:Skill_ID',
+    '/:Course_ID/skill/:Skill_ID',
     celebrate({
         params: {
-            courseId: Joi.number().required(),
+            Course_ID: Joi.number().required(),
             Skill_ID: Joi.number().required(),
         },
     }),
@@ -70,7 +78,7 @@ courses.post(
             if (skill == null) {
                 return res.status(404).json({ error: 'Skill not found' });
             }
-            
+
             // check if course exists
             const course: any = await Course.findByPk(req.params.courseId);
             if (course == null) {
@@ -81,21 +89,19 @@ courses.post(
             await skill.addCourse(course);
 
             return res.json('Sucessfully added course to skill');
-
         } catch (error) {
             res.status(400).json(error.message);
         }
     }
 );
 
-
 // delete course-skill assignment
 courses.delete(
-    '/:courseId/skill/:Skill_ID',
+    '/:Course_ID/skill/:Skill_ID',
     celebrate({
         params: {
             Skill_ID: Joi.number().required(),
-            courseId: Joi.number().required(),
+            Course_ID: Joi.number().required(),
         },
     }),
     async (req, res) => {

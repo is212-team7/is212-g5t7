@@ -1,8 +1,9 @@
 import { Button, Drawer, Note, Spacer } from '@geist-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { LearningJourneyPost } from '../api/learningJourneys';
+import { LearningJourneyClientRequestAPI } from '../api/learningJourneys';
 import { CoursesBySkill } from '../enroll/[roleId]';
+import useCustomToast from '../hooks/useCustomToast';
 import useSessionStorage from '../hooks/useSessionStorage';
 
 interface EnrollDrawerProps {
@@ -15,27 +16,37 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
     const staff = useSessionStorage();
     const [state, setState] = useState(false);
     const areCoursesSelected =
-        selectedCoursesBySkill && selectedCoursesBySkill.size > 0;
+        (selectedCoursesBySkill && selectedCoursesBySkill.size > 0) === true;
+    const enrollSuccessToast = useCustomToast({
+        message: 'Enrolled successfully into courses',
+        type: 'success',
+    });
+    const enrollErrorToast = useCustomToast({
+        message: 'Did not successfully enroll into courses',
+        type: 'error',
+    });
 
     const enroll = () => {
         if (staff == null) return;
         const staffId = staff.id;
         if (staffId == null || selectedCoursesBySkill == null) return;
 
+        // 🔨
         Array.from(selectedCoursesBySkill).forEach(
             ([skill, coursesBySkill]) => {
                 coursesBySkill.forEach((course) => {
-                    const body: LearningJourneyPost = {
+                    const body: LearningJourneyClientRequestAPI = {
                         staffId: staffId,
                         roleId: Number(roleId),
-                        courseId: course.id,
                     };
 
                     fetch('/api/learningJourneys', {
                         method: 'POST',
                         body: JSON.stringify(body),
                         headers: { 'Content-Type': 'application/json' },
-                    }).then((result) => console.log(result));
+                    })
+                        .then(enrollSuccessToast)
+                        .catch(enrollErrorToast);
                 });
             }
         );
@@ -69,6 +80,7 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
 
                 <Drawer.Content>
                     {areCoursesSelected &&
+                        selectedCoursesBySkill &&
                         Array.from(selectedCoursesBySkill).map(
                             ([skill, selectedCourses]) => (
                                 <>
