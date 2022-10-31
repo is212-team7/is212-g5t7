@@ -1,7 +1,7 @@
 import { Button, Drawer, Note, Spacer } from '@geist-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { LearningJourneyPost } from '../api/learningJourneys';
+import { LearningJourneyClientRequestAPI } from '../api/learningJourneys';
 import { CoursesBySkill } from '../enroll/[roleId]';
 import useCustomToast from '../hooks/useCustomToast';
 import useSessionStorage from '../hooks/useSessionStorage';
@@ -31,13 +31,13 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
         const staffId = staff.id;
         if (staffId == null || selectedCoursesBySkill == null) return;
 
+        // 🔨
         Array.from(selectedCoursesBySkill).forEach(
             ([skill, coursesBySkill]) => {
                 coursesBySkill.forEach((course) => {
-                    const body: LearningJourneyPost = {
+                    const body: LearningJourneyClientRequestAPI = {
                         staffId: staffId,
                         roleId: Number(roleId),
-                        courseId: course.id,
                     };
 
                     fetch('/api/learningJourneys', {

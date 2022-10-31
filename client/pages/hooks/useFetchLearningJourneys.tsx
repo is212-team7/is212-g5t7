@@ -1,10 +1,10 @@
 import { Dispatch, SetStateAction } from 'react';
-import { LearningJourneyData } from '../api/learningJourneys';
+import { LearningJourney } from '../api/learningJourneys';
 import useSessionStorage from './useSessionStorage';
 
 interface useFetchLearningJourneyssProp {
     setLearningJourneys: Dispatch<
-        SetStateAction<LearningJourneyData[] | null | undefined>
+        SetStateAction<LearningJourney[] | null | undefined>
     >;
 }
 
@@ -19,7 +19,7 @@ const useFetchLearningJourneys = ({
     return () => {
         fetch('/api/learningJourneys/' + staff.id, { method: 'GET' })
             .then((response) => response.json())
-            .then((result: LearningJourneyData[]) => {
+            .then((result: LearningJourney[]) => {
                 if (Array.isArray(result)) {
                     if (result.length === 0) {
                         setLearningJourneys(null);
