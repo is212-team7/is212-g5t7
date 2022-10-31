@@ -69,7 +69,7 @@ courses.delete(
             // check if course exists
             const course: any = await Course.findByPk(req.params.courseId);
             if (course == null) {
-                return res.status(404).json({ error: 'Role not found' });
+                return res.status(404).json({ error: 'Course not found' });
             }
 
             // remove association
