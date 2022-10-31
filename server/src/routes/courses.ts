@@ -42,8 +42,17 @@ courses.get(
     }
 );
 
-// TODO: view all courses that can be fulfilled by a skill
-// refer to routes/skills => get skills by role
+// view all courses that can be fulfilled by a skill
+courses.get(
+    '/Skill/:Skill_ID',
+    celebrate({ params: { Skill_ID: Joi.number().required() } }),
+    async (req, res) => {
+        try {
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+
+            if (skill == null) {
+                return res.status(404).json({ error: 'Skill not found' });
+            }
 
 // assign course to skill
 courses.post(
@@ -72,11 +81,13 @@ courses.post(
             await skill.addCourse(course);
 
             return res.json('Sucessfully added course to skill');
+
         } catch (error) {
             res.status(400).json(error.message);
         }
     }
 );
+
 
 // TODO: delete course-skill assignment
 // refer to routes/skills delete skills-roles assignment
