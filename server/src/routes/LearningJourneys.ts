@@ -197,3 +197,6 @@ learningJourneys.delete(
         }
     }
 );
+
+// TODO: delete course from learning journey
+// refer to routes/skills delete skills-roles assignment
