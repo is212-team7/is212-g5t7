@@ -54,15 +54,40 @@ courses.get(
                 return res.status(404).json({ error: 'Skill not found' });
             }
 
-            const Courses = await skill.getCourse();
-            res.json(Courses);
+// assign course to skill
+courses.post(
+    '/:courseId/skill/:Skill_ID',
+    celebrate({
+        params: {
+            courseId: Joi.number().required(),
+            Skill_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            // check if skill exists
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+            if (skill == null) {
+                return res.status(404).json({ error: 'Skill not found' });
+            }
+            
+            // check if course exists
+            const course: any = await Course.findByPk(req.params.courseId);
+            if (course == null) {
+                return res.status(404).json({ error: 'Course not found' });
+            }
+
+            // assign course to role
+            await skill.addCourse(course);
+
+            return res.json('Sucessfully added course to skill');
+
         } catch (error) {
             res.status(400).json(error.message);
         }
     }
 );
-// TODO: assign course to skill
-// refer to routes/skills => assign skills to role
+
 
 // TODO: delete course-skill assignment
 // refer to routes/skills delete skills-roles assignment
