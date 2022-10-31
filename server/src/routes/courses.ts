@@ -1,4 +1,4 @@
-import { Course } from '@lib/models';
+import { Course, Skill } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -50,3 +50,33 @@ courses.get(
 
 // TODO: delete course-skill assignment
 // refer to routes/skills delete skills-roles assignment
+courses.delete(
+    '/:courseId/skill/:Skill_ID',
+    celebrate({
+        params: {
+            Skill_ID: Joi.number().required(),
+            courseId: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            // check if skill exists
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+            if (skill == null) {
+                return res.status(404).json({ error: 'Skill not found' });
+            }
+
+            // check if course exists
+            const course: any = await Course.findByPk(req.params.courseId);
+            if (course == null) {
+                return res.status(404).json({ error: 'Role not found' });
+            }
+
+            // remove association
+            await skill.removeRole(course);
+            res.json('course successfully removed from skill');
+        } catch (err) {
+            res.status(400).json(err.message);
+        }
+    }
+);
