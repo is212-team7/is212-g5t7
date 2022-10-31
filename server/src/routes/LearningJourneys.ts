@@ -171,32 +171,33 @@ learningJourneys.get(
 );
 
 // Delete Learning Journey
-learningJourneys.delete(
-    '/:LJ_ID',
-    celebrate({
-        params: {
-            LJ_ID: Joi.number().required(),
-        },
-    }),
+// TODO: See if we can use another endpoint as this conflicts with GET '/:Staff_ID'
+// learningJourneys.delete(
+//     '/:LJ_ID',
+//     celebrate({
+//         params: {
+//             LJ_ID: Joi.number().required(),
+//         },
+//     }),
 
-    async (req, res) => {
-        try {
-            const selectedLearningJourney = await LearningJourney.findByPk(
-                req.params.LJ_ID
-            );
-            if (!selectedLearningJourney) {
-                return res
-                    .status(404)
-                    .json({ error: 'Learning Journey not found' });
-            } else {
-                await selectedLearningJourney.destroy();
-                res.json({ message: 'Learning Journey deleted' });
-            }
-        } catch (error) {
-            res.status(400).json(error.message);
-        }
-    }
-);
+//     async (req, res) => {
+//         try {
+//             const selectedLearningJourney = await LearningJourney.findByPk(
+//                 req.params.LJ_ID
+//             );
+//             if (!selectedLearningJourney) {
+//                 return res
+//                     .status(404)
+//                     .json({ error: 'Learning Journey not found' });
+//             } else {
+//                 await selectedLearningJourney.destroy();
+//                 res.json({ message: 'Learning Journey deleted' });
+//             }
+//         } catch (error) {
+//             res.status(400).json(error.message);
+//         }
+//     }
+// );
 
 // delete course from learning journey
 learningJourneys.delete(
