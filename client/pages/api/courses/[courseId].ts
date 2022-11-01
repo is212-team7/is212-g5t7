@@ -12,7 +12,6 @@ export default function handler(
             fetch(process.env.API_URL + '/courses/' + courseId)
                 .then((response) => response.json())
                 .then((result: CourseAPI) => {
-                    console.log({ result });
                     res.status(200).json({
                         id: result.Course_ID,
                         name: result.Course_Name,
