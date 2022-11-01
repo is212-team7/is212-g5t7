@@ -11,13 +11,13 @@ import {
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Course } from './api/courses';
-import { LearningJourneyData } from './api/learningJourneys';
+import { LearningJourney } from './api/learningJourneys';
 import PageWithNavBar from './components/PageWithNavBar';
 import useFetchLearningJourneys from './hooks/useFetchLearningJourneys';
 
 const LearningJourneyPage = () => {
     const [learningJourneys, setLearningJourneys] = useState<
-        LearningJourneyData[] | null
+        LearningJourney[] | null
     >();
     const fetchLearningJourneys = useFetchLearningJourneys({
         setLearningJourneys,
@@ -54,7 +54,7 @@ const LearningJourneyPage = () => {
 // Sub-components
 
 interface LearningJourneyCardProps {
-    learningJourney: LearningJourneyData;
+    learningJourney: LearningJourney;
 }
 
 const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
@@ -68,14 +68,15 @@ const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
                 </Card.Content>
                 <Divider h="1px" my={0} />
                 <Card.Content>
-                    {learningJourney.coursesBySkill.map((courseBySkill) => {
+                    {learningJourney.course.map((courseBySkill) => {
                         return (
                             <>
-                                <Text b h5>
+                                {/*  */}
+                                {/* <Text b h5>
                                     {courseBySkill.skill.name}
                                 </Text>
                                 <ol>
-                                    {courseBySkill.courses.map((course) => {
+                                    {courseBySkill.courses.map((cours🔨e) => {
                                         return (
                                             <LearningJourneyCourse
                                                 key={course.id}
@@ -84,7 +85,7 @@ const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
                                         );
                                     })}
                                 </ol>
-                                <Spacer height={1} />
+                                <Spacer height={1} /> */}
                             </>
                         );
                     })}
