@@ -95,4 +95,35 @@ staffs.get('/', async (req, res) => {
 });
 
 // TODO: view staff skills
-// refer to routes/skills => get skills by role
+staffs.get(
+    '/:Staff_ID/skills',
+    celebrate({
+        params: {
+            Staff_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const staff = await Staff.findByPk(req.params.Staff_ID);
+
+            if (!staff) {
+                throw new Error(`Staff does not exist`);
+            }
+
+            const courses = await staff.getCourse();
+            console.log(courses);
+
+            let skills: any = [];
+            for (let i = 0; i < courses.length; i++) {
+                let skill = await courses[i].getSkill();
+                if (skill.length > 0) {
+                    for (let j = 0; j < skill.length; j++) {
+                        skills.push(skill[j]);
+                    }
+                }
+            }
+
+            res.json(skills);
+        } catch (error) {}
+    }
+);
