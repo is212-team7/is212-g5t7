@@ -17,31 +17,30 @@ learningJourneys.post(
         try {
             const staff = await Staff.findByPk(req.body.Staff_ID);
             if (!staff) {
-                return res.status(404).json({ error: 'staff not found' });
+                throw new Error('staff not found');
             }
 
             const role = await Role.findByPk(req.body.Role_ID);
             if (!role) {
-                return res.status(404).json({ error: 'role not found' });
+                throw new Error('role not found');
             }
 
             if (
-                (await LearningJourney.findOne({
+                !(await LearningJourney.findOne({
                     where: {
                         Staff_ID: req.body.Staff_ID,
                         Role_ID: req.body.Role_ID,
                     },
                 })) !== null
             ) {
-                throw new Error('Only can create 1 learning journey per role');
+                // Only create LJ if it's not created yet
+                await LearningJourney.create({
+                    Staff_ID: parseInt(req.body.Staff_ID),
+                    Role_ID: parseInt(req.body.Role_ID),
+                });
             }
 
-            await LearningJourney.create({
-                Staff_ID: parseInt(req.body.Staff_ID),
-                Role_ID: parseInt(req.body.Role_ID),
-            });
-
-            const learningJourneys = await LearningJourney.findOne({
+            const learningJourney = await LearningJourney.findOne({
                 where: {
                     Staff_ID: req.body.Staff_ID,
                     Role_ID: req.body.Role_ID,
@@ -51,7 +50,7 @@ learningJourneys.post(
                     { model: Role, as: 'Role' },
                 ],
             });
-            res.json(learningJourneys);
+            res.status(200).json(learningJourney);
         } catch (error) {
             res.status(400).json(error.message);
         }
@@ -79,6 +78,14 @@ learningJourneys.post(
             }
 
             for (let i = 0; i < req.body.course_ids.length; i++) {
+                if (
+                    new Set(
+                        learningJourney.courses?.map(
+                            (course) => course.Course_ID
+                        )
+                    ).has(req.body.course_ids[i])
+                )
+                    continue;
                 await learningJourney.addCourse(req.body.course_ids[i]);
             }
 
@@ -171,33 +178,32 @@ learningJourneys.get(
 );
 
 // Delete Learning Journey
-// TODO: See if we can use another endpoint as this conflicts with GET '/:Staff_ID'
-// learningJourneys.delete(
-//     '/:LJ_ID',
-//     celebrate({
-//         params: {
-//             LJ_ID: Joi.number().required(),
-//         },
-//     }),
+learningJourneys.delete(
+    '/:LJ_ID',
+    celebrate({
+        params: {
+            LJ_ID: Joi.number().required(),
+        },
+    }),
 
-//     async (req, res) => {
-//         try {
-//             const selectedLearningJourney = await LearningJourney.findByPk(
-//                 req.params.LJ_ID
-//             );
-//             if (!selectedLearningJourney) {
-//                 return res
-//                     .status(404)
-//                     .json({ error: 'Learning Journey not found' });
-//             } else {
-//                 await selectedLearningJourney.destroy();
-//                 res.json({ message: 'Learning Journey deleted' });
-//             }
-//         } catch (error) {
-//             res.status(400).json(error.message);
-//         }
-//     }
-// );
+    async (req, res) => {
+        try {
+            const selectedLearningJourney = await LearningJourney.findByPk(
+                req.params.LJ_ID
+            );
+            if (!selectedLearningJourney) {
+                return res
+                    .status(404)
+                    .json({ error: 'Learning Journey not found' });
+            } else {
+                await selectedLearningJourney.destroy();
+                res.json({ message: 'Learning Journey deleted' });
+            }
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
 
 // delete course from learning journey
 learningJourneys.delete(
