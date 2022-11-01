@@ -26,12 +26,12 @@ learningJourneys.post(
             }
 
             if (
-                !(await LearningJourney.findOne({
+                (await LearningJourney.findOne({
                     where: {
                         Staff_ID: req.body.Staff_ID,
                         Role_ID: req.body.Role_ID,
                     },
-                })) !== null
+                })) == null
             ) {
                 // Only create LJ if it's not created yet
                 await LearningJourney.create({
@@ -85,6 +85,7 @@ learningJourneys.post(
                         )
                     ).has(req.body.course_ids[i])
                 )
+                    // Don't add course to LJ if it already exists
                     continue;
                 await learningJourney.addCourse(req.body.course_ids[i]);
             }
