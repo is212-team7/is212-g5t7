@@ -100,7 +100,7 @@ learningJourneys.post(
 
 // Get Learning Journey for staff
 learningJourneys.get(
-    '/:Staff_ID',
+    '/staff/:Staff_ID',
     celebrate({
         params: {
             Staff_ID: Joi.number().required(),
@@ -171,33 +171,65 @@ learningJourneys.get(
 );
 
 // Delete Learning Journey
-// TODO: See if we can use another endpoint as this conflicts with GET '/:Staff_ID'
-// learningJourneys.delete(
-//     '/:LJ_ID',
-//     celebrate({
-//         params: {
-//             LJ_ID: Joi.number().required(),
-//         },
-//     }),
+learningJourneys.delete(
+    '/:LJ_ID',
+    celebrate({
+        params: {
+            LJ_ID: Joi.number().required(),
+        },
+    }),
 
-//     async (req, res) => {
-//         try {
-//             const selectedLearningJourney = await LearningJourney.findByPk(
-//                 req.params.LJ_ID
-//             );
-//             if (!selectedLearningJourney) {
-//                 return res
-//                     .status(404)
-//                     .json({ error: 'Learning Journey not found' });
-//             } else {
-//                 await selectedLearningJourney.destroy();
-//                 res.json({ message: 'Learning Journey deleted' });
-//             }
-//         } catch (error) {
-//             res.status(400).json(error.message);
-//         }
-//     }
-// );
+    async (req, res) => {
+        try {
+            const selectedLearningJourney = await LearningJourney.findByPk(
+                req.params.LJ_ID
+            );
+            if (!selectedLearningJourney) {
+                return res
+                    .status(404)
+                    .json({ error: 'Learning Journey not found' });
+            } else {
+                await selectedLearningJourney.destroy();
+                res.json({ message: 'Learning Journey deleted' });
+            }
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
 
-// TODO: delete course from learning journey
-// refer to routes/skills delete skills-roles assignment
+// delete course from learning journey
+learningJourneys.delete(
+    '/:LJ_ID/course/:Course_ID',
+    celebrate({
+        params: {
+            LJ_ID: Joi.number().required(),
+            Course_ID: Joi.string().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            // check if skill exists
+            const learningJourney = await LearningJourney.findByPk(
+                req.params.LJ_ID
+            );
+            if (learningJourney == null) {
+                return res
+                    .status(404)
+                    .json({ error: 'Learning Journey not found' });
+            }
+
+            // check if course exists
+            const course = await Course.findByPk(req.params.Course_ID);
+            if (course == null) {
+                return res.status(404).json({ error: 'Course not found' });
+            }
+
+            // remove association
+            await learningJourney.removeCourse(course);
+            res.json('course successfully removed from learning Journey');
+        } catch (err) {
+            res.status(400).json(err.message);
+        }
+    }
+);
