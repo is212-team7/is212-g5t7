@@ -80,7 +80,7 @@ staffs.get(
     }
 );
 
-// For dev purposes
+// view all staff
 staffs.get('/', async (req, res) => {
     try {
         const staffs = await Staff.findAll();
@@ -94,7 +94,7 @@ staffs.get('/', async (req, res) => {
     }
 });
 
-// TODO: view staff skills
+// view staff skills
 staffs.get(
     '/:Staff_ID/skills',
     celebrate({
@@ -111,7 +111,6 @@ staffs.get(
             }
 
             const courses = await staff.getCourse();
-            console.log(courses);
 
             let skills: any = [];
             for (let i = 0; i < courses.length; i++) {
@@ -124,6 +123,33 @@ staffs.get(
             }
 
             res.json(skills);
-        } catch (error) {}
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
+// view staff courses
+staffs.get(
+    '/:Staff_ID/courses',
+    celebrate({
+        params: {
+            Staff_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const staff = await Staff.findByPk(req.params.Staff_ID);
+
+            if (!staff) {
+                throw new Error(`Staff does not exist`);
+            }
+
+            const courses = await staff.getCourse();
+
+            res.json(courses);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
     }
 );
