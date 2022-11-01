@@ -1,7 +1,10 @@
 import { Button, Drawer, Note, Spacer } from '@geist-ui/core';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { LearningJourneyClientRequestAPI } from '../api/learningJourneys';
+import {
+    LearningJourney,
+    LearningJourneyClientRequestAPI,
+} from '../api/learningJourneys';
 import { CoursesBySkill } from '../enroll/[roleId]';
 import useCustomToast from '../hooks/useCustomToast';
 import useSessionStorage from '../hooks/useSessionStorage';
@@ -26,31 +29,59 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
         type: 'error',
     });
 
-    const enroll = () => {
+    const enroll = async () => {
         if (staff == null) return;
         const staffId = staff.id;
-        if (staffId == null || selectedCoursesBySkill == null) return;
+        if (
+            staffId == null ||
+            selectedCoursesBySkill == null ||
+            roleId == null ||
+            Array.isArray(roleId)
+        )
+            return;
 
-        // 🔨
-        Array.from(selectedCoursesBySkill).forEach(
-            ([skill, coursesBySkill]) => {
-                coursesBySkill.forEach((course) => {
-                    const body: LearningJourneyClientRequestAPI = {
-                        staffId: staffId,
-                        roleId: Number(roleId),
-                    };
+        // Create new LJ for staff
+        const createLJBody: LearningJourneyClientRequestAPI = {
+            staffId,
+            roleId: Number(roleId),
+        };
 
-                    fetch('/api/learningJourneys', {
-                        method: 'POST',
-                        body: JSON.stringify(body),
-                        headers: { 'Content-Type': 'application/json' },
-                    })
-                        .then(enrollSuccessToast)
-                        .catch(enrollErrorToast);
-                });
+        const createLJResult = await fetch('/api/learningJourneys', {
+            method: 'POST',
+            body: JSON.stringify(createLJBody),
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (createLJResult.status !== 200) {
+            enrollErrorToast();
+            return;
+        }
+
+        const learningJourney: LearningJourney = await createLJResult.json();
+
+        // Add the selected courses to LJ
+        const addToLJBody = {
+            courseIds: Array.from(selectedCoursesBySkill)
+                .map(([_, course]) => course)
+                .flat()
+                .map((course) => course.id)
+                .filter((id, i, self) => self.indexOf(id) === i),
+        };
+        const addToLJResult = await fetch(
+            '/api/learningJourneys/courses/' + learningJourney.id,
+            {
+                method: 'POST',
+                body: JSON.stringify(addToLJBody),
+                headers: { 'Content-Type': 'application/json' },
             }
         );
 
+        if (addToLJResult.status !== 200) {
+            enrollErrorToast();
+            return;
+        }
+
+        enrollSuccessToast();
         router.push('/learning-journey');
     };
 
@@ -83,7 +114,7 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
                         selectedCoursesBySkill &&
                         Array.from(selectedCoursesBySkill).map(
                             ([skill, selectedCourses]) => (
-                                <>
+                                <div key={skill.id}>
                                     <h3>{skill.name}</h3>
                                     <ul>
                                         {selectedCourses.map(
@@ -95,7 +126,7 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
                                             )
                                         )}
                                     </ul>
-                                </>
+                                </div>
                             )
                         )}
                     {!areCoursesSelected && (

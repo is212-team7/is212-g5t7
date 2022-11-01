@@ -13,11 +13,13 @@
     "dependencies": {
         "@geist-ui/core": "^2.3.8",
         "@geist-ui/icons": "^1.0.2",
+        "dagre": "^0.8.5",
         "next": "12.3.0",
         "node-fetch": "^3.2.10",
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "react-loading-skeleton": "^3.1.0"
+        "react-loading-skeleton": "^3.1.0",
+        "reactflow": "^11.1.2"
     },
     "devDependencies": {
         "@types/node": "18.7.17",

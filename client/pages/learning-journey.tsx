@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Course } from './api/courses';
 import { LearningJourney } from './api/learningJourneys';
+import LearningJourneyGraph from './components/LearningJourneyGraph';
 import PageWithNavBar from './components/PageWithNavBar';
 import useFetchLearningJourneys from './hooks/useFetchLearningJourneys';
 
@@ -46,6 +47,7 @@ const LearningJourneyPage = () => {
                         You don&apos;t have any learning journeys yet.
                     </Note>
                 )}
+                <LearningJourneyGraph />
             </Page.Content>
         </PageWithNavBar>
     );
@@ -71,12 +73,11 @@ const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
                     {learningJourney.course.map((courseBySkill) => {
                         return (
                             <>
-                                {/*  */}
                                 {/* <Text b h5>
                                     {courseBySkill.skill.name}
                                 </Text>
                                 <ol>
-                                    {courseBySkill.courses.map((cours🔨e) => {
+                                    {courseBySkill.courses.map((course) => {
                                         return (
                                             <LearningJourneyCourse
                                                 key={course.id}
@@ -84,8 +85,8 @@ const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
                                             />
                                         );
                                     })}
-                                </ol>
-                                <Spacer height={1} /> */}
+                                </ol> */}
+                                <Spacer height={1} />
                             </>
                         );
                     })}
