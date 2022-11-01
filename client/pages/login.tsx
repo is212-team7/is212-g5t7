@@ -37,6 +37,7 @@ const LoginPage: NextPage = () => {
         })
             .then((response) => response.json())
             .then((result: Staff) => {
+                console.log('setting user to: ', result);
                 sessionStorage.setObject('user', result);
 
                 switch (result.systemRole) {

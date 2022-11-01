@@ -1,50 +1,23 @@
-import { useCallback } from 'react';
 import ReactFlow, {
     addEdge,
     Background,
     Connection,
     ConnectionLineType,
-    Edge,
-    Node,
     useEdgesState,
     useNodesState,
 } from 'reactflow';
 import CourseNodeType from './react-flow/CourseNodeType';
 
+import { useCallback } from 'react';
+import { Course } from '../api/courses';
+import { Role } from '../api/roles';
+import useGetLearningJourneyNodes from '../hooks/useGetLearningJourneyNodes';
+import './LearningJourneyGraph.module.css';
 import styles from './react-flow/Flow.module.css';
 import RoleNodeType from './react-flow/RoleNodeType';
 import SkillNodeType from './react-flow/SkillNodeType';
 
 export type NodeType = 'role' | 'skill' | 'course';
-
-const initialNodes: Node[] = [
-    {
-        id: '1',
-        type: 'input',
-        data: { label: 'Node 1' },
-        position: { x: 250, y: 5 },
-    },
-    {
-        id: '2',
-        data: { label: 'Node 2' },
-        position: { x: 100, y: 100 },
-    },
-    {
-        id: '3',
-        data: { label: 'Node 3' },
-        position: { x: 400, y: 100 },
-    },
-];
-
-const initialEdges: Edge[] = [
-    { id: 'e1-2', source: '1', target: '2' },
-    { id: 'e1-3', source: '1', target: '3' },
-];
-
-const defaultEdgeOptions = {
-    animated: true,
-    type: 'smoothstep',
-};
 
 const nodeTypes = {
     role: RoleNodeType,
@@ -52,12 +25,35 @@ const nodeTypes = {
     skill: SkillNodeType,
 };
 
-function LearningJourneyGraph() {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+interface LearningJourneyGraphProps {
+    role: Role;
+    selectedCourseIds: Set<Course['id']>;
+}
+
+function LearningJourneyGraph({
+    role,
+    selectedCourseIds,
+}: LearningJourneyGraphProps) {
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+    // Set nodes and edges
+    useGetLearningJourneyNodes({ role, selectedCourseIds, setNodes, setEdges });
+
     const onConnect = useCallback(
-        (params: Connection | Edge) => setEdges((eds) => addEdge(params, eds)),
-        [setEdges]
+        (params: Connection) =>
+            setEdges((eds) =>
+                addEdge(
+                    {
+                        ...params,
+                        type: ConnectionLineType.SmoothStep,
+                        animated: true,
+                    },
+                    eds
+                )
+            ),
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        []
     );
 
     return (
@@ -67,8 +63,7 @@ function LearningJourneyGraph() {
                 onNodesChange={onNodesChange}
                 edges={edges}
                 onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                defaultEdgeOptions={defaultEdgeOptions}
+                // onConnect={onConnect}
                 connectionLineType={ConnectionLineType.Straight}
                 fitView
                 proOptions={{ hideAttribution: true }}

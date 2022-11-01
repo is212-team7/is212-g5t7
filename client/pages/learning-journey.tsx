@@ -15,30 +15,40 @@ import { LearningJourney } from './api/learningJourneys';
 import LearningJourneyGraph from './components/LearningJourneyGraph';
 import PageWithNavBar from './components/PageWithNavBar';
 import useFetchLearningJourneys from './hooks/useFetchLearningJourneys';
+import useSessionStorage from './hooks/useSessionStorage';
 
 const LearningJourneyPage = () => {
+    const staff = useSessionStorage();
     const [learningJourneys, setLearningJourneys] = useState<
         LearningJourney[] | null
     >();
+
     const fetchLearningJourneys = useFetchLearningJourneys({
         setLearningJourneys,
+        staff,
     });
+    console.log({ staff, learningJourneys });
 
     useEffect(() => {
-        if (fetchLearningJourneys == null) return;
+        if (
+            fetchLearningJourneys == null ||
+            (learningJourneys != null && learningJourneys.length > 0)
+        )
+            return;
         fetchLearningJourneys();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [staff?.id]);
 
     return (
         <PageWithNavBar homeLink=".">
             <Page.Content>
                 <h2>Your Learning Journeys</h2>
                 <Spacer height={2} />
-                {learningJourneys?.map((learningJourney) => (
+                {learningJourneys?.map((learningJourney, i) => (
                     <LearningJourneyCard
                         key={learningJourney.role.id}
                         learningJourney={learningJourney}
+                        count={i + 1}
                     />
                 ))}
                 {learningJourneys === undefined && <Skeleton count={5} />}
@@ -47,7 +57,20 @@ const LearningJourneyPage = () => {
                         You don&apos;t have any learning journeys yet.
                     </Note>
                 )}
-                <LearningJourneyGraph />
+                {/* {learningJourneys != null &&
+                    learningJourneys.map((learningJourney) => (
+                        <LearningJourneyGraph
+                            key={learningJourney.id}
+                            role={learningJourney.role}
+                            selectedCourseIds={
+                                new Set(
+                                    learningJourney.course.map(
+                                        (course) => course.id
+                                    )
+                                )
+                            }
+                        />
+                    ))} */}
             </Page.Content>
         </PageWithNavBar>
     );
@@ -57,23 +80,28 @@ const LearningJourneyPage = () => {
 
 interface LearningJourneyCardProps {
     learningJourney: LearningJourney;
+    count: number;
 }
 
-const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
+const LearningJourneyCard = ({
+    learningJourney,
+    count,
+}: LearningJourneyCardProps) => {
     return (
         <>
             <Card>
                 <Card.Content>
                     <Text b font="20px">
-                        {learningJourney.role.name}
+                        {count}. {learningJourney.role.name}
                     </Text>
                 </Card.Content>
                 <Divider h="1px" my={0} />
                 <Card.Content>
-                    {learningJourney.course.map((courseBySkill) => {
-                        return (
-                            <>
-                                {/* <Text b h5>
+                    <ul>
+                        {learningJourney.course.map((course) => {
+                            return (
+                                <div key={course.id}>
+                                    {/* <Text b h5>
                                     {courseBySkill.skill.name}
                                 </Text>
                                 <ol>
@@ -86,10 +114,11 @@ const LearningJourneyCard = ({ learningJourney }: LearningJourneyCardProps) => {
                                         );
                                     })}
                                 </ol> */}
-                                <Spacer height={1} />
-                            </>
-                        );
-                    })}
+                                    <li>{course.name}</li>
+                                </div>
+                            );
+                        })}
+                    </ul>
                 </Card.Content>
             </Card>
             <Spacer height={2} />

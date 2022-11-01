@@ -1,5 +1,6 @@
+import dagre from 'dagre';
 import { Dispatch, SetStateAction } from 'react';
-import { Edge, Node } from 'reactflow';
+import { Edge, Node, Position } from 'reactflow';
 import { Course } from '../api/courses';
 import { Role } from '../api/roles';
 import { Skill } from '../api/skills';
@@ -15,10 +16,11 @@ const useGetLearningJourneyNodes = ({
     role,
     selectedCourseIds,
     setNodes,
+    setEdges,
 }: useGetLearningJourneyNodesProps) => {
     (async () => {
         // Get all skills from role ID
-        const skillsResponse = await fetch('api/');
+        const skillsResponse = await fetch('api/skills/role/' + role.id);
         const skillsResult: Skill[] = await skillsResponse.json();
 
         // Get courses for each skill
@@ -69,18 +71,107 @@ const useGetLearningJourneyNodes = ({
                 data: { label: 'Skill', name: skill.name },
                 position,
             };
+            nodes.push(skillNode);
+            edges.push({
+                id: `${1}-${skillNode.id}`,
+                source: String(1),
+                target: skillNode.id,
+                type: edgeType,
+            });
 
-            const selectedCourseNodes = courses.selected.map((course) => ({
-                id: String(++nodeId),
-                type: 'input',
-                data: { label: 'Skill', name: skill.name },
-                position,
-            }));
+            const selectedCourseNodes = courses.selected.map((course) => {
+                const courseNodeId = String(++nodeId);
+
+                edges.push({
+                    id: `${skillNode.id}-${courseNodeId}`,
+                    source: skillNode.id,
+                    target: courseNodeId,
+                    type: edgeType,
+                });
+
+                return {
+                    id: courseNodeId,
+                    type: 'input',
+                    data: { label: 'Course', name: course.name },
+                    position,
+                };
+            });
+
+            const notSelectedCourseNodes = courses.selected.map((course) => {
+                const courseNodeId = String(++nodeId);
+                console.log({ course, courseNodeId });
+
+                edges.push({
+                    id: `${skillNode.id}-${courseNodeId}`,
+                    source: skillNode.id,
+                    target: courseNodeId,
+                    type: edgeType,
+                    animated: true,
+                });
+
+                return {
+                    id: courseNodeId,
+                    type: 'input',
+                    data: { label: 'Course', name: course.name },
+                    position,
+                };
+            });
+            nodes.push(...selectedCourseNodes, ...notSelectedCourseNodes);
         });
+
+        const { nodes: layoutedNodes, edges: layoutedEdges } =
+            getLayoutedElements(nodes, edges);
+
+        setNodes(layoutedNodes);
+        setEdges(layoutedEdges);
     })();
 };
 
 export default useGetLearningJourneyNodes;
+
+// Helpers
+
+// https://reactflow.dev/docs/examples/layout/dagre/
+const dagreGraph = new dagre.graphlib.Graph();
+dagreGraph.setDefaultEdgeLabel(() => ({}));
+
+const nodeWidth = 172;
+const nodeHeight = 36;
+
+export function getLayoutedElements(
+    nodes: Node[],
+    edges: Edge[],
+    direction = 'TB'
+) {
+    dagreGraph.setGraph({ rankdir: direction });
+
+    nodes.forEach((node) => {
+        dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    });
+
+    edges.forEach((edge) => {
+        dagreGraph.setEdge(edge.source, edge.target);
+    });
+
+    dagre.layout(dagreGraph);
+
+    nodes.forEach((node) => {
+        const nodeWithPosition = dagreGraph.node(node.id);
+        node.targetPosition = Position.Left;
+        node.sourcePosition = Position.Right;
+
+        // We are shifting the dagre node position (anchor=center center) to the top left
+        // so it matches the React Flow node anchor point (top left).
+        node.position = {
+            x: nodeWithPosition.x - nodeWidth / 2,
+            y: nodeWithPosition.y - nodeHeight / 2,
+        };
+
+        return node;
+    });
+
+    return { nodes, edges };
+}
 
 // Get selected courses from learning journey
 // const staff = useSessionStorage();
