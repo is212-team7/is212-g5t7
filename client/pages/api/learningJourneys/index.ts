@@ -80,28 +80,6 @@ export default function handler(
                 .catch((error) => console.log('error', error));
             break;
 
-        case 'DELETE':
-            const learningJourneyToDelete =
-                req.body as LearningJourneyClientRequestAPI;
-            const bodyDelete = JSON.stringify({
-                Staff_ID: learningJourneyToDelete.staffId,
-                Role_ID: learningJourneyToDelete.roleId,
-            });
-
-            fetch(BASE_URL, {
-                method: 'DELETE',
-                body: bodyDelete,
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then((response) => response.json())
-                .then(() => {
-                    res.status(200).json(
-                        `Learning Journey with values Staff ID: ${learningJourneyToDelete.staffId}, Role ID: ${learningJourneyToDelete.roleId} is deleted.`
-                    );
-                })
-                .catch((error) => console.log('error', error));
-            break;
-
         default:
             res.status(400).json({ error: 'Invalid API endpoint.' });
             break;

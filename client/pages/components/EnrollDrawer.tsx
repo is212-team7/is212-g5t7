@@ -15,11 +15,12 @@ interface EnrollDrawerProps {
 
 const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
     const router = useRouter();
-    const { roleId } = router.query;
     const staff = useSessionStorage();
+
+    const { roleId } = router.query;
+
     const [state, setState] = useState(false);
-    const areCoursesSelected =
-        (selectedCoursesBySkill && selectedCoursesBySkill.size > 0) === true;
+    const [isEnrollLoading, setIsEnrollLoading] = useState(false);
     const enrollSuccessToast = useCustomToast({
         message: 'Enrolled successfully into courses',
         type: 'success',
@@ -28,6 +29,9 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
         message: 'Did not successfully enroll into courses',
         type: 'error',
     });
+
+    const areCoursesSelected =
+        (selectedCoursesBySkill && selectedCoursesBySkill.size > 0) === true;
 
     const enroll = async () => {
         if (staff == null) return;
@@ -40,6 +44,7 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
         )
             return;
 
+        setIsEnrollLoading(true);
         // Create new LJ for staff
         const createLJBody: LearningJourneyClientRequestAPI = {
             staffId,
@@ -138,7 +143,11 @@ const EnrollDrawer = ({ selectedCoursesBySkill }: EnrollDrawerProps) => {
                 {areCoursesSelected && (
                     <>
                         <Spacer height={2} />
-                        <Button type="secondary" onClick={enroll}>
+                        <Button
+                            type="secondary"
+                            onClick={enroll}
+                            loading={isEnrollLoading}
+                        >
                             Enroll
                         </Button>
                     </>
