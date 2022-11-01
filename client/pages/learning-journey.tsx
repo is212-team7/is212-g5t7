@@ -1,4 +1,5 @@
 import {
+    Button,
     Card,
     Divider,
     Link,
@@ -8,12 +9,13 @@ import {
     Spacer,
     Text,
 } from '@geist-ui/core';
+import CardFooter from '@geist-ui/core/esm/card/card-footer';
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Course } from './api/courses';
 import { LearningJourney } from './api/learningJourneys';
-import LearningJourneyGraph from './components/LearningJourneyGraph';
 import PageWithNavBar from './components/PageWithNavBar';
+import useCustomToast from './hooks/useCustomToast';
 import useFetchLearningJourneys from './hooks/useFetchLearningJourneys';
 import useSessionStorage from './hooks/useSessionStorage';
 
@@ -120,6 +122,7 @@ const LearningJourneyCard = ({
                         })}
                     </ul>
                 </Card.Content>
+                <CardFooter>{/*  */}</CardFooter>
             </Card>
             <Spacer height={2} />
         </>
@@ -158,6 +161,39 @@ const LearningJourneyCourse = ({ course }: LearningJourneyCourseProps) => {
             </Modal>
         </>
     );
+};
+
+interface DeleteLearningJourney {
+    LearningJourney: LearningJourney;
+}
+
+const DeleteLearningJourey = ({ LearningJourney }: DeleteLearningJourney) => {
+    const deletedToast = useCustomToast({
+        message: 'Learning Journey is deleted',
+        type: 'secondary',
+    });
+
+    const DeleteLearningJourneyButton = (value: any, index: number) => {
+        const onClick = () => {
+            fetch('/api/learningJourneys/' + LearningJourney.id, {
+                method: 'DELETE',
+            }).then((response) => {
+                deletedToast();
+            });
+        };
+
+        return (
+            <Button
+                type="error"
+                auto
+                scale={1 / 3}
+                font="12px"
+                onClick={onClick}
+            >
+                Delete
+            </Button>
+        );
+    };
 };
 
 export default LearningJourneyPage;
