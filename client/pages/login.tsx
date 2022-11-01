@@ -48,13 +48,11 @@ const LoginPage: NextPage = () => {
                         });
                         break;
                     case 'User':
+                    case 'Manager':
                         router.push('/roles');
                         break;
                     case 'Admin':
                         router.push('/admin');
-                        break;
-                    case 'Manager':
-                        router.push('/manager');
                         break;
                     default:
                         break;

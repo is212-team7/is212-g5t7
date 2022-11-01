@@ -2,6 +2,7 @@ import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Skill } from '../api/skills';
+import PageWithNavBar from '../components/PageWithNavBar';
 
 const AdminSkillsPage: NextPage = () => {
     const [skills, setSkills] = useState<Skill[]>();
@@ -42,14 +43,21 @@ const AdminSkillsPage: NextPage = () => {
     };
 
     useEffect(() => {
-        fetch('/api/skills', { method: 'GET' })
-            .then((response) => response.json())
-            .then(setSkills)
-            .catch((error) => console.log('error', error));
+        // Get staff with at least one LJ
+        (async () => {
+            const staffIds: number[] = await (
+                await fetch('/api/staffs/participating/ids')
+            ).json();
+
+            fetch('/api/skills', { method: 'GET' })
+                .then((response) => response.json())
+                .then(setSkills)
+                .catch((error) => console.log('error', error));
+        })();
     }, []);
 
     return (
-        <Page>
+        <PageWithNavBar homeLink="/roles">
             <Page.Content>
                 <h2>Skills</h2>
                 <Spacer h={2} />
@@ -65,7 +73,7 @@ const AdminSkillsPage: NextPage = () => {
                         ))}
                 </Grid.Container>
             </Page.Content>
-        </Page>
+        </PageWithNavBar>
     );
 };
 

@@ -1,5 +1,5 @@
-import { Button, Note, Page, Spacer, Tag, Text } from '@geist-ui/core';
-import { Home, LogOut } from '@geist-ui/icons';
+import { Button, Note, Page, Spacer, Tabs, Tag, Text } from '@geist-ui/core';
+import { Home, LogOut, User, Zap } from '@geist-ui/icons';
 import { useRouter } from 'next/router';
 import useCustomToast from '../hooks/useCustomToast';
 import useSessionStorage from '../hooks/useSessionStorage';
@@ -17,6 +17,19 @@ const PageWithNavBar = ({ homeLink, children }: PageWithNavBar) => {
         message: 'Successfully logged out.',
         type: 'success',
     });
+
+    const managerTabChange = (val: string) => {
+        switch (val) {
+            case '/roles':
+                router.push(val);
+                break;
+            case '/manager/staff-skills':
+                router.push(val);
+                break;
+            default:
+                break;
+        }
+    };
 
     return (
         <>
@@ -74,6 +87,35 @@ const PageWithNavBar = ({ homeLink, children }: PageWithNavBar) => {
                         />
                     </div>
                 </Note>
+                {staff?.systemRole === 'Manager' && (
+                    <Tabs
+                        initialValue={
+                            router.pathname === '/manager/staff-skills'
+                                ? '/manager/staff-skills'
+                                : '/roles'
+                        }
+                        align="center"
+                        leftSpace={0}
+                        onChange={managerTabChange}
+                    >
+                        <Tabs.Item
+                            label={
+                                <>
+                                    <Zap /> Create Learning Journey
+                                </>
+                            }
+                            value="/roles"
+                        />
+                        <Tabs.Item
+                            label={
+                                <>
+                                    <User /> View Staff Skills
+                                </>
+                            }
+                            value="/manager/staff-skills"
+                        />
+                    </Tabs>
+                )}
             </Page.Header>
             <Page>{children}</Page>
         </>
