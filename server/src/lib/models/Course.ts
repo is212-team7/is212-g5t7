@@ -17,6 +17,7 @@ import {
 import { sequelize } from '../../database';
 import { LearningJourneyModel } from './LearningJourney';
 import { SkillModel } from './Skill';
+import { StaffModel } from './Staff';
 
 export class CourseModel extends Model<
     InferAttributes<CourseModel>,
@@ -32,10 +33,12 @@ export class CourseModel extends Model<
     // associations
     declare learningJourneys?: NonAttribute<LearningJourneyModel[]>;
     declare skills?: NonAttribute<SkillModel[]>;
+    declare staffs?: NonAttribute<StaffModel[]>;
 
     declare static associations: {
         learningJourneys: Association<CourseModel, LearningJourneyModel>;
         skills: Association<CourseModel, SkillModel>;
+        staffs: Association<CourseModel, StaffModel>;
     };
 
     // methods
@@ -69,6 +72,17 @@ export class CourseModel extends Model<
         number
     >;
     declare createLearningJourney: BelongsToManyCreateAssociationMixin<LearningJourneyModel>;
+
+    declare addStaff: BelongsToManyAddAssociationMixin<StaffModel, number>;
+    declare countStaff: BelongsToManyCountAssociationsMixin;
+    declare hasStaff: BelongsToManyHasAssociationMixin<StaffModel, number>;
+    declare setStaff: BelongsToManySetAssociationsMixin<StaffModel, number>;
+    declare getStaff: BelongsToManyGetAssociationsMixin<StaffModel>;
+    declare removeStaff: BelongsToManyRemoveAssociationMixin<
+        StaffModel,
+        number
+    >;
+    declare createStaff: BelongsToManyCreateAssociationMixin<StaffModel>;
 }
 
 export const Course = CourseModel.init(

@@ -1,5 +1,12 @@
 import {
     Association,
+    BelongsToManyAddAssociationMixin,
+    BelongsToManyCountAssociationsMixin,
+    BelongsToManyCreateAssociationMixin,
+    BelongsToManyGetAssociationsMixin,
+    BelongsToManyHasAssociationMixin,
+    BelongsToManyRemoveAssociationMixin,
+    BelongsToManySetAssociationsMixin,
     DataTypes,
     HasManyAddAssociationMixin,
     HasManyCountAssociationsMixin,
@@ -14,6 +21,7 @@ import {
     NonAttribute,
 } from 'sequelize';
 import { sequelize } from '../../database';
+import { CourseModel } from './Course';
 import { LearningJourneyModel } from './LearningJourney';
 import { RoleModel } from './Role';
 
@@ -30,9 +38,11 @@ export class StaffModel extends Model<
 
     // associations
     declare roles?: NonAttribute<RoleModel[]>;
+    declare courses?: NonAttribute<CourseModel[]>;
 
     declare static associations: {
         roles: Association<StaffModel, RoleModel>;
+        courses: Association<StaffModel, CourseModel>;
     };
 
     // methods
@@ -55,6 +65,17 @@ export class StaffModel extends Model<
         number
     >;
     declare createLearningJourney: HasManyCreateAssociationMixin<LearningJourneyModel>;
+
+    declare addCourse: BelongsToManyAddAssociationMixin<CourseModel, number>;
+    declare countCourse: BelongsToManyCountAssociationsMixin;
+    declare hasCourse: BelongsToManyHasAssociationMixin<CourseModel, number>;
+    declare setCourse: BelongsToManySetAssociationsMixin<CourseModel, number>;
+    declare getCourse: BelongsToManyGetAssociationsMixin<CourseModel>;
+    declare removeCourse: BelongsToManyRemoveAssociationMixin<
+        CourseModel,
+        number
+    >;
+    declare createCourse: BelongsToManyCreateAssociationMixin<CourseModel>;
 }
 
 export const Staff = StaffModel.init(

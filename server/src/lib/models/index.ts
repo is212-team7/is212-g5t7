@@ -6,6 +6,7 @@ import { RoleSkill } from './RoleSkill';
 import { CourseSkill } from './CourseSkill';
 import { LearningJourney } from './LearningJourney';
 import { Pathway } from './Pathway';
+import { Registration } from './Registration';
 
 export {
     Role,
@@ -16,4 +17,5 @@ export {
     Staff,
     LearningJourney,
     Pathway,
+    Registration,
 };

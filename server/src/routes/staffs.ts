@@ -80,7 +80,7 @@ staffs.get(
     }
 );
 
-// For dev purposes
+// view all staff
 staffs.get('/', async (req, res) => {
     try {
         const staffs = await Staff.findAll();
@@ -94,5 +94,62 @@ staffs.get('/', async (req, res) => {
     }
 });
 
-// TODO: view staff skills
-// refer to routes/skills => get skills by role
+// view staff skills
+staffs.get(
+    '/:Staff_ID/skills',
+    celebrate({
+        params: {
+            Staff_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const staff = await Staff.findByPk(req.params.Staff_ID);
+
+            if (!staff) {
+                throw new Error(`Staff does not exist`);
+            }
+
+            const courses = await staff.getCourse();
+
+            let skills: any = [];
+            for (let i = 0; i < courses.length; i++) {
+                let skill = await courses[i].getSkill();
+                if (skill.length > 0) {
+                    for (let j = 0; j < skill.length; j++) {
+                        skills.push(skill[j]);
+                    }
+                }
+            }
+
+            res.json(skills);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
+// view staff courses
+staffs.get(
+    '/:Staff_ID/courses',
+    celebrate({
+        params: {
+            Staff_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const staff = await Staff.findByPk(req.params.Staff_ID);
+
+            if (!staff) {
+                throw new Error(`Staff does not exist`);
+            }
+
+            const courses = await staff.getCourse();
+
+            res.json(courses);
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
