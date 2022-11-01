@@ -53,17 +53,8 @@ courses.get(
                 return res.status(404).json({ error: 'Skill not found' });
             }
             const courses = await skill.getCourse();
-            
-            res.json(courses);
-            
-        } catch (error) {
-            res.status(400).json(error.message);
-        }
-    }
-);
 
-            const Courses = await skill.getCourse();
-            res.json(Courses);
+            res.json(courses);
         } catch (error) {
             res.status(400).json(error.message);
         }
@@ -88,7 +79,7 @@ courses.post(
             }
 
             // check if course exists
-            const course: any = await Course.findByPk(req.params.courseId);
+            const course = await Course.findByPk(req.params.Course_ID);
             if (course == null) {
                 return res.status(404).json({ error: 'Course not found' });
             }
@@ -121,13 +112,13 @@ courses.delete(
             }
 
             // check if course exists
-            const course: any = await Course.findByPk(req.params.courseId);
+            const course = await Course.findByPk(req.params.Course_ID);
             if (course == null) {
                 return res.status(404).json({ error: 'Course not found' });
             }
 
             // remove association
-            await course.removeCourse(course);
+            await course.removeSkill(skill);
             res.json('course successfully removed from skill');
         } catch (err) {
             res.status(400).json(err.message);
