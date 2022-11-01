@@ -159,7 +159,22 @@
             "response": []
         },
         {
-            "name": "skills",
+            "name": "get courses by skill",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/courses/skill/1",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["courses", "skill", "1"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "get all skills",
             "request": {
                 "method": "GET",
                 "header": [],
@@ -224,11 +239,11 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                    "raw": "http://localhost:3001/learningJourneys/140004",
+                    "raw": "http://localhost:3001/learningJourneys/staff/140001",
                     "protocol": "http",
                     "host": ["localhost"],
                     "port": "3001",
-                    "path": ["learningJourneys", "140004"]
+                    "path": ["learningJourneys", "staff", "140001"]
                 }
             },
             "response": []
@@ -259,6 +274,21 @@
                     "host": ["localhost"],
                     "port": "3001",
                     "path": ["skills", "1", "role", "2"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "delete skill-course association",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                    "raw": "http://localhost:3001/courses/tch018/skill/3",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["courses", "tch018", "skill", "3"]
                 }
             },
             "response": []
@@ -300,7 +330,7 @@
                 "header": [],
                 "body": {
                     "mode": "raw",
-                    "raw": "{\r\n    \"Skill_Name\": \"App Development\",\r\n    \"Skill_Category\": \"technology\",\r\n    \"Skill_Description\": \"knowledge of developing applications\"\r\n}",
+                    "raw": "{\r\n    \"Skill_Name\": \"Project Management\",\r\n    \"Skill_Category\": \"Management\",\r\n    \"Skill_Description\": \"Knowledge of managing projects\"\r\n}",
                     "options": {
                         "raw": {
                             "language": "json"
@@ -318,7 +348,31 @@
             "response": []
         },
         {
-            "name": "add course(s) to learning journey",
+            "name": "delete course from learning journey",
+            "request": {
+                "method": "DELETE",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/learningJourneys/1/course/COR006",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["learningJourneys", "1", "course", "COR006"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "add course(s) to learning journey Copy",
             "request": {
                 "method": "POST",
                 "header": [],
@@ -361,6 +415,30 @@
                     "host": ["localhost"],
                     "port": "3001",
                     "path": ["skills", "1", "role", "2"]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "assign course to skill",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": "",
+                    "options": {
+                        "raw": {
+                            "language": "json"
+                        }
+                    }
+                },
+                "url": {
+                    "raw": "http://localhost:3001/courses/tch018/skill/3",
+                    "protocol": "http",
+                    "host": ["localhost"],
+                    "port": "3001",
+                    "path": ["courses", "tch018", "skill", "3"]
                 }
             },
             "response": []
