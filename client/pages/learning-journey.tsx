@@ -3,6 +3,7 @@ import {
     Card,
     Divider,
     Link,
+    Loading,
     Modal,
     Note,
     Page,
@@ -11,7 +12,6 @@ import {
     Text,
 } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { Course } from './api/courses';
 import { LearningJourney } from './api/learningJourneys';
 import PageWithNavBar from './components/PageWithNavBar';
@@ -51,9 +51,14 @@ const LearningJourneyPage = () => {
                         key={learningJourney.role.id}
                         learningJourney={learningJourney}
                         count={i + 1}
+                        fetchLearningJourneys={fetchLearningJourneys}
                     />
                 ))}
-                {learningJourneys === undefined && <Skeleton count={5} />}
+                {learningJourneys === undefined && (
+                    <Loading
+                        style={{ width: '100%', height: '80%', zoom: '200%' }}
+                    />
+                )}
                 {learningJourneys === null && (
                     <Note type="default">
                         You don&apos;t have any learning journeys yet.
@@ -83,11 +88,13 @@ const LearningJourneyPage = () => {
 interface LearningJourneyCardProps {
     learningJourney: LearningJourney;
     count: number;
+    fetchLearningJourneys: (() => void) | null;
 }
 
 const LearningJourneyCard = ({
     learningJourney,
     count,
+    fetchLearningJourneys,
 }: LearningJourneyCardProps) => {
     return (
         <>
@@ -98,9 +105,12 @@ const LearningJourneyCard = ({
                     <Text b font="20px">
                         {count}. {learningJourney.role.name}
                     </Text>
-                    <DeleteLearningJourneyButton
-                        learningJourney={learningJourney}
-                    />
+                    {fetchLearningJourneys != null && (
+                        <DeleteLearningJourneyButton
+                            learningJourney={learningJourney}
+                            fetchLearningJourneys={fetchLearningJourneys}
+                        />
+                    )}
                 </Card.Content>
                 <Divider h="1px" my={0} />
                 <Card.Content>
@@ -175,10 +185,12 @@ const LearningJourneyCourse = ({ course }: LearningJourneyCourseProps) => {
 
 interface DeleteLearningJourneyProps {
     learningJourney: LearningJourney;
+    fetchLearningJourneys: () => void;
 }
 
 const DeleteLearningJourneyButton = ({
     learningJourney,
+    fetchLearningJourneys,
 }: DeleteLearningJourneyProps) => {
     const deletedToast = useCustomToast({
         message: 'Learning Journey is deleted',
@@ -195,6 +207,7 @@ const DeleteLearningJourneyButton = ({
         })
             .then((response) => {
                 deletedToast();
+                fetchLearningJourneys();
             })
             .catch((e) => {
                 failedToDeleteToast();
