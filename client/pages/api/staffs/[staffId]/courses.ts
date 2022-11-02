@@ -21,6 +21,7 @@ export default function handler(
                             status: row.Course_Status,
                             type: row.Course_Type,
                             category: row.Course_Category,
+                            deleted: row.Course_Deleted,
                         };
                     });
                     res.status(200).json(parsed);

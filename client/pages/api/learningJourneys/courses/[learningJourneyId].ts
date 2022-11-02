@@ -33,6 +33,7 @@ export default function handler(
                                 status: course.Course_Status,
                                 type: course.Course_Type,
                                 category: course.Course_Category,
+                                deleted: course.Course_Deleted,
                             })),
                         };
                         res.status(200).json(learningJourney);

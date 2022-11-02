@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Skill } from '../api/skills';
 
 export interface SkillForTable extends Skill {
+    courses: string;
     delete: string;
     update: string;
 }
@@ -27,6 +28,7 @@ const useFetchSkills =
                         result.map((row) => ({
                             ...row,
                             deleted: String(row.deleted),
+                            courses: '',
                             delete: '',
                             update: '',
                         }))
