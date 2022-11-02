@@ -1,80 +1,150 @@
-import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
+import {
+    Card,
+    Divider,
+    Loading,
+    Note,
+    Page,
+    Spacer,
+    Tag,
+    Text,
+} from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
+import { Course } from '../api/courses';
 import { Skill } from '../api/skills';
+import { Staff } from '../api/staffs';
 import PageWithNavBar from '../components/PageWithNavBar';
 
-const AdminSkillsPage: NextPage = () => {
-    const [skills, setSkills] = useState<Skill[]>();
+interface StaffCourseSkills {
+    staff: Staff;
+    courses: Course[];
+    skills: Skill[];
+}
 
-    const Skill = ({
-        id,
-        name,
-        description,
-    }: {
-        id: number;
-        name: string;
-        description?: string;
-    }) => {
-        return (
-            <Grid justify="center">
-                <Card width="600px" key={name}>
-                    <Card.Content>
-                        <Text b my={0}>
-                            {name}
-                        </Text>
-                    </Card.Content>
-                    <Divider h="1px" my={0} />
-                    <Card.Content>
-                        <Text font="12px" mt={0} style={{ color: '#ccc' }}>
-                            DESCRIPTION
-                        </Text>
-                        <Text>{description}</Text>
-                    </Card.Content>
-                    <Card.Footer>
-                        <Link color href={'enroll/' + id}>
-                            View skills for {name} &#8594;
-                        </Link>
-                    </Card.Footer>
-                </Card>
-                <Spacer h={2} />
-            </Grid>
-        );
-    };
+const AdminSkillsPage: NextPage = () => {
+    const [staffCourseSkills, setStaffCourseSkills] =
+        useState<StaffCourseSkills[]>();
 
     useEffect(() => {
-        // Get staff with at least one LJ
         (async () => {
+            // Get staff with at least one LJ
             const staffIds: number[] = await (
                 await fetch('/api/staffs/participating/ids')
             ).json();
 
-            fetch('/api/skills', { method: 'GET' })
-                .then((response) => response.json())
-                .then(setSkills)
-                .catch((error) => console.log('error', error));
+            const staffs: Staff[] = await Promise.all(
+                staffIds.map(
+                    async (id) =>
+                        await (await fetch('/api/staffs/' + id)).json()
+                )
+            );
+
+            const staffCourseSkills: StaffCourseSkills[] = await Promise.all(
+                staffs.map(async (staff) => {
+                    const courses = await (
+                        await fetch('/api/staffs/' + staff.id + '/courses')
+                    ).json();
+                    const skills = await (
+                        await fetch('/api/staffs/' + staff.id + '/skills')
+                    ).json();
+
+                    return {
+                        staff,
+                        courses,
+                        skills,
+                    };
+                })
+            );
+
+            setStaffCourseSkills(staffCourseSkills);
         })();
     }, []);
 
     return (
         <PageWithNavBar homeLink="/roles">
             <Page.Content>
-                <h2>Skills</h2>
+                <h2>Staff Skills and Courses</h2>
                 <Spacer h={2} />
-                <Grid.Container gap={1.5}>
-                    {skills &&
-                        skills.map(({ id, name, description }) => (
-                            <Skill
-                                key={name}
-                                id={id}
-                                name={name}
-                                description={description}
-                            />
-                        ))}
-                </Grid.Container>
+                {staffCourseSkills != null &&
+                    staffCourseSkills.map((record) => (
+                        <StaffLearningJourneyCard
+                            key={record.staff.id}
+                            record={record}
+                        />
+                    ))}
+                {staffCourseSkills === undefined && (
+                    <Loading
+                        style={{ width: '100%', height: '80%', zoom: '200%' }}
+                    />
+                )}
+                {staffCourseSkills === null && (
+                    <Note type="warning">
+                        No learning journeys have been created yet.
+                    </Note>
+                )}
             </Page.Content>
         </PageWithNavBar>
     );
 };
 
 export default AdminSkillsPage;
+
+// Sub-components
+
+interface StaffLearningJourneyCardProps {
+    record: StaffCourseSkills;
+}
+
+const StaffLearningJourneyCard = ({
+    record,
+}: StaffLearningJourneyCardProps) => {
+    return (
+        <Card style={{ marginBottom: '2em' }}>
+            <Text h3 my={0}>
+                {record.staff.id}: {record.staff.fName} {record.staff.lName}
+            </Text>
+
+            <Spacer height={1} />
+            <Divider h="1px" my={0} />
+            <Spacer height={1} />
+
+            <Text h4>Skills</Text>
+            <ul>
+                {record.skills.length !== 0 ? (
+                    record.skills.map((skill) => (
+                        <li key={skill.id}>
+                            <Tag type="default" invert>
+                                {skill.id}
+                            </Tag>{' '}
+                            <Spacer width={0.2} />
+                            {skill.name}
+                        </li>
+                    ))
+                ) : (
+                    <Note type="warning">
+                        There are no skills selected yet.
+                    </Note>
+                )}
+            </ul>
+            <Spacer height={1} />
+            <Text h4>Courses</Text>
+            <ul>
+                {record.courses.length !== 0 ? (
+                    record.courses.map((course) => (
+                        <li key={course.id} style={{ display: 'flex' }}>
+                            <Tag type="default" invert>
+                                {course.id}
+                            </Tag>{' '}
+                            <Spacer width={0.4} />
+                            {course.name}
+                        </li>
+                    ))
+                ) : (
+                    <Note type="warning">
+                        There are no courses selected yet.
+                    </Note>
+                )}
+            </ul>
+        </Card>
+    );
+};
