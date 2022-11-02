@@ -7,6 +7,7 @@ import {
     Note,
     Page,
     Spacer,
+    Tag,
     Text,
 } from '@geist-ui/core';
 import CardFooter from '@geist-ui/core/esm/card/card-footer';
@@ -116,7 +117,13 @@ const LearningJourneyCard = ({
                                         );
                                     })}
                                 </ol> */}
-                                    <li>{course.name}</li>
+                                    <li style={{ display: 'flex' }}>
+                                        <Tag type="default" invert>
+                                            {course.id}
+                                        </Tag>{' '}
+                                        <Spacer width={0.5} />
+                                        {course.name}
+                                    </li>
                                 </div>
                             );
                         })}
