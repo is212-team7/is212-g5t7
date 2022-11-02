@@ -10,7 +10,6 @@ import {
     Tag,
     Text,
 } from '@geist-ui/core';
-import CardFooter from '@geist-ui/core/esm/card/card-footer';
 import { useEffect, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { Course } from './api/courses';
@@ -93,10 +92,15 @@ const LearningJourneyCard = ({
     return (
         <>
             <Card>
-                <Card.Content>
+                <Card.Content
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
                     <Text b font="20px">
                         {count}. {learningJourney.role.name}
                     </Text>
+                    <DeleteLearningJourneyButton
+                        learningJourney={learningJourney}
+                    />
                 </Card.Content>
                 <Divider h="1px" my={0} />
                 <Card.Content>
@@ -129,7 +133,6 @@ const LearningJourneyCard = ({
                         })}
                     </ul>
                 </Card.Content>
-                <CardFooter>{/*  */}</CardFooter>
             </Card>
             <Spacer height={2} />
         </>
@@ -170,37 +173,39 @@ const LearningJourneyCourse = ({ course }: LearningJourneyCourseProps) => {
     );
 };
 
-interface DeleteLearningJourney {
-    LearningJourney: LearningJourney;
+interface DeleteLearningJourneyProps {
+    learningJourney: LearningJourney;
 }
 
-const DeleteLearningJourey = ({ LearningJourney }: DeleteLearningJourney) => {
+const DeleteLearningJourneyButton = ({
+    learningJourney,
+}: DeleteLearningJourneyProps) => {
     const deletedToast = useCustomToast({
         message: 'Learning Journey is deleted',
         type: 'secondary',
     });
+    const failedToDeleteToast = useCustomToast({
+        message: 'Learning Journey is cannot be deleted',
+        type: 'error',
+    });
 
-    const DeleteLearningJourneyButton = (value: any, index: number) => {
-        const onClick = () => {
-            fetch('/api/learningJourneys/' + LearningJourney.id, {
-                method: 'DELETE',
-            }).then((response) => {
+    const onClick = () => {
+        fetch('/api/learningJourneys/' + learningJourney.id, {
+            method: 'DELETE',
+        })
+            .then((response) => {
                 deletedToast();
+            })
+            .catch((e) => {
+                failedToDeleteToast();
             });
-        };
-
-        return (
-            <Button
-                type="error"
-                auto
-                scale={1 / 3}
-                font="12px"
-                onClick={onClick}
-            >
-                Delete
-            </Button>
-        );
     };
+
+    return (
+        <Button type="error" auto scale={1 / 3} font="12px" onClick={onClick}>
+            Delete
+        </Button>
+    );
 };
 
 export default LearningJourneyPage;
