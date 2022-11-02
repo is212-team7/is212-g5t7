@@ -1,19 +1,21 @@
 import {
+    Button,
     Card,
     Divider,
     Link,
+    Loading,
     Modal,
     Note,
     Page,
     Spacer,
+    Tag,
     Text,
 } from '@geist-ui/core';
 import { useEffect, useState } from 'react';
-import Skeleton from 'react-loading-skeleton';
 import { Course } from './api/courses';
 import { LearningJourney } from './api/learningJourneys';
-import LearningJourneyGraph from './components/LearningJourneyGraph';
 import PageWithNavBar from './components/PageWithNavBar';
+import useCustomToast from './hooks/useCustomToast';
 import useFetchLearningJourneys from './hooks/useFetchLearningJourneys';
 import useSessionStorage from './hooks/useSessionStorage';
 
@@ -49,9 +51,14 @@ const LearningJourneyPage = () => {
                         key={learningJourney.role.id}
                         learningJourney={learningJourney}
                         count={i + 1}
+                        fetchLearningJourneys={fetchLearningJourneys}
                     />
                 ))}
-                {learningJourneys === undefined && <Skeleton count={5} />}
+                {learningJourneys === undefined && (
+                    <Loading
+                        style={{ width: '100%', height: '80%', zoom: '200%' }}
+                    />
+                )}
                 {learningJourneys === null && (
                     <Note type="default">
                         You don&apos;t have any learning journeys yet.
@@ -81,19 +88,29 @@ const LearningJourneyPage = () => {
 interface LearningJourneyCardProps {
     learningJourney: LearningJourney;
     count: number;
+    fetchLearningJourneys: (() => void) | null;
 }
 
 const LearningJourneyCard = ({
     learningJourney,
     count,
+    fetchLearningJourneys,
 }: LearningJourneyCardProps) => {
     return (
         <>
             <Card>
-                <Card.Content>
+                <Card.Content
+                    style={{ display: 'flex', justifyContent: 'space-between' }}
+                >
                     <Text b font="20px">
                         {count}. {learningJourney.role.name}
                     </Text>
+                    {fetchLearningJourneys != null && (
+                        <DeleteLearningJourneyButton
+                            learningJourney={learningJourney}
+                            fetchLearningJourneys={fetchLearningJourneys}
+                        />
+                    )}
                 </Card.Content>
                 <Divider h="1px" my={0} />
                 <Card.Content>
@@ -114,7 +131,13 @@ const LearningJourneyCard = ({
                                         );
                                     })}
                                 </ol> */}
-                                    <li>{course.name}</li>
+                                    <li style={{ display: 'flex' }}>
+                                        <Tag type="default" invert>
+                                            {course.id}
+                                        </Tag>{' '}
+                                        <Spacer width={0.5} />
+                                        {course.name}
+                                    </li>
                                 </div>
                             );
                         })}
@@ -157,6 +180,44 @@ const LearningJourneyCourse = ({ course }: LearningJourneyCourseProps) => {
                 </Modal.Action>
             </Modal>
         </>
+    );
+};
+
+interface DeleteLearningJourneyProps {
+    learningJourney: LearningJourney;
+    fetchLearningJourneys: () => void;
+}
+
+const DeleteLearningJourneyButton = ({
+    learningJourney,
+    fetchLearningJourneys,
+}: DeleteLearningJourneyProps) => {
+    const deletedToast = useCustomToast({
+        message: 'Learning Journey is deleted',
+        type: 'secondary',
+    });
+    const failedToDeleteToast = useCustomToast({
+        message: 'Learning Journey is cannot be deleted',
+        type: 'error',
+    });
+
+    const onClick = () => {
+        fetch('/api/learningJourneys/' + learningJourney.id, {
+            method: 'DELETE',
+        })
+            .then((response) => {
+                deletedToast();
+                fetchLearningJourneys();
+            })
+            .catch((e) => {
+                failedToDeleteToast();
+            });
+    };
+
+    return (
+        <Button type="error" auto scale={1 / 3} font="12px" onClick={onClick}>
+            Delete
+        </Button>
     );
 };
 
