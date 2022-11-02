@@ -1,4 +1,14 @@
-import { Card, Divider, Grid, Link, Page, Spacer, Text } from '@geist-ui/core';
+import {
+    Card,
+    Divider,
+    Grid,
+    Link,
+    Loading,
+    Note,
+    Page,
+    Spacer,
+    Text,
+} from '@geist-ui/core';
 import type { NextPage } from 'next';
 import { useEffect, useState } from 'react';
 import { Role } from './api/roles';
@@ -64,6 +74,20 @@ const ViewRolePage: NextPage = () => {
                                 description={description}
                             />
                         ))}
+                    {roles === undefined && (
+                        <Loading
+                            style={{
+                                width: '100%',
+                                height: '80%',
+                                zoom: '200%',
+                            }}
+                        />
+                    )}
+                    {roles === null && (
+                        <Note type="warning">
+                            No learning journeys have been created yet.
+                        </Note>
+                    )}
                 </Grid.Container>
             </Page.Content>
         </PageWithNavBar>
