@@ -22,6 +22,19 @@ export default function handler(
                 .catch((error) => console.log('error', error));
             break;
 
+        case 'DELETE':
+            fetch(BASE_URL, {
+                method: 'DELETE',
+            })
+                .then((response) => response.json())
+                .then(() => {
+                    res.status(200).json(
+                        `Skill-Role association with Skill ID of ${skillId} and Role ID of ${roleId} is deleted.`
+                    );
+                })
+                .catch((error) => console.log('error', error));
+            break;
+
         default:
             res.status(400).json({ error: 'Invalid API endpoint.' });
             break;

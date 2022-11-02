@@ -2,6 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { Role } from '../api/roles';
 
 export interface RoleForTable extends Role {
+    skills: string;
     delete: string;
     update: string;
 }
@@ -27,6 +28,7 @@ const useFetchRoles =
                         result.map((row) => ({
                             ...row,
                             deleted: String(row.deleted),
+                            skills: '',
                             delete: '',
                             update: '',
                         }))

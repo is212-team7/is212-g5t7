@@ -67,7 +67,7 @@ courses.post(
     '/:Course_ID/skill/:Skill_ID',
     celebrate({
         params: {
-            Course_ID: Joi.number().required(),
+            Course_ID: Joi.string().required(),
             Skill_ID: Joi.number().required(),
         },
     }),
@@ -101,7 +101,7 @@ courses.delete(
     celebrate({
         params: {
             Skill_ID: Joi.number().required(),
-            Course_ID: Joi.number().required(),
+            Course_ID: Joi.string().required(),
         },
     }),
     async (req, res) => {
