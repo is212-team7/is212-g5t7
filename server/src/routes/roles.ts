@@ -124,10 +124,36 @@ roles.delete(
         try {
             const role = await Role.findByPk(req.params.Role_ID);
             if (!role) {
-                return res.status(404).json({ error: 'Role not found' });
+                return res.status(400).json({ error: 'Role not found' });
             } else {
                 await role.update({ Role_Deleted: true });
                 res.json({ message: 'Role deleted' });
+            }
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
+
+// Dev only - Delete role by role id from **DB**
+roles.delete(
+    '/db/:Role_ID',
+    celebrate({
+        params: { Role_ID: Joi.number().required() },
+    }),
+
+    async (req, res) => {
+        try {
+            const role = await Role.findByPk(req.params.Role_ID);
+            role?.destroy();
+
+            const checkRole = await Role.findByPk(req.params.Role_ID);
+            if (!checkRole) {
+                res.json({ message: 'Role deleted from DB' });
+            } else {
+                return res
+                    .status(400)
+                    .json({ error: 'Role still exists in database.' });
             }
         } catch (error) {
             res.status(400).json(error.message);
