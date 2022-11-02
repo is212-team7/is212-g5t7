@@ -44,14 +44,18 @@ const AdminSkillsPage: NextPage = () => {
                     const courses = await (
                         await fetch('/api/staffs/' + staff.id + '/courses')
                     ).json();
-                    const skills = await (
+                    const skills: Skill[] = await (
                         await fetch('/api/staffs/' + staff.id + '/skills')
                     ).json();
 
                     return {
                         staff,
                         courses,
-                        skills,
+                        skills: Array.from(
+                            new Map(
+                                skills.map((skill) => [skill.id, skill])
+                            ).values()
+                        ),
                     };
                 })
             );
@@ -112,7 +116,7 @@ const StaffLearningJourneyCard = ({
             <ul>
                 {record.skills.length !== 0 ? (
                     record.skills.map((skill) => (
-                        <li key={skill.id}>
+                        <li key={skill.id} style={{ display: 'flex' }}>
                             <Tag type="default" invert>
                                 {skill.id}
                             </Tag>{' '}
