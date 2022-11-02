@@ -5,8 +5,11 @@ const useSessionStorage = (): Staff | undefined => {
     const [staff, setStaff] = useState<Staff>();
 
     useEffect(() => {
-        const value = sessionStorage.getItem('user');
-        value && setStaff(JSON.parse(value));
+        const value: Staff =
+            'getObject' in Storage.prototype
+                ? sessionStorage.getObject('user')
+                : JSON.stringify(sessionStorage.getItem('user'));
+        value && setStaff(value);
     }, []);
 
     return staff;

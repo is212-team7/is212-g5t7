@@ -12,9 +12,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 
         Storage.prototype.getObject = function (key: string) {
             var value = this.getItem(key);
-            return value && JSON.parse(value);
+            return value != null && JSON.parse(value);
         };
-    }, []);
+    });
 
     return (
         <GeistProvider>

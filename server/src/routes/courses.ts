@@ -49,12 +49,13 @@ courses.get(
     async (req, res) => {
         try {
             const skill = await Skill.findByPk(req.params.Skill_ID);
+
             if (skill == null) {
                 return res.status(404).json({ error: 'Skill not found' });
             }
-            const courses = await skill.getCourse();
 
-            res.json(courses);
+            const Courses = await skill.getCourse();
+            res.json(Courses);
         } catch (error) {
             res.status(400).json(error.message);
         }
@@ -66,7 +67,7 @@ courses.post(
     '/:Course_ID/skill/:Skill_ID',
     celebrate({
         params: {
-            Course_ID: Joi.string().required(),
+            Course_ID: Joi.number().required(),
             Skill_ID: Joi.number().required(),
         },
     }),
@@ -100,7 +101,7 @@ courses.delete(
     celebrate({
         params: {
             Skill_ID: Joi.number().required(),
-            Course_ID: Joi.string().required(),
+            Course_ID: Joi.number().required(),
         },
     }),
     async (req, res) => {

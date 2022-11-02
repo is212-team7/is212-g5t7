@@ -34,6 +34,7 @@ export default function handler(
     res: NextApiResponse<
         | LearningJourneyServerRequestAPI[]
         | LearningJourney[]
+        | Omit<LearningJourney, 'course'>
         | string
         | { error: string }
     >
@@ -54,40 +55,27 @@ export default function handler(
                 body: JSON.stringify(body),
                 headers: { 'Content-Type': 'application/json' },
             })
-                .then((response) => {
-                    console.log({ response });
+                .then(async (response) => {
+                    if (response.status === 400) {
+                        res.status(400).json(await response.json());
+                        return;
+                    }
                     return response.json();
                 })
                 .then((result: LearningJourneyServerResponseAPI) => {
-                    if (result.Staff_ID == null || result.Role_ID == null) {
-                        res.status(400).json('Result is undefined.');
-                        return;
-                    }
-                    res.status(200).json(
-                        `Learning Journey (Staff ID: ${result.Staff_ID}, Role ID: ${result.Role_ID} is created.`
-                    );
-                })
-                .catch((error) => console.log('error', error));
-            break;
-
-        case 'DELETE':
-            const learningJourneyToDelete =
-                req.body as LearningJourneyClientRequestAPI;
-            const bodyDelete = JSON.stringify({
-                Staff_ID: learningJourneyToDelete.staffId,
-                Role_ID: learningJourneyToDelete.roleId,
-            });
-
-            fetch(BASE_URL, {
-                method: 'DELETE',
-                body: bodyDelete,
-                headers: { 'Content-Type': 'application/json' },
-            })
-                .then((response) => response.json())
-                .then(() => {
-                    res.status(200).json(
-                        `Learning Journey with values Staff ID: ${learningJourneyToDelete.staffId}, Role ID: ${learningJourneyToDelete.roleId} is deleted.`
-                    );
+                    console.log({ result });
+                    const learningJourney: Omit<LearningJourney, 'course'> = {
+                        id: result.LJ_ID,
+                        staffId: result.Staff_ID,
+                        roleId: result.Role_ID,
+                        role: {
+                            id: result.Role.Role_ID,
+                            name: result.Role.Role_Name,
+                            description: result.Role.Role_Description,
+                            deleted: result.Role.Role_Deleted,
+                        },
+                    };
+                    res.status(200).json(learningJourney);
                 })
                 .catch((error) => console.log('error', error));
             break;
