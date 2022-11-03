@@ -230,3 +230,26 @@ skills.delete(
         }
     }
 );
+
+// Dev-only
+skills.delete(
+    '/dev/:Skill_ID',
+    celebrate({
+        params: {
+            Skill_ID: Joi.number().required(),
+        },
+    }),
+    async (req, res) => {
+        try {
+            const skill = await Skill.findByPk(req.params.Skill_ID);
+            if (!skill) {
+                throw new Error('Skill not found');
+            } else {
+                skill.destroy();
+                res.json({ message: 'Skill destroyed in database' });
+            }
+        } catch (error) {
+            res.status(400).json(error.message);
+        }
+    }
+);
