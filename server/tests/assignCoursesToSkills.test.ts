@@ -27,11 +27,11 @@ test('assign course to skill', async () => {
 
     expect(skillCreated.Skill_Name).toBe(newSkill.Skill_Name);
 
+    // assign skill to course
     const assignCourseToSkillResponse = await fetch(
         `http://localhost:3001/courses/${courseId}/skill/${skillId}`,
         { method: 'POST' }
     );
-
     expect(assignCourseToSkillResponse.status).toBe(200);
 
     // Get couses by skill
