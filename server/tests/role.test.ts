@@ -92,7 +92,6 @@ describe('Holidays endpoints', () => {
             .get('/roles')
             .expect('Content-Type', /json/)
             .expect(200);
-        // console.log(res.body)
         expect(res.body.code).toEqual(0);
         expect(Array.isArray(res.body)).toBe(true);
         expect(res.body.length).toEqual(2);

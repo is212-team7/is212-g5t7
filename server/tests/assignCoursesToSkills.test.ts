@@ -2,6 +2,8 @@ import { CourseModel } from '@lib/models/Course';
 import { SkillModel } from '@lib/models/Skill';
 import fetch from 'node-fetch';
 
+jest.setTimeout(10000);
+
 test('assign course to skill', async () => {
     const now = Date.now();
 
