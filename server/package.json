@@ -51,7 +51,8 @@
         "rootDir": "./",
         "roots": [
             "<rootDir>",
-            "<rootDir>/src/"
+            "<rootDir>/src/",
+            "src"
         ],
         "modulePaths": [
             "<rootDir>/",
