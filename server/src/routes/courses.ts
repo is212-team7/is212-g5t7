@@ -49,12 +49,13 @@ courses.get(
     async (req, res) => {
         try {
             const skill = await Skill.findByPk(req.params.Skill_ID);
+
             if (skill == null) {
                 return res.status(404).json({ error: 'Skill not found' });
             }
-            const courses = await skill.getCourse();
 
-            res.json(courses);
+            const Courses = await skill.getCourse();
+            res.json(Courses);
         } catch (error) {
             res.status(400).json(error.message);
         }

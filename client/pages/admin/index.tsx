@@ -1,8 +1,6 @@
-import { Page, Spacer, Tabs, useToasts } from '@geist-ui/core';
+import { Spacer, Tabs } from '@geist-ui/core';
 import { Folder, User, Zap } from '@geist-ui/icons';
 import type { NextPage } from 'next';
-import { useRouter } from 'next/router';
-import { useState } from 'react';
 import CoursesList from '../components/CoursesList';
 import PageWithNavBar from '../components/PageWithNavBar';
 import RolesList from '../components/RolesList';

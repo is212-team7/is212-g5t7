@@ -1,12 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Course, CourseAPI } from '..';
+import { Course, CourseAPI } from '../../courses';
 
 export default function handler(
     req: NextApiRequest,
     res: NextApiResponse<Course[] | string | { error: string }>
 ) {
-    const { skillId } = req.query;
-    const BASE_URL = process.env.API_URL + '/courses/skill/' + skillId;
+    const { staffId } = req.query;
+    const BASE_URL = process.env.API_URL + '/staffs/' + staffId + '/courses';
 
     switch (req.method) {
         case 'GET':

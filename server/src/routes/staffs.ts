@@ -1,4 +1,4 @@
-import { Staff } from '@lib/models';
+import { LearningJourney, Staff } from '@lib/models';
 import { celebrate, Joi } from 'celebrate';
 import { Router } from 'express';
 
@@ -114,7 +114,7 @@ staffs.get(
 
             let skills: any = [];
             for (let i = 0; i < courses.length; i++) {
-                let skill = await courses[i].getSkill();
+                let skill = await courses[i].getSkill(); // not retrieving anything; returns empty array
                 if (skill.length > 0) {
                     for (let j = 0; j < skill.length; j++) {
                         skills.push(skill[j]);
@@ -153,3 +153,18 @@ staffs.get(
         }
     }
 );
+
+// get all staff IDs with at least one learning journey
+staffs.get('/participating/ids', async (req, res) => {
+    try {
+        const learningJourneys = await LearningJourney.findAll();
+
+        const staffIds = [
+            ...new Set(learningJourneys.map((journey) => journey.Staff_ID)),
+        ];
+
+        res.status(200).json(staffIds);
+    } catch (error) {
+        res.status(400).json(error.message);
+    }
+});

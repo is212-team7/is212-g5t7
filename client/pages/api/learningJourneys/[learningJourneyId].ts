@@ -4,24 +4,11 @@ export default function handler(
     req: NextApiRequest,
     res: NextApiResponse<string | { error: string }>
 ) {
-    const { skillId, roleId } = req.query;
+    const { learningJourneyId } = req.query;
     const BASE_URL =
-        process.env.API_URL + '/skills/' + skillId + '/role/' + roleId;
+        process.env.API_URL + '/learningJourneys/' + learningJourneyId;
 
     switch (req.method) {
-        case 'POST':
-            fetch(BASE_URL, {
-                method: 'POST',
-            })
-                .then((response) => response.json())
-                .then(() => {
-                    res.status(200).json(
-                        `Skill-Role association with Skill ID of ${skillId} and Role ID of ${roleId} is created.`
-                    );
-                })
-                .catch((error) => console.log('error', error));
-            break;
-
         case 'DELETE':
             fetch(BASE_URL, {
                 method: 'DELETE',
@@ -29,7 +16,7 @@ export default function handler(
                 .then((response) => response.json())
                 .then(() => {
                     res.status(200).json(
-                        `Skill-Role association with Skill ID of ${skillId} and Role ID of ${roleId} is deleted.`
+                        `Learning Journey of ID ${learningJourneyId} is deleted.`
                     );
                 })
                 .catch((error) => console.log('error', error));

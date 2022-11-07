@@ -1,4 +1,4 @@
-import { LearningJourney, LearningJourneyServerResponseAPI } from '.';
+import { LearningJourney, LearningJourneyServerResponseAPI } from '..';
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -7,7 +7,7 @@ export default function handler(
     res: NextApiResponse<LearningJourney[] | { error: string }>
 ) {
     const { staffId } = req.query;
-    const BASE_URL = process.env.API_URL + '/learningJourneys/' + staffId;
+    const BASE_URL = process.env.API_URL + '/learningJourneys/staff/' + staffId;
 
     switch (req.method) {
         case 'GET':
@@ -33,6 +33,7 @@ export default function handler(
                                 status: course.Course_Status,
                                 type: course.Course_Type,
                                 category: course.Course_Category,
+                                deleted: course.Course_Deleted,
                             })),
                         })
                     );

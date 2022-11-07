@@ -4,7 +4,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(
     req: NextApiRequest,
-    res: NextApiResponse<LearningJourney | { error: string }>
+    res: NextApiResponse<Omit<LearningJourney, 'role'> | { error: string }>
 ) {
     const { learningJourneyId } = req.query;
     const BASE_URL =
@@ -18,28 +18,27 @@ export default function handler(
                 headers: { 'Content-Type': 'application/json' },
             })
                 .then((response) => response.json())
-                .then((result: LearningJourneyServerResponseAPI) => {
-                    const learningJourney = {
-                        id: result.LJ_ID,
-                        staffId: result.Staff_ID,
-                        roleId: result.Role_ID,
-                        role: {
-                            id: result.Role.Role_ID,
-                            name: result.Role.Role_Name,
-                            description: result.Role.Role_Description,
-                            deleted: result.Role.Role_Deleted,
-                        },
-                        course: result.Course.map((course) => ({
-                            id: course.Course_ID,
-                            name: course.Course_Name,
-                            description: course.Course_Desc,
-                            status: course.Course_Status,
-                            type: course.Course_Type,
-                            category: course.Course_Category,
-                        })),
-                    };
-                    res.status(200).json(learningJourney);
-                })
+                .then(
+                    (
+                        result: Omit<LearningJourneyServerResponseAPI, 'role'>
+                    ) => {
+                        const learningJourney = {
+                            id: result.LJ_ID,
+                            staffId: result.Staff_ID,
+                            roleId: result.Role_ID,
+                            course: result.Course.map((course) => ({
+                                id: course.Course_ID,
+                                name: course.Course_Name,
+                                description: course.Course_Desc,
+                                status: course.Course_Status,
+                                type: course.Course_Type,
+                                category: course.Course_Category,
+                                deleted: course.Course_Deleted,
+                            })),
+                        };
+                        res.status(200).json(learningJourney);
+                    }
+                )
                 .catch((error) => console.log('error', error));
             break;
 

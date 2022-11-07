@@ -37,6 +37,7 @@ const LoginPage: NextPage = () => {
         })
             .then((response) => response.json())
             .then((result: Staff) => {
+                console.log('setting user to: ', result);
                 sessionStorage.setObject('user', result);
 
                 switch (result.systemRole) {
@@ -47,13 +48,11 @@ const LoginPage: NextPage = () => {
                         });
                         break;
                     case 'User':
+                    case 'Manager':
                         router.push('/roles');
                         break;
                     case 'Admin':
                         router.push('/admin');
-                        break;
-                    case 'Manager':
-                        router.push('/manager');
                         break;
                     default:
                         break;
