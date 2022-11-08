@@ -20,11 +20,12 @@
         "paths": {
             "@routes/*": ["./src/routes/*"],
             "@lib/*": ["./src/lib/*"]
-        }
+        },
+        "types": ["jest"]
     },
     "ts-node": {
         "require": ["tsconfig-paths/register"]
     },
-    "include": ["index.ts", "src/**/*.ts"],
+    "include": ["index.ts", "src/**/*.ts", "tests/**/*"],
     "exclude": ["node_modules"]
 }
